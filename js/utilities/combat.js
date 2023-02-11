@@ -2,7 +2,7 @@
 import {
     civData, civSizes, curCiv, lootable, population, unitData,
     alignmentType, buildingType, combatTypes, mobTypeIds, placeType, speciesType,
-    adjustMorale, dataset, calculatePopulation, gameLog,
+    adjustMorale, dataset, calculatePopulation, gameLog, raidLog,
     getAltarsOwned, getCurrentAltarId, getLandTotals, getPietyEarnedBonus, getRandomBuilding, getRandomLootableResource, getRandomWorker, getReqText, getResourceTotal,
     isValid, killUnit, prettify, rndRound, ui,
     updateAltars, updateRaidBar, updateMobBar, updatePartyButtons, updateRequirements, updateResourceTotals, updateTargets
@@ -98,6 +98,7 @@ function invade(ecivtype) {
     });
 
     ui.hide("#raidNews");
+    ui.hide("#raidEventsContainer");
     updateTargets(); //Hides raid buttons until the raid is finished
     updatePartyButtons();
 }
@@ -158,9 +159,11 @@ function plunder() {
     // Create message to notify player
     plunderMsg = civSizes[curCiv.raid.last].name + " raided! (pop." + prettify(curCiv.raid.epop) + ")<br/>";
     plunderMsg += "Plundered " + getReqText(curCiv.raid.plunderLoot) + ". ";
-    gameLog(plunderMsg);
+    //gameLog(plunderMsg);
+    raidLog(plunderMsg);
 
     ui.show(raidNewsElt, true);
+    ui.show("#raidEventsContainer", true);
     raidNewsElt.innerHTML = "Results of last raid: " + plunderMsg;
 
     // Victory outcome has been handled, end raid
@@ -271,8 +274,8 @@ function doBarbarians(attacker) {
     }
     else if (r < 0.6) { doLoot(attacker); }
     else if (r < 0.9) {
-        if (Math.random() < 0.59) { doSack(attacker); }
-        else if (Math.random() < 0.39) { doSackMulti(attacker); }
+        if (Math.random() < 0.8) { doSack(attacker); }
+        else if (Math.random() < 0.9) { doSackMulti(attacker); }
         else { doDesecrate(attacker); }
     }
     else { doConquer(attacker); }
@@ -499,6 +502,7 @@ function doConquer(attacker) {
         if (land > 0) {
             civData.freeLand.owned -= land;
             //gameLog(prettify(land) + " land occupied by " + attacker.getQtyName(2)); // always plural
+            // 66g: barbariand 'lay waste' to land
             gameLog("land occupied by " + attacker.getQtyName(2)); // always plural
             // Attackers might leave after conquering land.
             if (Math.random() < attacker.conquerStop) { attacker.owned -= land; }
@@ -693,6 +697,7 @@ function doMobs() {
     if (totalStuff < 1) {
         // resources can be fractional, so we don't check for zero stuff
         // nothing to do
+        curCiv.attackCounter = 0;
         if (civData[mobTypeIds.invader].owned > 0) {
             // only invaders reduce civ to nothing
             gameLog(prettify(civData[mobTypeIds.invader].owned) + " invaders go home disappointed there is nothing to kill, plunder or destroy");
