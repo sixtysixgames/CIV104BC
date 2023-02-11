@@ -1,10 +1,12 @@
 ﻿"use strict";
 import {
-    civData, curCiv, gameLog, getRandomTradeableResource, isValid, population, prettify, resourceType, sysLog, ui, updateResourceTotals, updateTrader, tradeLog
+    civData, curCiv, gameLog, getRandomTradeableResource, isValid, population, prettify, resourceType, sysLog, ui, updateResourceTotals, updateTrader,
+    tradeLog, lootable, traceLog
 } from "../index.js";
 
 /* Trade functions */
 function setInitTradePrice(civObj) {
+    traceLog("trade.setInitTradePrice");
     if (!isValid(civObj.initTradeAmount)) { return; }
     updateTradeButton(civObj.id, civObj.initTradeAmount);
 }
@@ -42,7 +44,6 @@ function trade() {
     if (!checkTradeAmounts(materialId)) { return; }
     //check we have enough of the right type of resources to trade
     if (!curCiv.trader.materialId || (curCiv.trader.materialId.owned < curCiv.trader.requested)) {
-        //gameLog("Not enough resources to trade.");
         tradeLog("Not enough resources to trade.");
         return;
     }
@@ -55,7 +56,6 @@ function trade() {
     ++civData.gold.owned;
     updateResourceTotals();
 
-    //gameLog("Traded " + prettify(curCiv.trader.requested) + " " + material.getQtyName(curCiv.trader.requested));
     tradeLog("Traded " + prettify(curCiv.trader.requested) + " " + material.getQtyName(curCiv.trader.requested));
 }
 
@@ -85,6 +85,7 @@ function buy(materialId) {
 }
 
 function updateTradeButton(materialId, cost) {
+    traceLog("trade.updateTradeButton: " + materialId);
     let materialCostID = "#" + materialId + "Cost";
     let elem = ui.find(materialCostID);
     if (!elem) { console.warn("Missing UI element for " + materialCostID); return; }
@@ -93,15 +94,22 @@ function updateTradeButton(materialId, cost) {
 }
 
 function updateTradeButtons() {
-    updateTradeButton(resourceType.food, curCiv.food.tradeAmount);
-    updateTradeButton(resourceType.wood, curCiv.wood.tradeAmount);
-    updateTradeButton(resourceType.stone, curCiv.stone.tradeAmount);
-    updateTradeButton(resourceType.skins, curCiv.skins.tradeAmount);
-    updateTradeButton(resourceType.herbs, curCiv.herbs.tradeAmount);
-    updateTradeButton(resourceType.ore, curCiv.ore.tradeAmount);
-    updateTradeButton(resourceType.leather, curCiv.leather.tradeAmount);
-    updateTradeButton(resourceType.potions, curCiv.potions.tradeAmount);
-    updateTradeButton(resourceType.metal, curCiv.metal.tradeAmount);
+    traceLog("updates.updateTradeButtons");
+    // 66g todo: iterate over salable resources
+    //updateTradeButton(resourceType.food, curCiv.food.tradeAmount);
+    //updateTradeButton(resourceType.wood, curCiv.wood.tradeAmount);
+    //updateTradeButton(resourceType.stone, curCiv.stone.tradeAmount);
+    //updateTradeButton(resourceType.skins, curCiv.skins.tradeAmount);
+    //updateTradeButton(resourceType.herbs, curCiv.herbs.tradeAmount);
+    //updateTradeButton(resourceType.ore, curCiv.ore.tradeAmount);
+    //updateTradeButton(resourceType.leather, curCiv.leather.tradeAmount);
+    //updateTradeButton(resourceType.potions, curCiv.potions.tradeAmount);
+    //updateTradeButton(resourceType.metal, curCiv.metal.tradeAmount);
+    //updateTradeButton(resourceType.iron, curCiv.iron.tradeAmount);
+
+    lootable.forEach(function (elem) {
+        updateTradeButton(elem.id, curCiv[elem.id].tradeAmount);
+    });
 }
 
 function tickTraders() {
@@ -129,34 +137,41 @@ function tickTraders() {
 }
 
 function updateTradeAmount() {
+    traceLog("updates.updateTradeAmount");
     let materialId = curCiv.trader.materialId;
     let origCost = curCiv[materialId].tradeAmount;
-    // simply change to 10% whatever was requested because requested is random
-    curCiv[materialId].tradeAmount = Math.floor(curCiv.trader.requested / 10);
+    // simply change to 20% whatever was requested because requested is random and base amount is fifth of init amount
+    // and we don't want to make buying profitable
+    //curCiv[materialId].tradeAmount = Math.floor(curCiv.trader.requested / 5);
+    //curCiv[materialId].tradeAmount = Math.floor(curCiv.trader.requested);
 
     // make it less obvious with another +/- 10% of new price
-    let extra = Math.floor((curCiv[materialId].tradeAmount / 100)) * 10;
-    if (Math.random() < 0.5) {
-        curCiv[materialId].tradeAmount -= extra
+    //let extra = Math.ceil((curCiv[materialId].tradeAmount / 10));
+    // let extra = Math.ceil((curCiv[materialId].tradeAmount / 10) * Math.random());
+    let extra = Math.ceil((civData[materialId].baseTradeAmount / 10)) * Math.ceil((Math.random() * 5));
+    let r = Math.random()
+    if (r < 0.1) {
+        curCiv[materialId].tradeAmount -= extra;
     }
-    else {
-        curCiv[materialId].tradeAmount += extra
+    else if (r < 0.2) {
+        curCiv[materialId].tradeAmount += extra;
     }
     // don't offer less than base amount
     curCiv[materialId].tradeAmount = Math.max(civData[materialId].baseTradeAmount, curCiv[materialId].tradeAmount);
 
     updateTradeButton(materialId, curCiv[materialId].tradeAmount);
     //
-    //let material = civData[materialId];
-    //let currentAmount = curCiv[materialId].tradeAmount;
-    //let verb = "remains at";
-    //if (origCost > currentAmount) {
-    //    verb = "decreased to";
-    //}
-    //else {
-    //    verb = "increased to";
-    //}
-    //tradeLog(material.getQtyName(1) + " trade amount " + verb + " " + prettify(currentAmount));
+    if (origCost != curCiv[materialId].tradeAmount) {
+        let material = civData[materialId];
+        let verb = "remains at";
+        if (origCost > curCiv[materialId].tradeAmount) {
+            verb = "decreased to";
+        }
+        else if (origCost < curCiv[materialId].tradeAmount) {
+            verb = "increased to";
+        }
+        tradeLog(material.getQtyName(1) + " trade amount " + verb + " " + prettify(curCiv[materialId].tradeAmount));
+    }
 }
 
-export { setInitTradePrice, startTrader, trade, isTraderHere, checkTradeAmounts, buy, updateTradeButton, updateTradeButtons, tickTraders, updateTradeAmount};
+export { setInitTradePrice, startTrader, trade, isTraderHere, checkTradeAmounts, buy, updateTradeButton, updateTradeButtons, tickTraders, updateTradeAmount };
