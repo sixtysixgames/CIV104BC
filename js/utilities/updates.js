@@ -1,9 +1,9 @@
 
 import { abs, achData, alignmentType, armyUnits, basicResources, buildingData, buildingType, calculatePopulation, calcWorkerCost, calcZombieCost, canAfford, canPurchase, 
- civData, civObjType, civSizes, curCiv, dataset, deityDomains, wonderSelect,
+ civData, civObjType, civSizes, curCiv, dataset, deityDomains, wonderSelect, lootable, getBuyButton, setInitTradePrice,
  getCombatants, getCivType, getCurDeityDomain, getCurrentAltarId, getLandTotals, getReqText, getWonderLowItem, homeBuildings, homeUnits, 
  idToType, isTraderHere, isUnderAttack, isValid, isWonderLimited, logSearchFn, makeDeitiesTables, meetsPrereqs, onBulkEvent, placeType, population, powerData, prettify, 
- settings, sgn, subTypes, sysLog, unitData, upgradeData, ui, UIComponents, wonderResources} from "../index.js";
+ settings, sgn, subTypes, sysLog, unitData, upgradeData, ui, UIComponents, wonderResources, traceLog, updateTradeButton, setReqText} from "../index.js";
 
 // Update functions. Called by other routines in order to update the interface.
 function updateAll() {
@@ -175,6 +175,7 @@ function updatePartyButtons() {
 //xxx Maybe add a function here to look in various locations for vars, so it
 //doesn't need multiple action types?
 function updateResourceTotals() {
+    traceLog("updates.updateResourceTotals");
     let i, displayElems, elem, val;
     let landTotals = getLandTotals();
 
@@ -220,18 +221,25 @@ function updateResourceTotals() {
     }
 
     //Update page with building numbers, also stockpile limits.
-    ui.find("#maxfood").innerHTML = prettify(civData.food.limit);
-    ui.find("#maxwood").innerHTML = prettify(civData.wood.limit);
-    ui.find("#maxstone").innerHTML = prettify(civData.stone.limit);
+    // 66g this could probably be done in a loop over resourceData
+    //ui.find("#maxfood").innerHTML = prettify(civData.food.limit);
+    //ui.find("#maxwood").innerHTML = prettify(civData.wood.limit);
+    //ui.find("#maxstone").innerHTML = prettify(civData.stone.limit);
+    //ui.find("#maxskins").innerHTML = prettify(civData.skins.limit);
+    //ui.find("#maxherbs").innerHTML = prettify(civData.herbs.limit);
+    //ui.find("#maxore").innerHTML = prettify(civData.ore.limit);
+    //ui.find("#maxleather").innerHTML = prettify(civData.leather.limit);
+    //ui.find("#maxpotions").innerHTML = prettify(civData.potions.limit);
+    //ui.find("#maxmetal").innerHTML = prettify(civData.metal.limit);
+    //ui.find("#maxiron").innerHTML = prettify(civData.iron.limit);
+    let resID = "";
+    lootable.forEach(function (resElem) {
+        resID = "#max" + resElem.id;
+        ui.find(resID).innerHTML = prettify(civData[resElem.id].limit);
+    });
 
-    ui.find("#maxskins").innerHTML = prettify(civData.skins.limit);
-    ui.find("#maxherbs").innerHTML = prettify(civData.herbs.limit);
-    ui.find("#maxore").innerHTML = prettify(civData.ore.limit);
-    ui.find("#maxleather").innerHTML = prettify(civData.leather.limit);
-    ui.find("#maxpotions").innerHTML = prettify(civData.potions.limit);
-    ui.find("#maxmetal").innerHTML = prettify(civData.metal.limit);
+
     ui.find("#maxpiety").innerHTML = prettify(civData.piety.limit);
-
     ui.find("#totalBuildings").innerHTML = prettify(landTotals.buildings);
     ui.find("#totalLand").innerHTML = prettify(landTotals.lands);
 
@@ -640,6 +648,22 @@ function addRaidRows() {
     group.onmousedown = onBulkEvent;
 }
 
+// Dynamically add the buttons for the various resources.
+function addBuyButtons() {
+    traceLog("updates.addBuyButtons");
+    let s = '';
+    lootable.forEach(function (elem) {
+        s += getBuyButton(elem);
+    });
+
+    let group = ui.find("#buyButtonGroup");
+    group.innerHTML += s;
+    lootable.forEach(function (elem) {
+        setInitTradePrice(elem);
+        //updateTradeButton(elem.id, elem.tradeAmount);
+    });
+}
+
 // Enable the raid buttons for eligible targets.
 function updateTargets() {
     let i;
@@ -691,14 +715,24 @@ function updateMorale() {
     else { happinessRank = 5; }
 
     elt.className = "happy-" + happinessRank;
+    elt.title = curCiv.morale.efficiency;
     updateMoraleIcon(happinessRank);
 }
+
 function updateMoraleIcon(morale) {
     ui.show("#morale1", morale == 1);
     ui.show("#morale2", morale == 2);
     ui.show("#morale3", morale == 3);
     ui.show("#morale4", morale == 4);
     ui.show("#morale5", morale == 5);
+}
+
+function setResourcesReqText() {
+    lootable.forEach(function (resElem) {
+        setReqText(resElem);
+        //resID = "#max" + resElem.id;
+        //ui.find(resID).innerHTML = prettify(civData[resElem.id].limit);
+    });
 }
 
 function addWonderSelectText() {
@@ -792,7 +826,7 @@ function updateGameDate() {
 
         // get total seconds between two dates
         let seconds = Math.floor(Math.abs(date1.getTime() - date2.getTime()) / 1000);
-        //debug("updateGameDate " + seconds + ". curCiv.loopCounter " + curCiv.loopCounter );
+        //traceLog("updateGameDate " + seconds + ". curCiv.loopCounter " + curCiv.loopCounter );
 
         if (curCiv.loopCounter > seconds) {
             curCiv.loopCounter = seconds;
@@ -867,5 +901,5 @@ export {
     updateAll, updateWonderList, updateReset, updateAfterReset, updateTrader, updateRequirements, updatePurchaseRow, updateResourceRows, updateBuildingButtons,
     updateJobButtons, updatePartyButtons, updateResourceTotals, updatePopulation, updatePopulationBar, updateLandBar, updateRaidBar, updateMobBar, updateFightBar,
     updateUpgrades, updateDeity, updateAltars, updateDevotion, addAchievementRows, updateAchievements, addRaidRows, updateTargets, updateMorale, updateMoraleIcon,
-    addWonderSelectText, updateWonder, updateNote, updateGameDate, getPlayingTime, getPlayingTimeShort
+    addWonderSelectText, updateWonder, updateNote, updateGameDate, getPlayingTime, getPlayingTimeShort, addBuyButtons, setResourcesReqText
 };
