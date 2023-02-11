@@ -1,10 +1,11 @@
 
 import {
-    civData, civSizes, indexArrayByAttr, setIndexArrays, setupUI, ui, sysLog, addUITable, basicResources, homeBuildings, homeUnits,
+    addBuyButtons, civData, civSizes, indexArrayByAttr, setIndexArrays, setupUI, ui, sysLog, addUITable, basicResources, homeBuildings, homeUnits,
     armyUnits, addUpgradeRows, normalUpgrades, addAchievementRows, addRaidRows, addWonderSelectText, makeDeitiesTables, load, renameCiv, renameRuler,
-    setInitTradeAmount, setDefaultSettings, getPlayingTime, gameLoop, appSettings, paneSelect,
+    setInitTradeAmount, setDefaultSettings, getPlayingTime, gameLoop, appSettings, paneSelect, lootable, sentenceCase, traceLog,
     save, onToggleAutosave, reset, deleteSave, renameDeity, textSize, onPurchase, onToggleCustomQuantities, onToggleNotes, onToggleIcons, spawn,
-    speedWonder, selectDeity, iconoclasmList, breakInvadeLoop, plunder, trade, buy, startWonder, renameWonder, setGameSpeed} from "./index.js";
+    speedWonder, selectDeity, iconoclasmList, breakInvadeLoop, plunder, trade, buy, startWonder, renameWonder, setGameSpeed, updateTradeButtons,
+    setResourcesReqText} from "./index.js";
 
 const setup = {};
 
@@ -15,8 +16,9 @@ setup.all = function () {
     setup.data();
     setup.civSizes();
     document.addEventListener("DOMContentLoaded", function (e) {
-        setup.events();
         setup.game();
+        setup.events();
+        
         setup.loop();
         // Show the game
         ui.find("#main").style.display = "block";
@@ -118,32 +120,43 @@ setup.events = function () {
     elem.onmousedown = function (e) { trade(); };
 
     // buying resources
-    elem = document.getElementById("buyFood");
-    elem.onmousedown = function (e) { buy('food'); };
+    //elem = document.getElementById("buyFood");
+    //elem.onmousedown = function (e) { buy('food'); };
 
-    elem = document.getElementById("buyWood");
-    elem.onmousedown = function (e) { buy('wood'); };
+    //elem = document.getElementById("buyWood");
+    //elem.onmousedown = function (e) { buy('wood'); };
 
-    elem = document.getElementById("buyStone");
-    elem.onmousedown = function (e) { buy('stone'); };
+    //elem = document.getElementById("buyStone");
+    //elem.onmousedown = function (e) { buy('stone'); };
 
-    elem = document.getElementById("buySkins");
-    elem.onmousedown = function (e) { buy('skins'); };
+    //elem = document.getElementById("buySkins");
+    //elem.onmousedown = function (e) { buy('skins'); };
 
-    elem = document.getElementById("buyHerbs");
-    elem.onmousedown = function (e) { buy('herbs'); };
+    //elem = document.getElementById("buyHerbs");
+    //elem.onmousedown = function (e) { buy('herbs'); };
 
-    elem = document.getElementById("buyOre");
-    elem.onmousedown = function (e) { buy('ore'); };
+    //elem = document.getElementById("buyOre");
+    //elem.onmousedown = function (e) { buy('ore'); };
 
-    elem = document.getElementById("buyLeather");
-    elem.onmousedown = function (e) { buy('leather'); };
+    //elem = document.getElementById("buyLeather");
+    //elem.onmousedown = function (e) { buy('leather'); };
 
-    elem = document.getElementById("buyPotions");
-    elem.onmousedown = function (e) { buy('potions'); };
+    //elem = document.getElementById("buyPotions");
+    //elem.onmousedown = function (e) { buy('potions'); };
 
-    elem = document.getElementById("buyMetal");
-    elem.onmousedown = function (e) { buy('metal'); };
+    //elem = document.getElementById("buyMetal");
+    //elem.onmousedown = function (e) { buy('metal'); };
+
+    //elem = document.getElementById("buyIron");
+    //elem.onmousedown = function (e) { buy('iron'); };
+
+    let buttID = "";
+    let butt;
+    lootable.forEach(function (elem) {
+        buttID = "buy" + sentenceCase(elem.id);
+        butt = document.getElementById(buttID);
+        butt.onmousedown = function (e) { buy(elem.id); };
+    });
 
     elem = document.getElementById("gameSpeedSlow");
     elem.onclick = function (e) { setGameSpeed(2000); };
@@ -176,10 +189,13 @@ setup.civSizes = function () {
 };
 
 setup.game = function () {
+    traceLog("app.setup.game");
     console.log("Setting up game");
     sysLog("Starting game");
     //document.title = "CivClicker ("+versionData+")"; //xxx Not in XML DOM.
 
+    // we need to set up ui stuff before loading saved data
+    addBuyButtons();
     addUITable(basicResources, "basicResources"); // Dynamically create the basic resource table.
     addUITable(homeBuildings, "buildings"); // Dynamically create the building controls table.
     addUITable(homeUnits, "jobs"); // Dynamically create the job controls table.
@@ -188,8 +204,12 @@ setup.game = function () {
     addUITable(normalUpgrades, "upgrades"); // Place the stubs for most upgrades under the upgrades tab.
     addAchievementRows();
     addRaidRows();
+    
     addWonderSelectText();
     makeDeitiesTables();
+
+    setInitTradeAmount();
+    setResourcesReqText();
 
     if (!load("localStorage")) { //immediately attempts to load
         //Prompt player for names
@@ -197,8 +217,9 @@ setup.game = function () {
         renameRuler();
     }
 
-    setInitTradeAmount();
-
+    // update with current
+    updateTradeButtons();
+    
     setDefaultSettings();
 };
 
