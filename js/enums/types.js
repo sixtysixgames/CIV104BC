@@ -1,5 +1,4 @@
 
-
 /*
  * Constants - because we don't like hard-coded strings
  * do not use the defer attribute on the script tag in index.html
@@ -28,7 +27,9 @@ const resourceType = {
     piety: "piety",
     gold: "gold",
     corpses: "corpses",
-    devotion: "devotion"
+    devotion: "devotion",
+    iron: "iron",
+    charcoal: "charcoal"
 };
 const buildingType = {
     freeLand: "freeLand",
@@ -43,6 +44,8 @@ const buildingType = {
     stonestock: "stonestock",
     tannery: "tannery",
     smithy: "smithy",
+    charKiln: "charKiln",
+    ironWorks: "ironWorks",
     apothecary: "apothecary",
     temple: "temple",
     barracks: "barracks",
@@ -62,6 +65,8 @@ const unitType = {
     miner: "miner",
     tanner: "tanner",
     blacksmith: "blacksmith",
+    charBurner: "charBurner",
+    ironsmith: "ironsmith",
     healer: "healer",
     cleric: "cleric",
     labourer: "labourer",
