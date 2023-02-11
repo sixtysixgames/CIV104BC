@@ -34,22 +34,6 @@ function getUnitData() {
             effectText: "Automatically mine stone"
         }),
         new Unit({
-            id: unitType.tanner, singular: "tanner", plural: "tanners", source: unitType.unemployed,
-            efficiency: 0.44, defence: 0.04, // default is 0.05
-            prereqs: { tannery: 1 }, require: { skins: 2 },
-            get limit() { return civData.tannery.owned; },
-            set limit(value) { return this.limit; }, // Only here for JSLint.
-            effectText: "Convert skins to leather"
-        }),
-        new Unit({
-            id: unitType.blacksmith, singular: "blacksmith", plural: "blacksmiths", source: unitType.unemployed,
-            efficiency: 0.43, defence: 0.04, // default is 0.05
-            prereqs: { smithy: 1 }, require: { ore: 2 },
-            get limit() { return civData.smithy.owned; },
-            set limit(value) { return this.limit; }, // Only here for JSLint.
-            effectText: "Convert ore to metal"
-        }),
-        new Unit({
             id: unitType.healer, singular: "healer", plural: "healers", source: unitType.unemployed,
             prereqs: { apothecary: 1 }, require: { herbs: 2 },
             efficiency: 0.42, defence: 0.01, // default is 0.05
@@ -67,6 +51,38 @@ function getUnitData() {
             get limit() { return civData.temple.owned; },
             set limit(value) { return this.limit; }, // Only here for JSLint.
             effectText: "Generate piety, bury corpses"
+        }),
+        new Unit({
+            id: unitType.tanner, singular: "tanner", plural: "tanners", source: unitType.unemployed,
+            efficiency: 0.44, defence: 0.04, // default is 0.05
+            prereqs: { tannery: 1 }, require: { skins: 2 },
+            get limit() { return civData.tannery.owned; },
+            set limit(value) { return this.limit; }, // Only here for JSLint.
+            effectText: "Convert skins to leather"
+        }),
+        new Unit({
+            id: unitType.blacksmith, singular: "blacksmith", plural: "blacksmiths", source: unitType.unemployed,
+            efficiency: 0.43, defence: 0.04, // default is 0.05
+            prereqs: { smithy: 1 }, require: { ore: 2 },
+            get limit() { return civData.smithy.owned; },
+            set limit(value) { return this.limit; }, // Only here for JSLint.
+            effectText: "Convert ore to metal"
+        }),
+        new Unit({
+            id: unitType.charBurner, singular: "charcoal burner", plural: "charcoal burner", source: unitType.unemployed,
+            efficiency: 0.5, defence: 0.04, // default is 0.05
+            prereqs: { charKiln: 1 }, require: { wood: 3 },
+            get limit() { return civData.charKiln.owned; },
+            set limit(value) { return this.limit; }, // Only here for JSLint.
+            effectText: "Use wood to make charcoal"
+        }),
+        new Unit({
+            id: unitType.ironsmith, singular: "ironsmith", plural: "ironsmiths", source: unitType.unemployed,
+            efficiency: 0.05, defence: 0.04, // default is 0.05
+            prereqs: { ironWorks: 1 }, require: { ore: 2, charcoal: 4 },
+            get limit() { return civData.ironWorks.owned; },
+            set limit(value) { return this.limit; }, // Only here for JSLint.
+            effectText: "Use ore and wood to make iron"
         }),
         new Unit({
             id: unitType.labourer, singular: "labourer", plural: "labourers", source: unitType.unemployed,
