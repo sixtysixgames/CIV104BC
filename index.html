@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <!--
     CivClicker
-    Copyright (C) 2014; see the AUTHORS file for authorship.
+    Copyright (C; see the AUTHORS file for authorship.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,10 +19,10 @@
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
 <head>
-    <title>BC 104</title>
+    <title>CIV 104 BC</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="styles/civclicker.css?v=1110" />
-    <meta name="description" content="CivClicker: Build a Civilisation In Your Browser" />
+    <link rel="stylesheet" type="text/css" href="styles/civclicker.css?v=1111" />
+    <meta name="description" content="CIV 104 BC: Build a Civilisation In Your Browser" />
     <!-- JS utilities -->
     <script type="application/javascript" src="scripts/lz-string.js"></script>
     <!--<script type="application/javascript" src="scripts/jsutils.js"></script>-->
@@ -30,7 +30,8 @@
     <script type="application/javascript" src="scripts/classList.js"></script>
     <script type="application/javascript" src="scripts/ui.js"></script>
     <!-- Main program -->
-    <script type="module" src="js/app.js" defer="defer"></script>
+    <script type="module" src="js/app.js" defer="defer">
+    </script>
 </head>
 <body class="hasBackground">
     <div id="strip">
@@ -215,46 +216,46 @@
         <div id="leftColumn75" class="column left width75">
             <div id="panesSelectors" class="civSection">
                 <div id="selectors" class="panesTabs">
-                    <div id="populationSelect" class="paneSelector selected" data-target="populationPane" >
+                    <div id="populationSelect" class="paneSelector selected" data-target="populationPane">
                         Population
                         <div class="alert">!</div>
                         <div class="info">i</div>
                     </div>
-                    <div id="buildingsSelect" class="paneSelector" data-target="buildingsPane" >
+                    <div id="buildingsSelect" class="paneSelector" data-target="buildingsPane">
                         Buildings
                         <div class="alert">!</div>
                     </div>
-                    <div id="upgradesSelect" class="paneSelector" data-target="upgradesPane" >
+                    <div id="upgradesSelect" class="paneSelector" data-target="upgradesPane">
                         Upgrades
                         <div class="alert">!</div>
                         <div class="info">i</div>
                     </div>
-                    <div id="deitySelect" class="paneSelector" data-target="deityPane" >
+                    <div id="deitySelect" class="paneSelector" data-target="deityPane">
                         Deity
                         <div class="alert">!</div>
                         <div class="info">i</div>
                     </div>
-                    <div id="conquestSelect" class="paneSelector" data-target="conquestPane" >
+                    <div id="conquestSelect" class="paneSelector" data-target="conquestPane">
                         Conquest
                         <div class="alert">!</div>
                         <div class="info">i</div>
                     </div>
-                    <div id="tradeSelect" class="paneSelector" data-target="tradePane" >
+                    <div id="tradeSelect" class="paneSelector" data-target="tradePane">
                         Trade
                         <div class="alert">!</div>
                         <div class="info">i</div>
                     </div>
-                    <div id="resourcesSelect" class="paneSelector" data-target="resourcesPane" >
+                    <div id="resourcesSelect" class="paneSelector" data-target="resourcesPane">
                         Resources
                         <div class="alert">!</div>
                         <div class="info">i</div>
                     </div>
-                    <div id="achievementsSelect" class="paneSelector" data-target="achievementsPane" >
+                    <div id="achievementsSelect" class="paneSelector" data-target="achievementsPane">
                         Achievements
                         <div class="alert">!</div>
                         <div class="info">i</div>
                     </div>
-                    <div id="settingsSelect" class="paneSelector" data-target="settingsPane" >
+                    <div id="settingsSelect" class="paneSelector" data-target="settingsPane">
                         Settings
                         <div class="alert">!</div>
                         <div class="info">i</div>
@@ -488,19 +489,32 @@
                         <div id="raidBar" class="bar" title="Battle Progress">
                             <!-- populated by javascript -->
                         </div>
-                        <div id="raidGroup">
-                            <h3>To War!</h3>
-                            <p id="gloryGroup">
-                                Glory: <span id="gloryTimer">0</span> seconds remain
-                            </p>
+                        <div class="columns">
+                            <div class="column left width40">
+                                <div id="raidGroup">
+                                    <h3>To War!</h3>
+                                    <p id="gloryGroup">
+                                        Glory: <span id="gloryTimer">0</span> seconds remain
+                                    </p>
+                                </div>
+                                <div id="victoryGroup">
+                                    <h3>Victory!</h3>
+                                    <button id="plunder" xonmousedown="plunder()">Plunder Resources</button><br />
+                                </div>
+                            </div>
+
+                            <div class="column right width60">
+                                <div class="stats">
+                                    Total Enemies Slain: <span data-action="display" data-target="enemySlain">...</span>
+                                </div>
+                                <div id="raidEventsContainer" class="civSection">
+                                    <h2>Raid Events</h2>
+                                    <table id="raidLogTable">
+                                        <tr><td></td><td></td><td></td></tr>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        <div id="victoryGroup">
-                            <h3>Victory!</h3>
-                            <button id="plunder" xonmousedown="plunder()">Plunder Resources</button><br />
-                        </div>
-                    </div>
-                    <div class="stats">
-                        Total Enemies Slain: <span data-action="display" data-target="enemySlain">...</span>
                     </div>
                 </div>
 
@@ -554,6 +568,12 @@
                 <div id="achievementsPane" class="selectPane">
                     <div id="achievements">
                         <!-- populated by javascript -->
+                    </div>
+                    <div id="achEventsContainer" class="civSection">
+                        <h2>Achievements</h2>
+                        <table id="achLogTable">
+                            <tr><td></td><td></td><td></td></tr>
+                        </table>
                     </div>
                 </div>
 
@@ -634,7 +654,7 @@
                 <h3>Latest News <span id="gameDate">0000-00-00</span></h3>
                 <table id="logTable">
                     <tr id="log0"><td id="logT"></td><td id="logL"></td><td id="logR"></td></tr>
-                    <tr id="log1"><td colspan="3"></td></tr>
+                    <!--<tr id="log1"><td colspan="3"></td></tr>
                     <tr id="log2"><td colspan="3"></td></tr>
                     <tr id="log3"><td colspan="3"></td></tr>
                     <tr id="log4"><td colspan="3"></td></tr>
@@ -662,7 +682,7 @@
                     <tr id="log26"><td colspan="3"></td></tr>
                     <tr id="log27"><td colspan="3"></td></tr>
                     <tr id="log28"><td colspan="3"></td></tr>
-                    <tr id="log29"><td colspan="3"></td></tr>
+                    <tr id="log29"><td colspan="3"></td></tr>-->
                 </table>
             </div>
         </div>
