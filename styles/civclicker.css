@@ -240,6 +240,9 @@ table#basicResources,
 #specialResourcesContainer table {
     width: 100%;
 }
+#extraResourcesContainer table {
+    width: 100%;
+}
 
 #populationNumbers table {
     width: 100%;
@@ -895,7 +898,12 @@ button {
 .blacksmith {
     background-color: #525252;
 }
-
+.ironsmith {
+    background-color: #626262;
+}
+.charBurner {
+    background-color: #333333;
+}
 .healer {
     background-color: #003B00;
 }
