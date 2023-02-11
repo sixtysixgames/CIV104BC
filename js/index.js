@@ -6,7 +6,7 @@ export * from "./settings/globals.js";
 
 export { civSizes } from "./data/civ-sizes.js";
 
-export { curCiv } from "./data/cur-civ.js";
+export * from "./data/cur-civ.js";
 
 // classes
 // parent
