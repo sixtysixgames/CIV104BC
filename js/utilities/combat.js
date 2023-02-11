@@ -207,8 +207,8 @@ function doFight(attacker, defender) {
 
     // Determine casualties on each side.  Round fractional casualties
     // probabilistically, and don't inflict more than 100% casualties.
-    let attackerCas = Math.min(attacker.owned, rndRound(getCasualtyMod(defender, attacker) * defender.owned * defender.efficiency));
-    let defenderCas = Math.min(defender.owned, rndRound(getCasualtyMod(attacker, defender) * attacker.owned * (attacker.efficiency - defenceMod) * Math.max(1 - fortMod, 0)));
+    let attackerCas = Math.ceil(Math.min(attacker.owned, rndRound(getCasualtyMod(defender, attacker) * defender.owned * defender.efficiency)));
+    let defenderCas = Math.ceil(Math.min(defender.owned, rndRound(getCasualtyMod(attacker, defender) * attacker.owned * (attacker.efficiency - defenceMod) * Math.max(1 - fortMod, 0))));
 
     attacker.owned -= attackerCas;
     defender.owned -= defenderCas;
@@ -729,7 +729,8 @@ function doMobs() {
             mobType = getMobType(civLimit);
 
             let mobNum = Math.ceil(civLimit / 50 * Math.random());
-            if (population.current === 0) {
+            let oneDay = 24 * 60 * 60;
+            if (population.current === 0 && curCiv.loopCounter > oneDay) {
                 // no population, let's invade!
                 mobType = mobTypeIds.invader; // they do a lot of everything
                 if (civData[mobType].owned > 0) {
