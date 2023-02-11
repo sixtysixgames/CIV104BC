@@ -3,7 +3,8 @@ import {
     civData, curCiv, gameLog, tickAutosave, calculatePopulation, clearSpecialResourceNets, dismissWorkers, doFarmers, doWoodcutters,
     doMiners, doBlacksmiths, doApothecaries, doTanners, doClerics, doStarve, doHomeless, checkResourceLimits, doMobs, doPestControl,
     tickGlory, doShades, doEsiege, doRaid, placeType, alignmentType, doRaidCheck, doGraveyards, doHealers, doPlague, doCorpses, doThrone,
-tickGrace, tickWalk, doLabourers, tickTraders, updateResourceTotals, testAchievements, updateAll} from "../index.js";
+    tickGrace, tickWalk, doLabourers, tickTraders, updateResourceTotals, testAchievements, updateAll,
+    doIronsmiths, doCharcoalBurners } from "../index.js";
 
 // Create a cat
 function spawnCat() {
@@ -34,6 +35,8 @@ function gameLoop() {
     doBlacksmiths();
     doApothecaries();
     doTanners();
+    doCharcoalBurners();
+    doIronsmiths();
 
     doClerics();
 
