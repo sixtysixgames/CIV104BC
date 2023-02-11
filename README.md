@@ -7,3 +7,5 @@ The major difference is I've ported it to use JavaScript modules in an effort to
 Also means I've been able to split up the large .js files into related methods.
 
 And I've added new buildings, units and resources
+
+Very much in development as I intend adding more stuff, so there will probably be breaking changes
