@@ -4,7 +4,7 @@ import {
     alignmentType, buildingData, killable, lootable, matchType, placeType, resourceData, sackable, speciesType, subTypes, unitData, unitType,
     getCurDeityDomain, getCustomNumber, getWonderBonus, updateAchievements, updateBuildingButtons, updateDevotion, updateJobButtons, updateMorale, updatePartyButtons, updatePopulation,
     updateRequirements, updateResourceRows, updateResourceTotals, updateTargets, updateUpgrades,
-    gameLog, isValid, makeDeitiesTables, prettify, spawnCat, sysLog, valOf,
+    gameLog, achLog, isValid, makeDeitiesTables, prettify, spawnCat, sysLog, valOf,
     abs, calcArithSum, logSearchFn, sgn, ui
 } from "../index.js";
 
@@ -249,9 +249,9 @@ function testAchievements() {
         if (isValid(achObj.test) && !achObj.test()) { return false; }
         civData[achObj.id].owned = true;
         gameLog("Achievement Unlocked: " + achObj.getQtyName());
+        achLog("Achievement Unlocked: " + achObj.getQtyName());
         return true;
     });
-
     updateAchievements();
 }
 
