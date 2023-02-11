@@ -92,10 +92,12 @@ a {
     .column.right {
         padding-left: 1em;
     }
+
     .column.middle {
         padding-left: 1em;
         padding-right: 1em;
     }
+
 .width60 {
     width: 60%;
 }
@@ -111,6 +113,7 @@ a {
 .width25 {
     width: 25%;
 }
+
 .width33 {
     width: 33.3%;
 }
@@ -429,6 +432,7 @@ button {
         box-shadow: 0 0.1em 0.1em rgba(0,0,0,0.2);
         z-index: 3;
     }
+
     .paneSelector .info {
         display: none;
         position: absolute;
@@ -584,7 +588,6 @@ button {
 #logTable {
     width: 100%;
 }
-
     #logTable td {
         font-size: 0.9em;
         padding-right: 2px;
@@ -594,10 +597,26 @@ button {
 #syslogTable {
     width: 100%;
 }
-#syslogTable td {
-    padding-right: 5px;
-    vertical-align: top;
+    #syslogTable td {
+        padding-right: 5px;
+        vertical-align: top;
+    }
+
+#tradeLogTable {
+    width: 100%;
 }
+    #tradeLogTable td {
+        padding-right: 5px;
+        vertical-align: top;
+    }
+
+#raidLogTable {
+    width: 100%;
+}
+    #raidLogTable td {
+        padding-right: 5px;
+        vertical-align: top;
+    }
 
 #logT, #sysLogT {
     width: 7em;
@@ -790,9 +809,11 @@ button {
 #specialResourcesContainer .perSecond {
     font-size: 1em;
 }
+
 #specialResourcesContainer .net {
     width: 10%;
 }
+
 #walkGroup {
     display: none;
 }
@@ -914,9 +935,11 @@ button {
 .barbarian {
     background-color: #f63;
 }
+
 .invader {
     background-color: #f60;
 }
+
 .esiege {
     background-color: #99f;
 }
@@ -944,6 +967,7 @@ button {
 .attacker {
     background-color: green;
 }
+
 .defender {
     background-color: red;
 }
@@ -969,26 +993,34 @@ button {
 .raidBar {
     display: none;
 }
+
 .mobBar {
     display: none;
 }
+
 #morale {
 }
+
 #morale1 {
     display: none;
 }
+
 #morale2 {
     display: none;
 }
+
 #morale3 {
     display: none;
 }
+
 #morale4 {
     display: none;
 }
+
 #morale5 {
     display: none;
 }
+
 ol.happinessRanks {
     list-style: none;
     display: block;
