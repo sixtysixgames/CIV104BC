@@ -1,6 +1,6 @@
 
 import { abs, achData, alignmentType, armyUnits, basicResources, buildingData, buildingType, calculatePopulation, calcWorkerCost, calcZombieCost, canAfford, canPurchase, 
- civData, civObjType, civSizes, curCiv, dataset, deityDomains, 
+ civData, civObjType, civSizes, curCiv, dataset, deityDomains, wonderSelect,
  getCombatants, getCivType, getCurDeityDomain, getCurrentAltarId, getLandTotals, getReqText, getWonderLowItem, homeBuildings, homeUnits, 
  idToType, isTraderHere, isUnderAttack, isValid, isWonderLimited, logSearchFn, makeDeitiesTables, meetsPrereqs, onBulkEvent, placeType, population, powerData, prettify, 
  settings, sgn, subTypes, sysLog, unitData, upgradeData, ui, UIComponents, wonderResources} from "../index.js";
@@ -710,12 +710,20 @@ function addWonderSelectText() {
     }
     let s = wcElem.innerHTML;
     wonderResources.forEach(function (elem, i, wr) {
-        s += "<button onmousedown='wonderSelect(\"" + elem.id + "\")'>" + elem.getQtyName(0) + "</button>";
+        s += "<button id=\"" + elem.id + "\" xonmousedown='wonderSelect(\"" + elem.id + "\")'>" + elem.getQtyName(0) + "</button>";
         // Add newlines to group by threes (but no newline for the last one)
         if (!((i + 1) % 3) && (i != wr.length - 1)) { s += "<br />"; }
     });
 
     wcElem.innerHTML = s;
+
+    // assign onmousedown method to select buttons
+    let elem;
+    wonderResources.forEach(function (elem, i, wr) {
+        elem = document.getElementById(elem.id);
+        elem.onmousedown = function (e) { wonderSelect(elem.id); };
+    });
+    
 }
 
 //updates the display of wonders and wonder building
