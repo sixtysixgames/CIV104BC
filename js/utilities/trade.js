@@ -81,6 +81,7 @@ function buy(materialId) {
     --civData.gold.owned;
 
     updateResourceTotals();
+    tradeLog("Bought " + prettify(currentAmount) + " " + material.getQtyName(currentAmount));
 }
 
 function updateTradeButton(materialId, cost) {
@@ -129,13 +130,33 @@ function tickTraders() {
 
 function updateTradeAmount() {
     let materialId = curCiv.trader.materialId;
-
-    // simply change to 10% whatever was requested
+    let origCost = curCiv[materialId].tradeAmount;
+    // simply change to 10% whatever was requested because requested is random
     curCiv[materialId].tradeAmount = Math.floor(curCiv.trader.requested / 10);
+
+    // make it less obvious with another +/- 10% of new price
+    let extra = Math.floor((curCiv[materialId].tradeAmount / 100)) * 10;
+    if (Math.random() < 0.5) {
+        curCiv[materialId].tradeAmount -= extra
+    }
+    else {
+        curCiv[materialId].tradeAmount += extra
+    }
     // don't offer less than base amount
     curCiv[materialId].tradeAmount = Math.max(civData[materialId].baseTradeAmount, curCiv[materialId].tradeAmount);
 
     updateTradeButton(materialId, curCiv[materialId].tradeAmount);
+    //
+    //let material = civData[materialId];
+    //let currentAmount = curCiv[materialId].tradeAmount;
+    //let verb = "remains at";
+    //if (origCost > currentAmount) {
+    //    verb = "decreased to";
+    //}
+    //else {
+    //    verb = "increased to";
+    //}
+    //tradeLog(material.getQtyName(1) + " trade amount " + verb + " " + prettify(currentAmount));
 }
 
 export { setInitTradePrice, startTrader, trade, isTraderHere, checkTradeAmounts, buy, updateTradeButton, updateTradeButtons, tickTraders, updateTradeAmount};
