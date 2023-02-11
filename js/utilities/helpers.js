@@ -5,7 +5,7 @@ import {
     getCurDeityDomain, getCustomNumber, getWonderBonus, updateAchievements, updateBuildingButtons, updateDevotion, updateJobButtons, updateMorale, updatePartyButtons, updatePopulation,
     updateRequirements, updateResourceRows, updateResourceTotals, updateTargets, updateUpgrades,
     gameLog, achLog, isValid, makeDeitiesTables, prettify, spawnCat, sysLog, valOf,
-    abs, calcArithSum, logSearchFn, sgn, ui
+    abs, calcArithSum, logSearchFn, sgn, ui, traceLog
 } from "../index.js";
 
 function getCivType() {
@@ -300,7 +300,7 @@ function getRandomBuilding() {
 
     for (let i = 0; i < sackable.length; ++i) {
         chance += civData[sackable[i].id].owned;
-        //debug(sackable[i].id + ": " + chance + " > " + num);
+        //traceLog(sackable[i].id + ": " + chance + " > " + num);
         if (chance > num) { return sackable[i].id; }
     }
     return "";
@@ -397,7 +397,7 @@ function spreadPlague(sickNum) {
     return actualNum;
 }
 
-// Select a sick worker type to cure, with certain priorities
+// Select a sick worker type to cure, with certain priorities i.e. most important is first in list
 function getNextPatient() {
     for (let i = 0; i < PATIENT_LIST.length; ++i) {
         if (civData[PATIENT_LIST[i]].ill > 0) { return PATIENT_LIST[i]; }
@@ -420,17 +420,25 @@ function getRandomPatient(n) {
 }
 
 function clearSpecialResourceNets() {
-    civData.food.net = 0;
-    civData.wood.net = 0;
-    civData.stone.net = 0;
+    //66g todo: some sort of loop over resources
+    // see below and use subType = subTypes.special
+    //civData.food.net = 0;
+    //civData.wood.net = 0;
+    //civData.stone.net = 0;
 
-    civData.skins.net = 0;
-    civData.herbs.net = 0;
-    civData.ore.net = 0;
+    //civData.skins.net = 0;
+    //civData.herbs.net = 0;
+    //civData.ore.net = 0;
 
-    civData.leather.net = 0;
-    civData.potions.net = 0;
-    civData.metal.net = 0;
+    //civData.leather.net = 0;
+    //civData.potions.net = 0;
+    //civData.metal.net = 0;
+    //civData.iron.net = 0;
+
+    //let resID = "";
+    lootable.forEach(function (resElem) {
+        civData[resElem.id].net = 0;
+    });
 
     civData.piety.net = 0;
 }
@@ -450,14 +458,13 @@ function checkResourceLimits() {
         }
     });
     // because of desecration
-    if (civData.graveyard.owned <= 0) {
+    if (civData.graveyard.owned < 0) {
         civData.graveyard.owned = 0;
         curCiv.grave.owned = 0;
     }
 }
 
 function calculatePopulation() {
-
     if (curCiv.zombie.owned < 0) {
         curCiv.zombie.owned = 0;
     }
@@ -482,7 +489,6 @@ function calculatePopulation() {
     population.totalSick = 0;
     population.extra = 0;
 
-
     //Update population limit by multiplying out housing numbers
     // 66g todo: limits should be hardcoded with civData
     //population.limit = (
@@ -505,11 +511,11 @@ function calculatePopulation() {
     //);
     population.limit = (
         (civData.tent.total)
-        + ( civData.hut.total)
-        + ( civData.cottage.total)
-        + ( civData.house.total )
-        + ( civData.mansion.total )
-        + ( civData.palace.total )
+        + (civData.hut.total)
+        + (civData.cottage.total)
+        + (civData.house.total)
+        + (civData.mansion.total)
+        + (civData.palace.total)
     );
     population.limitIncludingUndead = population.limit + population.zombie;
 
