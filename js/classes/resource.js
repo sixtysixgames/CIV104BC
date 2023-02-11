@@ -15,7 +15,7 @@ Resource.prototype = new CivObj({
     // 'net' accessor always exists, even if the underlying value is undefined for most resources.
     get net() {
         if (typeof this.data.net != "number") {
-            console.warn("Resource.net get not a number");
+            console.warn(this.id + ".net get not a number: " + this.data.net);
             //return 0;
             this.data.net = 0; // hack to fix NaN stored in .net
         }
@@ -23,7 +23,7 @@ Resource.prototype = new CivObj({
     },
     set net(value) {
         if (typeof value != "number") {
-            console.warn("Resource.net set not a number");
+            console.warn(this.id + ".net set value not a number: " + value);
             //value = 0; // hack to fix NaN stored in .net
             //this.data.net = 0;
         }
