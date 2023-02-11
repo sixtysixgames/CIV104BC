@@ -241,35 +241,40 @@ function getCostNote(civObj) {
 
 // TODO: we should probably pass the relevant table to a single function
 // even better would be to use a div with a scrollbars so that no messages are lost
+//function xxxgameLog(message) {
+//    //get the current date, extract the current time in HH.MM format
+//    //xxx It would be nice to use Date.getLocaleTimeString(locale,options) here, but most browsers don't allow the options yet.
+//    //let d = new Date();
+//    // todo: output some sort of in-game date based on how long played
+//    //let curTime = d.getHours() + ":" + ((d.getMinutes() < 10) ? "0" : "") + d.getMinutes();
+//    //let curTime = getGameDateTime();
+//    let curTime = getPlayingTimeShort();
+//    message = sentenceCase(message);
+
+//    //Check to see if the last message was the same as this one, if so just increment the (xNumber) value
+//    if (ui.find("#logL").innerHTML != message) {
+//        appSettings.logRepeat = 0; //Reset the (xNumber) value
+
+//        //Go through all the logs in order, moving them down one and successively overwriting them.
+//        let i = 30; // Number of lines of log to keep. See the logTable in index.html
+//        while (--i > 1) { ui.find("#log" + i).innerHTML = ui.find("#log" + (i - 1)).innerHTML; }
+//        //Since ids need to be unique, log1 strips the ids from the log0 elements when copying the contents.
+//        ui.find("#log1").innerHTML = (
+//            "<td>" + ui.find("#logT").innerHTML
+//            + "</td><td>" + ui.find("#logL").innerHTML
+//            + "</td><td>" + ui.find("#logR").innerHTML + "</td>"
+//        );
+//    }
+//    // Updates most recent line with new time, message, and xNumber.
+//    let s = "<td id='logT'>" + curTime + "</td><td id='logL'>" + message + "</td><td id='logR'>";
+//    if (++appSettings.logRepeat > 1) { s += "(x" + appSettings.logRepeat + ")"; } // Optional (xNumber)
+//    s += "</td>";
+//    ui.find("#log0").innerHTML = s;
+//}
 function gameLog(message) {
-    //get the current date, extract the current time in HH.MM format
-    //xxx It would be nice to use Date.getLocaleTimeString(locale,options) here, but most browsers don't allow the options yet.
-    //let d = new Date();
-    // todo: output some sort of in-game date based on how long played
-    //let curTime = d.getHours() + ":" + ((d.getMinutes() < 10) ? "0" : "") + d.getMinutes();
-    //let curTime = getGameDateTime();
     let curTime = getPlayingTimeShort();
     message = sentenceCase(message);
-
-    //Check to see if the last message was the same as this one, if so just increment the (xNumber) value
-    if (ui.find("#logL").innerHTML != message) {
-        appSettings.logRepeat = 0; //Reset the (xNumber) value
-
-        //Go through all the logs in order, moving them down one and successively overwriting them.
-        let i = 30; // Number of lines of log to keep. See the logTable in index.html
-        while (--i > 1) { ui.find("#log" + i).innerHTML = ui.find("#log" + (i - 1)).innerHTML; }
-        //Since ids need to be unique, log1 strips the ids from the log0 elements when copying the contents.
-        ui.find("#log1").innerHTML = (
-            "<td>" + ui.find("#logT").innerHTML
-            + "</td><td>" + ui.find("#logL").innerHTML
-            + "</td><td>" + ui.find("#logR").innerHTML + "</td>"
-        );
-    }
-    // Updates most recent line with new time, message, and xNumber.
-    let s = "<td id='logT'>" + curTime + "</td><td id='logL'>" + message + "</td><td id='logR'>";
-    if (++appSettings.logRepeat > 1) { s += "(x" + appSettings.logRepeat + ")"; } // Optional (xNumber)
-    s += "</td>";
-    ui.find("#log0").innerHTML = s;
+    appSettings.logRepeat = logMessage("#logTable", curTime, message, appSettings.logRepeat); 
 }
 
 function logMessage(tableID, time, message, repeatCount) {
@@ -277,9 +282,14 @@ function logMessage(tableID, time, message, repeatCount) {
     message = sentenceCase(message);
 
     let logTable = ui.find(tableID);
+
+    if (logTable.rows.length >= 100) {
+        // remove latest
+        logTable.deleteRow(99);
+    }
     // get first row
     let currentRow = logTable.rows[0];
-    // get previous
+    // get previous message
     let prevMessage = currentRow.cells[1].innerHTML;
 
     if (message != prevMessage) {
@@ -326,7 +336,7 @@ function sysLog(message) {
 
     appSettings.sysLogRepeat = logMessage("#syslogTable", curTime, message, appSettings.sysLogRepeat); 
 
-    //console.log(message);
+    console.log(message);
 
     //Check to see if the last message was the same as this one, if so just increment the (xNumber) value
     //if (ui.find("#syslogL").innerHTML != message) {
@@ -349,10 +359,16 @@ function sysLog(message) {
     //ui.find("#syslog0").innerHTML = s;
 }
 function tradeLog(message) {
-    //let d = new Date();
-    //let curTime = d.getHours() + ":" + ((d.getMinutes() < 10) ? "0" : "") + d.getMinutes();
     let curTime = getPlayingTimeShort();
     appSettings.tradeLogRepeat = logMessage("#tradeLogTable", curTime, message, appSettings.tradeLogRepeat); 
+}
+function raidLog(message) {
+    let curTime = getPlayingTimeShort();
+    appSettings.raidLogRepeat = logMessage("#raidLogTable", curTime, message, appSettings.raidLogRepeat); 
+}
+function achLog(message) {
+    let curTime = getPlayingTimeShort();
+    appSettings.achLogRepeat = logMessage("#achLogTable", curTime, message, appSettings.achLogRepeat); 
 }
 function getCustomNumber(civObj) {
     if (!civObj || !civObj.customQtyId) { return undefined; }
@@ -386,5 +402,5 @@ function sentenceCase(message) {
 
 export {
     paneSelect, versionAlert, prettify, setAutosave, onToggleAutosave, setCustomQuantities, onToggleCustomQuantities, setNotes, onToggleNotes, textSize, 
-    setIcons, onToggleIcons, getCostNote, gameLog, debug, sysLog, getCustomNumber, sentenceCase, setGameSpeed, tradeLog
+    setIcons, onToggleIcons, getCostNote, gameLog, debug, sysLog, getCustomNumber, sentenceCase, setGameSpeed, tradeLog, raidLog, achLog
 };
