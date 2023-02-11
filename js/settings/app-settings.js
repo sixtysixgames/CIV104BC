@@ -23,7 +23,7 @@ const appSettings = {
 let settings = {
     autosave: true,
     autosaveCounter: 1,
-    autosaveTime: 120, //Currently autosave is every minute. Might change to 5 mins in future.
+    autosaveTime: 120, //Currently autosave is every 2 minutes. Might change to 5 mins in future.
     customIncr: false,
     fontSize: 1.0,
     delimiters: true,
