@@ -145,10 +145,10 @@ function getUnitData() {
             // see invader for definitions
             lootFatigue: (0.1),  
             lootStop: (0.9), 
-            lootMax: (0.99), 
+            lootMax: (0.7), 
             sackFatigue: (0.25),  
-            sackStop: (0.99), 
-            sackMax: (0.25), 
+            sackStop: (0.95), 
+            sackMax: (0.2), 
             killFatigue: (0.5),  
             killStop: (0.99), 
             killMax: (0.1), 
@@ -163,16 +163,16 @@ function getUnitData() {
             // see invader for definitions
             lootFatigue: (0.1), 
             lootStop: (0.75), 
-            lootMax: (0.99), 
+            lootMax: (0.3), 
             sackFatigue: (0.1), 
-            sackStop: (0.66), 
-            sackMax: (0.99), 
+            sackStop: (0.75), 
+            sackMax: (0.3), 
             killFatigue: (0.1), 
-            killStop: (0.99), 
-            killMax: (0.33), 
+            killStop: (0.95), 
+            killMax: (0.3), 
             conquerFatigue: (0.1), 
             conquerStop: (0.99), 
-            conquerMax: (0.25), 
+            conquerMax: (0.1), 
             effectText: "Slaughter, plunder, and burn"
         }),
         new Unit({
@@ -182,17 +182,17 @@ function getUnitData() {
             efficiency: 0.11,
             onWin: function () { doInvaders(this); },
             lootFatigue: (0.05), // Max fraction that leave after cleaning out a resource
-            lootStop: (0.99), // Chance of an attacker leaving after looting a resource
+            lootStop: (0.85), // Chance of an attacker leaving after looting a resource
             lootMax: (0.25), // Max fraction that will loot
             sackFatigue: (0.05), // Max fraction that leave after destroying a building type
-            sackStop: (0.99), // Chance of an attacker leaving after sacking a building
+            sackStop: (0.85), // Chance of an attacker leaving after sacking a building
             sackMax: (0.25), // Max fraction that will sack
             killFatigue: (0.05), // Max fraction that leave after killing the last person
-            killStop: (0.99), // Chance of an attacker leaving after killing a person
+            killStop: (0.85), // Chance of an attacker leaving after killing a person
             killMax: (0.25), // Max fraction that will kill
-            conquerFatigue: (0.05), // Max fraction that leave after conquering the last land
-            conquerStop: (0.25), // Chance of an attacker leaving after conquering land
-            conquerMax: (0.99), // Max fraction that will take land
+            conquerFatigue: (0.05), // Max fraction that leave after conquering the last freeland
+            conquerStop: (0.75), // Chance of an attacker leaving after conquering freeland
+            conquerMax: (0.75), // Max fraction that will take freeland
             effectText: "Conquer your lands"
         }),
         new Unit({
