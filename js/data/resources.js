@@ -1,14 +1,12 @@
 ﻿
-
 import { Resource, civData, getPietyLimitBonus, getStorehouseBonus, getStoreroomBonus, getWarehouseBonus, resourceType, subTypes } from "../index.js";
 
 function getResourceData() {
     let resData = [
         // Resources
         new Resource({
-            id: resourceType.food, name: "food", increment: 1, specialChance: 0.1,
-            subType: subTypes.basic,
-            specialMaterial: resourceType.skins, verb: "harvest", activity: "harvesting", //I18N
+            id: resourceType.food, name: "food", increment: 1, specialChance: 0.1, subType: subTypes.basic,
+            specialMaterial: resourceType.skins, verb: "harvest", activity: "harvesting",
             initTradeAmount: 5000, // how much to offer on Trade for 1 gold
             baseTradeAmount: 1000, // the least on offer
             get limit() {
@@ -18,9 +16,8 @@ function getResourceData() {
             set limit(value) { return this.limit; } // Only here for JSLint.
         }),
         new Resource({
-            id: resourceType.wood, name: "wood", increment: 1, specialChance: 0.1,
-            subType: subTypes.basic,
-            specialMaterial: resourceType.herbs, verb: "cut", activity: "woodcutting", //I18N
+            id: resourceType.wood, name: "wood", increment: 1, specialChance: 0.1, subType: subTypes.basic,
+            specialMaterial: resourceType.herbs, verb: "cut", activity: "woodcutting",
             initTradeAmount: 5000, // how much to offer on Trade for 1 gold
             baseTradeAmount: 1000, // the least on offer
             get limit() {
@@ -30,8 +27,7 @@ function getResourceData() {
             set limit(value) { return this.limit; } // Only here for JSLint.
         }),
         new Resource({
-            id: resourceType.stone, name: "stone", increment: 1, specialChance: 0.1,
-            subType: subTypes.basic,
+            id: resourceType.stone, name: "stone", increment: 1, specialChance: 0.1, subType: subTypes.basic,
             specialMaterial: resourceType.ore, verb: "mine", activity: "mining", //I18N
             initTradeAmount: 5000, // how much to offer on Trade for 1 gold
             baseTradeAmount: 1000, // the least on offer
@@ -42,8 +38,7 @@ function getResourceData() {
             set limit(value) { return this.limit; } // Only here for JSLint.
         }),
         new Resource({
-            id: resourceType.skins, singular: "skin", plural: "skins",
-            subType: subTypes.special,
+            id: resourceType.skins, singular: "skin", plural: "skins", subType: subTypes.special,
             initTradeAmount: 500, // how much to offer on Trade for 1 gold
             baseTradeAmount: 100, // the least on offer
             get limit() {
@@ -53,8 +48,7 @@ function getResourceData() {
             set limit(value) { return this.limit; } // Only here for JSLint.
         }),
         new Resource({
-            id: resourceType.herbs, singular: "herb", plural: "herbs",
-            subType: subTypes.special,
+            id: resourceType.herbs, singular: "herb", plural: "herbs", subType: subTypes.special,
             initTradeAmount: 500, // how much to offer on Trade for 1 gold
             baseTradeAmount: 100, // the least on offer
             get limit() {
@@ -64,8 +58,7 @@ function getResourceData() {
             set limit(value) { return this.limit; } // Only here for JSLint.
         }),
         new Resource({
-            id: resourceType.ore, name: "ore",
-            subType: subTypes.special,
+            id: resourceType.ore, name: "ore", subType: subTypes.special,
             initTradeAmount: 500, // how much to offer on Trade for 1 gold
             baseTradeAmount: 100, // the least on offer
             get limit() {
@@ -75,8 +68,8 @@ function getResourceData() {
             set limit(value) { return this.limit; } // Only here for JSLint.
         }),
         new Resource({
-            id: resourceType.leather, name: "leather",
-            subType: subTypes.special,
+            id: resourceType.leather, name: "leather", subType: subTypes.special,
+            require: { skins: 2 }, // how much other resource required to make
             initTradeAmount: 250, // how much to offer on Trade for 1 gold
             baseTradeAmount: 50, // the least on offer
             get limit() {
@@ -86,8 +79,8 @@ function getResourceData() {
             set limit(value) { return this.limit; } // Only here for JSLint.
         }),
         new Resource({
-            id: resourceType.potions, singular: "potion", plural: "potions",
-            subType: subTypes.special,
+            id: resourceType.potions, singular: "potion", plural: "potions", subType: subTypes.special,
+            require: { herbs: 2 },
             initTradeAmount: 250, // how much to offer on Trade for 1 gold
             baseTradeAmount: 50, // the least on offer
             get limit() {
@@ -97,13 +90,35 @@ function getResourceData() {
             set limit(value) { return this.limit; } // Only here for JSLint.
         }),
         new Resource({
-            id: resourceType.metal, name: "metal",
-            subType: subTypes.special,
+            id: resourceType.metal, name: "metal", subType: subTypes.special,
+            require: { ore: 2 },
             initTradeAmount: 250, // how much to offer on Trade for 1 gold
             baseTradeAmount: 50, // the least on offer
             get limit() {
                 let bonus = getStoreroomBonus();
                 return 50 + (civData.smithy.owned * bonus);
+            },
+            set limit(value) { return this.limit; } // Only here for JSLint.
+        }),
+        new Resource({
+            id: resourceType.charcoal, name: "charcoal", subType: subTypes.special,
+            require: { wood: 4 },
+            initTradeAmount: 500, // how much to offer on Trade for 1 gold
+            baseTradeAmount: 100, // the least on offer
+            get limit() {
+                let bonus = getStoreroomBonus();
+                return 50 + (civData.ironWorks.owned * bonus);
+            },
+            set limit(value) { return this.limit; } // Only here for JSLint.
+        }),
+        new Resource({
+            id: resourceType.iron, name: "iron", subType: subTypes.special,
+            require: { ore: 3, charcoal: 5 },
+            initTradeAmount: 200, // how much to offer on Trade for 1 gold
+            baseTradeAmount: 40, // the least on offer
+            get limit() {
+                let bonus = getStoreroomBonus();
+                return 50 + (civData.ironWorks.owned * bonus);
             },
             set limit(value) { return this.limit; } // Only here for JSLint.
         }),
