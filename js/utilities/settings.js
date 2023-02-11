@@ -1,7 +1,7 @@
 ﻿"use strict";
 import {
     adjustMorale, appSettings, civData, CivObj, civSizes, curCiv, deleteCookie, getCurDeityDomain, haveDeity, isValid, LZString, makeDeitiesTables, mergeObj, migrateGameData, population,
-    prettify, read_cookie, resetRaiding, saveTypes, selectDeity,
+    prettify, read_cookie, resetRaiding, saveTypes, selectDeity, resetCurCiv,
     setAutosave, setCustomQuantities, setIcons, setNotes, settings, sysLog, tallyWonderCount, textSize, ui, updateAfterReset,
     updateDeity, updateDevotion, updateJobButtons, updateMorale, updatePartyButtons, updateRequirements, updateResourceTotals, updateTargets, updateTradeButtons,
     updateUpgrades, updateWonder, VersionData
@@ -121,6 +121,8 @@ function load(loadType) {
     } else {
         //curCiv = loadVar.curCiv; // No need to merge if the versions match; this is quicker.
         //curCiv is readonly with modules
+        // we need to reset curCiv
+        resetCurCiv();
         mergeObj(curCiv, loadVar.curCiv);
     }
 
