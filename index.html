@@ -110,6 +110,7 @@
                             <td>
                                 <img src="images/leather.png" class="icon icon-lg" alt="Leather" />
                                 <label>Leather:</label>
+                                <span id='leatherReq' class='cost'>2 skins</span>
                             </td>
                             <td class="number">
                                 <span class="number" data-action="display" data-target="leather">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxleather">...</span>
@@ -132,6 +133,7 @@
                             <td>
                                 <img src="images/potion.png" class="icon icon-lg" alt="Potions" />
                                 <label>Potions:</label>
+                                <span id='potionsReq' class='cost'>2 herbs</span>
                             </td>
                             <td class="number">
                                 <span class="number" data-action="display" data-target="potions">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxpotions">...</span>
@@ -154,6 +156,7 @@
                             <td>
                                 <img src="images/metal.png" class="icon icon-lg" alt="Metal" />
                                 <label>Metal:</label>
+                                <span id='metalReq' class='cost'>2 ore</span>
                             </td>
                             <td class="number">
                                 <span class="number" data-action="display" data-target="metal">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxmetal">...</span>
@@ -309,14 +312,53 @@
                         <!-- populated by javascript -->
                     </table>
                 </div>
-
+                <!--
+        resourcesPane
+    -->
                 <div id="resourcesPane" class="selectPane">
                     <div class="stats">
                         Resource clicks: <span id="clicks">0</span>
                     </div>
-                    <h1>Coming Soon... More Resources!</h1>
+                    <div id="extraResourcesContainer" class="columns">
+                        <div class="column left">
+                            <table class="resources">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="images/wood.png" class="icon icon-lg" alt="Charcoal" />
+                                            <label>Charcoal:</label>
+                                            <span id='charcoalReq' class='cost'>...3 wood</span>
+                                        </td>
+                                        <td class="number">
+                                            <span class="number" data-action="display" data-target="charcoal">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxcharcoal">...</span>
+                                        </td>
+                                        <td class="number">
+                                            <span class="number net" data-action="displayNet" data-target="charcoal">0</span><span class="perSecond">/s</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img src="images/metal.png" class="icon icon-lg" alt="Iron" />
+                                            <label>Iron:</label>
+                                            <span id='ironReq' class='cost'>...3 ore, 4 wood</span>
+                                        </td>
+                                        <td class="number">
+                                            <span class="number" data-action="display" data-target="iron">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxiron">...</span>
+                                        </td>
+                                        <td class="number">
+                                            <span class="number net" data-action="displayNet" data-target="iron">0</span><span class="perSecond">/s</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="column right">
+                        </div>
+                    </div>
                 </div>
-
+                <!--
+        upgradesPane
+    -->
                 <div id="upgradesPane" class="selectPane">
                     <div class="columns">
                         <div class="column left">
@@ -350,7 +392,9 @@
                         </div>
                     </div>
                 </div>
-
+                <!--
+        deityPane
+    -->
                 <div id="deityPane" class="selectPane">
                     <div class="notYet">
                         Your civilization does not yet worship a deity.
@@ -551,15 +595,17 @@
 
                                 <h4>Buy Resources (1 gold)</h4>
                                 <!-- 66g todo: these should be added through script -->
-                                <button id="buyFood" class="tradeResource" xonmousedown="buy('food')">Buy <span id="foodCost">5000</span> Food</button><br />
-                                <button id="buyWood" class="tradeResource" xonmousedown="buy('wood')">Buy <span id="woodCost">5000</span> Wood</button><br />
-                                <button id="buyStone" class="tradeResource" xonmousedown="buy('stone')">Buy <span id="stoneCost">5000</span> Stone</button><br />
-                                <button id="buySkins" class="tradeResource" xonmousedown="buy('skins')">Buy <span id="skinsCost">500</span> Skins</button><br />
-                                <button id="buyHerbs" class="tradeResource" xonmousedown="buy('herbs')">Buy <span id="herbsCost">500</span> Herbs</button><br />
-                                <button id="buyOre" class="tradeResource" xonmousedown="buy('ore')">Buy <span id="oreCost">500</span> Ore</button><br />
-                                <button id="buyLeather" class="tradeResource" xonmousedown="buy('leather')">Buy <span id="leatherCost">250</span> Leather</button><br />
-                                <button id="buyPotions" class="tradeResource" xonmousedown="buy('potions')">Buy <span id="potionsCost">250</span> Potions</button><br />
-                                <button id="buyMetal" class="tradeResource" xonmousedown="buy('metal')">Buy <span id="metalCost">250</span> Metal</button><br />
+                                <div id="buyButtonGroup"></div>
+                                <!--<button id="buyFood" class="tradeResource" xonmousedown="buy('food')">Buy <span id="foodCost">5000</span> Food</button><br />
+                    <button id="buyWood" class="tradeResource" xonmousedown="buy('wood')">Buy <span id="woodCost">5000</span> Wood</button><br />
+                    <button id="buyStone" class="tradeResource" xonmousedown="buy('stone')">Buy <span id="stoneCost">5000</span> Stone</button><br />
+                    <button id="buySkins" class="tradeResource" xonmousedown="buy('skins')">Buy <span id="skinsCost">500</span> Skins</button><br />
+                    <button id="buyHerbs" class="tradeResource" xonmousedown="buy('herbs')">Buy <span id="herbsCost">500</span> Herbs</button><br />
+                    <button id="buyOre" class="tradeResource" xonmousedown="buy('ore')">Buy <span id="oreCost">500</span> Ore</button><br />
+                    <button id="buyLeather" class="tradeResource" xonmousedown="buy('leather')">Buy <span id="leatherCost">250</span> Leather</button><br />
+                    <button id="buyPotions" class="tradeResource" xonmousedown="buy('potions')">Buy <span id="potionsCost">250</span> Potions</button><br />
+                    <button id="buyMetal" class="tradeResource" xonmousedown="buy('metal')">Buy <span id="metalCost">250</span> Metal</button><br />
+                    <button id="buyIron" class="tradeResource">Buy <span id="ironCost">250</span> Iron</button><br />-->
                             </div>
                         </div>
                     </div>
@@ -623,24 +669,24 @@
                                 <table id="syslogTable">
                                     <tr id="syslog0"><td id="syslogT"></td><td id="syslogL"></td><td id="syslogR"></td></tr>
                                     <!--<tr id="syslog1"><td colspan="3"></td></tr>
-                                    <tr id="syslog2"><td colspan="3"></td></tr>
-                                    <tr id="syslog3"><td colspan="3"></td></tr>
-                                    <tr id="syslog4"><td colspan="3"></td></tr>
-                                    <tr id="syslog5"><td colspan="3"></td></tr>
-                                    <tr id="syslog6"><td colspan="3"></td></tr>
-                                    <tr id="syslog7"><td colspan="3"></td></tr>
-                                    <tr id="syslog8"><td colspan="3"></td></tr>
-                                    <tr id="syslog9"><td colspan="3"></td></tr>
-                                    <tr id="syslog10"><td colspan="3"></td></tr>
-                                    <tr id="syslog11"><td colspan="3"></td></tr>
-                                    <tr id="syslog12"><td colspan="3"></td></tr>
-                                    <tr id="syslog13"><td colspan="3"></td></tr>
-                                    <tr id="syslog14"><td colspan="3"></td></tr>
-                                    <tr id="syslog15"><td colspan="3"></td></tr>
-                                    <tr id="syslog16"><td colspan="3"></td></tr>
-                                    <tr id="syslog17"><td colspan="3"></td></tr>
-                                    <tr id="syslog18"><td colspan="3"></td></tr>
-                                    <tr id="syslog19"><td colspan="3"></td></tr>-->
+                        <tr id="syslog2"><td colspan="3"></td></tr>
+                        <tr id="syslog3"><td colspan="3"></td></tr>
+                        <tr id="syslog4"><td colspan="3"></td></tr>
+                        <tr id="syslog5"><td colspan="3"></td></tr>
+                        <tr id="syslog6"><td colspan="3"></td></tr>
+                        <tr id="syslog7"><td colspan="3"></td></tr>
+                        <tr id="syslog8"><td colspan="3"></td></tr>
+                        <tr id="syslog9"><td colspan="3"></td></tr>
+                        <tr id="syslog10"><td colspan="3"></td></tr>
+                        <tr id="syslog11"><td colspan="3"></td></tr>
+                        <tr id="syslog12"><td colspan="3"></td></tr>
+                        <tr id="syslog13"><td colspan="3"></td></tr>
+                        <tr id="syslog14"><td colspan="3"></td></tr>
+                        <tr id="syslog15"><td colspan="3"></td></tr>
+                        <tr id="syslog16"><td colspan="3"></td></tr>
+                        <tr id="syslog17"><td colspan="3"></td></tr>
+                        <tr id="syslog18"><td colspan="3"></td></tr>
+                        <tr id="syslog19"><td colspan="3"></td></tr>-->
                                 </table>
                             </div>
                         </div>
@@ -689,7 +735,7 @@
     </div>
 
     <footer>
-        <span class="title">BC 104</span>
+        <span class="title">CIV 104 BC</span>
         <!--<span class="version">v1.4</span>-->
         <a href="faq.html" target="_blank">FAQ &amp; Instructions</a>
         <!--<a href="updates.html" target="_blank">Game Updates Log</a>-->
