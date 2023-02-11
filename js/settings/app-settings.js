@@ -14,7 +14,9 @@ const appSettings = {
     saveSettingsTag: function () { return this.saveTag + "Settings"; },
     logRepeat: 1,
     sysLogRepeat: 1,
-    tradeLogRepeat: 1
+    tradeLogRepeat: 1,
+    raidLogRepeat: 1,
+    achLogRepeat: 1
 };
 
 // These are settings that should probably be tied to the browser.
