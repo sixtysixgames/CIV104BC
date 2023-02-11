@@ -93,7 +93,7 @@ function setIndexArrays(civData) {
             if (elem.subType == subTypes.basic) {
                 basicResources.push(elem);
             }
-            setInitTradePrice(elem);
+            //setInitTradePrice(elem);
         }
         if (elem.type == civObjType.building) {
             buildingData.push(elem);
