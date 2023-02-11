@@ -47,7 +47,7 @@ function getBuildingData() {
         }),
         new Building({
             id: buildingType.palace, singular: "palace", plural: "palaces",
-            prereqs: { architecture: true }, require: { wood: 1000, stone: 1000, leather: 250, metal: 250, gold: 10 },
+            prereqs: { architecture: true }, require: { wood: 1000, stone: 1000, leather: 250, iron: 250, gold: 10 },
             effectText: "+150 citizens", limit: 150
         }),
         new Building({
@@ -81,24 +81,6 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.tannery, singular: "tannery", plural: "tanneries", prereqs: { carpentry: true, masonry: true }, require: { wood: 30, stone: 70, skins: 5 },
-            get effectText() {
-                let bonus = getStoreroomBonus();
-                return "allows 1 tanner; +" + bonus + " leather storage";
-            },
-            set effectText(value) { return this.effectText; },
-            update: function () { updateNote(this.id, this.effectText); }
-        }),
-        new Building({
-            id: buildingType.smithy, singular: "smithy", plural: "smithies", prereqs: { carpentry: true, masonry: true }, require: { wood: 30, stone: 70, ore: 5 },
-            get effectText() {
-                let bonus = getStoreroomBonus();
-                return "allows 1 blacksmith; +" + bonus + " metal storage";
-            },
-            set effectText(value) { return this.effectText; },
-            update: function () { updateNote(this.id, this.effectText); }
-        }),
-        new Building({
             id: buildingType.apothecary, singular: "apothecary", plural: "apothecaries", prereqs: { carpentry: true, masonry: true }, require: { wood: 30, stone: 70, herbs: 5 },
             get effectText() {
                 let bonus = getStoreroomBonus();
@@ -122,6 +104,42 @@ function getBuildingData() {
                     adjustMorale(num * 25 / population.living);
                 }
             }
+        }),
+        new Building({
+            id: buildingType.tannery, singular: "tannery", plural: "tanneries", prereqs: { carpentry: true, masonry: true }, require: { wood: 30, stone: 70, skins: 5 },
+            get effectText() {
+                let bonus = getStoreroomBonus();
+                return "allows 1 tanner; +" + bonus + " leather storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
+            id: buildingType.smithy, singular: "smithy", plural: "smithies", prereqs: { carpentry: true, masonry: true }, require: { wood: 30, stone: 70, ore: 5 },
+            get effectText() {
+                let bonus = getStoreroomBonus();
+                return "allows 1 blacksmith; +" + bonus + " metal storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
+            id: buildingType.charKiln, singular: "charcoal kiln", plural: "charcoal kiln", prereqs: { smelting: true }, require: { wood: 50, stone: 100 },
+            get effectText() {
+                let bonus = getStoreroomBonus();
+                return "allows 1 charcoal burner; +" + bonus + " charcoal storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
+            id: buildingType.ironWorks, singular: "iron works", plural: "iron works", prereqs: { smelting: true }, require: { wood: 80, stone: 140, ore: 5 },
+            get effectText() {
+                let bonus = getStoreroomBonus();
+                return "allows 1 iron smith; +" + bonus + " iron storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
             id: buildingType.barracks, name: "barracks", prereqs: { carpentry: true, masonry: true }, require: { food: 20, wood: 60, stone: 120, metal: 10 },
