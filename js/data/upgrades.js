@@ -53,8 +53,12 @@ function getUpgradeData() {
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
+            id: "smelting", name: "Smelting", subType: subTypes.upgrade, prereqs: { metalwork: true }, require: { wood: 500, stone: 200, ore: 100 },
+            effectText: "Unlock more buildings and upgrades"
+        }),
+        new Upgrade({
             id: "wheel", name: "The Wheel", subType: subTypes.upgrade, prereqs: { carpentry: true }, require: { wood: 500, stone: 500 },
-            effectText: "Increase worker output. Unlock more buildings"
+            effectText: "Increase basic worker output. Unlock more buildings"
         }),
         new Upgrade({
             id: "irrigation", name: "Irrigation", subType: subTypes.upgrade, prereqs: { farming: true, masonry: true }, require: { wood: 500, stone: 250 },
@@ -142,12 +146,12 @@ function getUpgradeData() {
         }),
         new Upgrade({
             id: "storehouses", name: "Storehouses", subType: subTypes.upgrade, prereqs: { warehouses: true }, require: { skins: 600, herbs: 600, ore: 600 },
-            effectText: "Store double the amount of skins, herbs and ore",
+            effectText: "Store double the amount of found resources (skins, herbs, ore etc)",
             onGain: function () { updateResourceTotals(); }
         }),
         new Upgrade({
             id: "storerooms", name: "Storerooms", subType: subTypes.upgrade, prereqs: { storehouses: true }, require: { leather: 300, potions: 300, metal: 300 },
-            effectText: "Store double the amount of leather, potions and metal",
+            effectText: "Store double the amount of made resources (leather, potions, metal etc)",
             onGain: function () { updateResourceTotals(); }
         }),
         new Upgrade({
@@ -341,7 +345,7 @@ function getUpgradeData() {
         }),
         new Upgrade({
             id: "cornexchange", name: "Corn Exchange", subType: subTypes.trade, prereqs: { commerce: true }, require: { gold: 100 },
-            effectText: "Traders change the cost of resources"
+            effectText: "Traders may change the trade amount of resources"
         }),
         // Prayers
         new Upgrade({
