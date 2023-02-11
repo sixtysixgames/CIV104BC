@@ -1,11 +1,8 @@
 
 // types
 export * from "./enums/types.js";
-
 export * from "./settings/globals.js";
-
 export { civSizes } from "./data/civ-sizes.js";
-
 export * from "./data/cur-civ.js";
 
 // classes
@@ -23,9 +20,7 @@ export { VersionData } from "./classes/version-data.js";
 export * from "./settings/app-settings.js";
 
 // data
-
 export * from "./data/civ-data.js";
-
 export { PATIENT_LIST } from "./data/lists.js";
 
 // utilities
