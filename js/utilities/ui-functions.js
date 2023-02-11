@@ -239,6 +239,21 @@ function getCostNote(civObj) {
         + "<span id='" + civObj.id + "Note' class='note'>" + separator + civObj.effectText + "</span>";
 }
 
+function setReqText(civObj) {
+    if (!civObj || !civObj.require) {
+        //console.warn("civObj require not found: " + civObj.require);
+        return;
+    }
+    let elem = ui.find("#" + civObj.id + "Req");
+    if (!elem) {
+        // not all resources have requirements
+        //console.warn("elem not found: " + "#" + civObj.id + "Req");
+        return;
+    }
+    let reqText = getReqText(civObj.require);
+    elem.innerHTML = reqText;
+}
+
 // TODO: we should probably pass the relevant table to a single function
 // even better would be to use a div with a scrollbars so that no messages are lost
 //function xxxgameLog(message) {
@@ -321,11 +336,6 @@ function logMessage(tableID, time, message, repeatCount) {
     return repeatCount;
 }
 
-//Not strictly a debug function so much as it is letting the user know when 
-//something happens without needing to watch the console.
-function debug(message) {
-    sysLog(message); // simply call other method.  Makes it easier to distinguish find when done debugging
-}
 // a copy of the gameLog function above
 // outputs to the Event Log tab
 function sysLog(message) {
@@ -370,6 +380,13 @@ function achLog(message) {
     let curTime = getPlayingTimeShort();
     appSettings.achLogRepeat = logMessage("#achLogTable", curTime, message, appSettings.achLogRepeat); 
 }
+function traceLog(message) {
+    // 66g todo: maybe a switch needed on the url
+    // simple switch to turn on and off so we don't have to trawl through code
+    if (false) {
+        sysLog(message);
+    }
+}
 function getCustomNumber(civObj) {
     if (!civObj || !civObj.customQtyId) { return undefined; }
     let elem = document.getElementById(civObj.customQtyId);
@@ -402,5 +419,5 @@ function sentenceCase(message) {
 
 export {
     paneSelect, versionAlert, prettify, setAutosave, onToggleAutosave, setCustomQuantities, onToggleCustomQuantities, setNotes, onToggleNotes, textSize, 
-    setIcons, onToggleIcons, getCostNote, gameLog, debug, sysLog, getCustomNumber, sentenceCase, setGameSpeed, tradeLog, raidLog, achLog
+    setIcons, onToggleIcons, getCostNote, gameLog, sysLog, getCustomNumber, sentenceCase, setGameSpeed, tradeLog, raidLog, achLog, traceLog, setReqText
 };
