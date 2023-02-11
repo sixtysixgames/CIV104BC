@@ -2,7 +2,7 @@
 import {
     civObjType, alignmentType, buildingData, population, subTypes, unitType,
     getCostNote, isValid, onBulkEvent, onPurchase, powerData, sysLog, ui, upgradeData,
-    abs, sgn,
+    abs, sgn, sentenceCase, traceLog,
     wickerman, walk, smite, glory, raiseDead, summonShade, pestControl, grace
 } from "../index.js";
 
@@ -289,6 +289,17 @@ function getPrayerFunction(id) {
     return false;
 }
 
+//<button id="buyIron" class="tradeResource">Buy <span id="ironCost">250</span> Iron</button><br />
+function getBuyButton(elem) {
+    traceLog("Getting buy button: " + elem.id);
+    let s = "";
+    let name = sentenceCase(elem.id);
+    let buttId = "buy" + name ;
+    let spanId = elem.id + "Cost";
+    s = `<button id="${buttId}" class="tradeResource">Buy <span id="${spanId}">${elem.tradeAmount}</span> ${name}</button><br />`
+    return s;
+}
+
 export {
     createUIComponents, UIComponents, getResourceRowText, getPurchaseCellText, getPurchaseRowText, addUITable, getUpgradeRowText, getPantheonUpgradeRowText,
-setPantheonUpgradeRowText, addUpgradeRows };
+setPantheonUpgradeRowText, addUpgradeRows, getBuyButton };
