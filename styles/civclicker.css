@@ -902,10 +902,19 @@ button {
     background-color: #333333;
 }
 .ironsmith {
-    background-color: #626262;
+    background-color: #666666;
 }
 .coppsmith {
-    background-color: #625242;
+    background-color: #999999;
+}
+.leadsmith {
+    background-color: #cccccc;
+}
+.tinsmith {
+    background-color: #999999;
+}
+.silvsmith {
+    background-color: #666666;
 }
 .healer {
     background-color: #003B00;
