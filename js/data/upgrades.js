@@ -52,16 +52,52 @@ function getUpgradeData() {
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
-            id: "smelting", name: "Smelting", subType: subTypes.upgrade, prereqs: { metalwork: true }, require: { wood: 500, stone: 200, ore: 100 },
+            id: "smelting", name: "Smelting", subType: subTypes.upgrade, prereqs: { metalwork: true }, require: { wood: 1000, stone: 500, ore: 100 },
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
-            id: "ironOre", name: "Iron Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 200, ore: 500, iron: 10 },
-            effectText: "Increase ore and iron production"
+            id: "coppicing", name: "Coppicing", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { wood: 1000 },
+            effectText: "Increase charcoal production"
+        }),
+        new Upgrade({
+            id: "ironOre", name: "Iron Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 250, ore: 500, iron: 10 },
+            effectText: "Low grade ore. Increase ore and iron production"
+        }),
+        new Upgrade({
+            id: "magnetite", name: "Magnetite", subType: subTypes.upgrade, prereqs: { ironOre: true }, require: { charcoal: 2500, ore: 5000, iron: 100 },
+            effectText: "High grade iron ore. Increase ore and iron production"
         }),
         new Upgrade({
             id: "coppOre", name: "Copper Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 500, ore: 1000, copper: 25 },
-            effectText: "Increase ore and copper production"
+            effectText: "Low grade ore. Increase ore and copper production"
+        }),
+        new Upgrade({
+            id: "malachite", name: "Malachite", subType: subTypes.upgrade, prereqs: { coppOre: true }, require: { charcoal: 5000, ore: 10000, copper: 250 },
+            effectText: "High grade copper ore. Increase ore and copper production"
+        }),
+        new Upgrade({
+            id: "leadOre", name: "Lead Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 800, ore: 1500, lead: 25 },
+            effectText: "Low grade ore. Increase ore and lead production"
+        }),
+        new Upgrade({
+            id: "galena", name: "Galena", subType: subTypes.upgrade, prereqs: { leadOre: true }, require: { charcoal: 8000, ore: 15000, lead: 250 },
+            effectText: "High grade lead ore. Increase ore and lead production"
+        }),
+        new Upgrade({
+            id: "tinOre", name: "Tin Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 1000, ore: 2000, tin: 25 },
+            effectText: "Low grade ore. Increase ore and tin production"
+        }),
+        new Upgrade({
+            id: "cassiterite", name: "Cassiterite", subType: subTypes.upgrade, prereqs: { tinOre: true }, require: { charcoal: 12000, ore: 24000, tin: 250 },
+            effectText: "High grade tin ore. Increase ore and tin production"
+        }),
+        new Upgrade({
+            id: "silvOre", name: "Silver Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 2000, ore: 4000, silver: 25 },
+            effectText: "Low grade ore. Increase ore and silver production"
+        }),
+        new Upgrade({
+            id: "argentite", name: "Argentite", subType: subTypes.upgrade, prereqs: { silvOre: true }, require: { charcoal: 30000, ore: 60000, silver: 250 },
+            effectText: "High grade silver ore. Increase ore and silver production"
         }),
         new Upgrade({
             id: "wheel", name: "The Wheel", subType: subTypes.upgrade, prereqs: { carpentry: true }, require: { wood: 500, stone: 500 },
@@ -189,18 +225,30 @@ function getUpgradeData() {
             effectText: "Improve soldiers"
         }),
         new Upgrade({
-            id: "advweaponry", name: "Advanced Weaponry", subType: subTypes.upgrade, prereqs: { weaponry: true, engineering: true },
-            require: { wood: 2500, metal: 2500, leather: 1000 },
+            id: "stdweaponry", name: "Standard Weaponry", subType: subTypes.upgrade, prereqs: { weaponry: true, engineering: true }, require: { wood: 2500, metal: 2500 },
             effectText: "Improve soldiers"
         }),
         new Upgrade({
-            id: "advshields", name: "Advanced Shields", subType: subTypes.upgrade, prereqs: { shields: true, engineering: true },
-            require: { wood: 2500, leather: 2500, metal: 1000 },
+            id: "stdshields", name: "Standard Shields", subType: subTypes.upgrade, prereqs: { shields: true, engineering: true }, require: { wood: 2500, leather: 2500 },
             effectText: "Improve soldiers"
         }),
         new Upgrade({
-            id: "advarmour", name: "Advanced Armour", subType: subTypes.upgrade, prereqs: { armour: true, engineering: true },
-            require: { leather: 2500, metal: 2500 },
+            id: "stdarmour", name: "Standard Armour", subType: subTypes.upgrade, prereqs: { armour: true, engineering: true }, require: { metal: 2500, leather: 2500 },
+            effectText: "Improve soldiers"
+        }),
+        new Upgrade({
+            id: "advweaponry", name: "Advanced Weaponry", subType: subTypes.upgrade, prereqs: { stdweaponry: true, architecture: true },
+            require: { metal: 5000, iron: 2500, copper: 250 },
+            effectText: "Improve soldiers"
+        }),
+        new Upgrade({
+            id: "advshields", name: "Advanced Shields", subType: subTypes.upgrade, prereqs: { stdshields: true, architecture: true },
+            require: { wood: 10000, iron: 1000, copper: 250 },
+            effectText: "Improve soldiers"
+        }),
+        new Upgrade({
+            id: "advarmour", name: "Advanced Armour", subType: subTypes.upgrade, prereqs: { stdarmour: true, architecture: true },
+            require: { leather: 5000, iron: 2500, copper: 500 },
             effectText: "Improve soldiers"
         }),
         new Upgrade({
