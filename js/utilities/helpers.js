@@ -25,6 +25,7 @@ function getReqText(costObj, qty) {
     costObj = valOf(costObj, qty); // valOf evals it if it's a function
     if (!isValid(costObj)) { return ""; }
 
+    //console.log("getReqText.costObj=" + costObj);
     let num;
     let text = "";
     for (let i in costObj) {
@@ -160,6 +161,8 @@ function doPurchase(objId, num) {
         sysLog("Unknown purchase: " + objId);
         return 0;
     }
+    //console.log("doPurchase() " + objId);
+
     if (num === undefined) { num = 1; }
     if (abs(num) == "custom") { num = sgn(num) * getCustomNumber(purchaseObj); }
 
@@ -168,7 +171,7 @@ function doPurchase(objId, num) {
     // Pay for them
     num = payFor(purchaseObj.require, num);
     if (abs(num) < 1) {
-        gameLog("Could not build, insufficient resources"); // I18N
+        gameLog("Could not build, insufficient resources");
         return 0;
     }
 
@@ -195,7 +198,7 @@ function doPurchase(objId, num) {
         civData.freeLand.owned -= num;
         // check for overcrowding
         if (civData.freeLand.owned < 0) {
-            gameLog("You are suffering from overcrowding");  // I18N
+            gameLog("You are suffering from overcrowding");
             adjustMorale(Math.max(num, -civData.freeLand.owned) * -0.0025 * (civData.codeoflaws.owned ? 0.5 : 1.0));
         }
 
@@ -508,7 +511,7 @@ function calculatePopulation() {
             curCiv.zombie.owned += population.current;
             population.current = 0;
         } else {
-            console.warn("Warning: Negative current population detected.");
+            console.warn("helpers.calculatePopulation() Warning: Negative current population detected.");
             sysLog("Warning: Negative current population detected in calculatePopulation().");
         }
     }
