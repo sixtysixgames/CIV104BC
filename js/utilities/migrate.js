@@ -1,5 +1,5 @@
 ﻿"use strict";
-import { civData, isValid, typeToId } from "../index.js";
+import { civData, isValid, typeToId, deleteSave } from "../index.js";
 
 // Migrate an old savegame to the current format.
 // settingsVarReturn is assumed to be a struct containing a property 'val',
@@ -522,6 +522,7 @@ function migrateGameData(loadVar, settingsVarReturn) {
     if (!isValid(loadVar.curCiv.quarrying) && isValid(loadVar.curCiv.mining.owned)) {
         loadVar.curCiv.quarrying = { owned: loadVar.curCiv.mining.owned };
     }
+
 }
 
 export { migrateGameData };
