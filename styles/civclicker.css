@@ -898,11 +898,14 @@ button {
 .blacksmith {
     background-color: #525252;
 }
+.charBurner {
+    background-color: #333333;
+}
 .ironsmith {
     background-color: #626262;
 }
-.charBurner {
-    background-color: #333333;
+.coppsmith {
+    background-color: #625242;
 }
 .healer {
     background-color: #003B00;
