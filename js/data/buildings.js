@@ -20,11 +20,13 @@ function getBuildingData() {
             effectText: "+1 citizen", limit: 1
         }),
         new Building({
-            id: buildingType.hut, singular: "wooden hut", plural: "wooden huts", prereqs: { toolmaking: true }, require: { wood: 20, skins: 1 },
+            id: buildingType.hut, singular: "wooden hut", plural: "wooden huts",
+            prereqs: { toolmaking: true }, require: { wood: 20, skins: 1 },
             effectText: "+3 citizens", limit: 3
         }),
         new Building({
-            id: buildingType.cottage, singular: "cottage", plural: "cottages", prereqs: { carpentry: true, masonry: true }, require: { wood: 10, stone: 30 },
+            id: buildingType.cottage, singular: "cottage", plural: "cottages",
+            prereqs: { carpentry: true, masonry: true }, require: { wood: 10, stone: 30 },
             effectText: "+6 citizens", limit: 6
         }),
         new Building({
@@ -139,7 +141,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.coppWorks, singular: "copper works", plural: "copper works", prereqs: { smelting: true }, require: { wood: 80, stone: 140, ore: 10 },
+            id: buildingType.coppWorks, singular: "copper works", plural: "copper works", prereqs: { smelting: true }, require: { wood: 120, stone: 180, ore: 10 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 coppersmith; +" + bonus + " copper storage";
@@ -197,8 +199,7 @@ function getBuildingData() {
                 };
             },
             set require(value) { return this.require; }, // Only here for JSLint.
-            effectText: "improves farmers",
-            onGain: function () { updateRequirements(this)(); }
+            effectText: "improves farmers"
         }),
         new Building({
             id: buildingType.fortification, singular: "fortification", plural: "fortifications", efficiency: 0.01, prereqs: { engineering: true },
@@ -210,8 +211,7 @@ function getBuildingData() {
                 };
             },
             set require(value) { return this.require; }, // Only here for JSLint.
-            effectText: "helps protect against attack",
-            onGain: function () { updateRequirements(this)(); }
+            effectText: "helps protect against attack"
         }),
         // Altars
         // The 'name' on the altars is really the label on the button to make them.
