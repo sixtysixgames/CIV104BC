@@ -97,7 +97,7 @@ function doMiners() {
         civData.stone.owned += stoneEarned;
     }
     if (civData.prospecting.owned && civData.miner.owned > 0 && civData.ore.owned < civData.ore.limit) { //and sometimes get ore
-        let specialChance = civData.stone.specialChance + (civData.macerating.owned ? 0.1 : 0);
+        let specialChance = civData.stone.specialChance + (civData.macerating.owned ? 0.1 : 0) + getMetalOreChance();
         let oreChance = specialChance * (civData.stone.increment + ((civData.extraction.owned) * civData.miner.owned / 5.0)) * getWonderBonus(civData.ore);
         let oreEarned = rndRound(oreChance);
         oreEarned = Math.min(oreEarned, civData.ore.limit - civData.ore.owned); // can't make more than we can store
@@ -144,6 +144,7 @@ function doCharcoalBurners() {
         civData.wood.owned -= woodUsed;
 
         woodUsed = woodUsed / civData[resourceId].require.wood;
+
         let earned = woodUsed * getWonderBonus(civData[resourceId]);
 
         earned = Math.min(earned, civData[resourceId].limit - civData[resourceId].owned); // can't make more than we can store
@@ -158,29 +159,52 @@ function doIronsmiths() {
     if (civData.ironsmith.owned <= 0) { return; }
     // we don't want to use up ore/wood if we aren't making iron
     if (civData.iron.owned < civData.iron.limit) {
-        let efficiency = civData.ironsmith.efficiency + (0.1 * civData.ironsmith.efficiency * civData.mathematics.owned);
+        let efficiency = civData.ironsmith.efficiency + (0.1 * civData.ironsmith.efficiency * civData.ironOre.owned);
         let oreUsed = Math.min(civData.ore.owned, (civData.ironsmith.owned * efficiency * curCiv.morale.efficiency) * civData.iron.require.ore);
-        let woodUsed = Math.min(civData.wood.owned, (civData.ironsmith.owned * efficiency * curCiv.morale.efficiency) * civData.iron.require.wood);
+        let charUsed = Math.min(civData.charcoal.owned, (civData.ironsmith.owned * efficiency * curCiv.morale.efficiency) * civData.iron.require.charcoal);
 
         //oreUsed = Math.min(oreUsed, civData.iron.limit - civData.iron.owned); // can't use more than we have
         civData.ore.net -= oreUsed;
         civData.ore.owned -= oreUsed;
-        //woodUsed = Math.min(woodUsed, civData.iron.limit - civData.iron.owned); // can't make more than we can store
-        civData.wood.net -= woodUsed;
-        civData.wood.owned -= woodUsed;
-
-        //console.log("efficiency=" + efficiency + "; oreUsed=" + oreUsed + "; woodUsed=" + woodUsed);
+        //charUsed = Math.min(charUsed, civData.iron.limit - civData.iron.owned); // can't make more than we can store
+        civData.charcoal.net -= charUsed;
+        civData.charcoal.owned -= charUsed;
 
         //let ironEarned = (oreUsed + woodUsed) * getWonderBonus(civData.iron);
         oreUsed = oreUsed / civData.iron.require.ore;
-        woodUsed = woodUsed / civData.iron.require.wood;
-        let ironEarned = (((oreUsed + woodUsed) / 2) * getWonderBonus(civData.iron));
+        charUsed = charUsed / civData.iron.require.charcoal;
+        let ironEarned = (((oreUsed + charUsed) / 2) * getWonderBonus(civData.iron));
 
         ironEarned = Math.min(ironEarned, civData.iron.limit - civData.iron.owned); // can't make more than we can store
         civData.iron.net += ironEarned;
         civData.iron.owned += ironEarned;
 
         //console.log("efficiency=" + efficiency +"; oreUsed=" + oreUsed + "; woodUsed=" + woodUsed + "; ironEarned=" + ironEarned);
+    }
+}
+
+function doCoppersmiths() {
+    if (civData.coppsmith.owned <= 0) { return; }
+    // we don't want to use up ore/wood if we aren't making copper
+    if (civData.copper.owned < civData.copper.limit) {
+        let efficiency = civData.coppsmith.efficiency + (0.1 * civData.coppsmith.efficiency * civData.coppOre.owned);
+        let oreUsed = Math.min(civData.ore.owned, (civData.coppsmith.owned * efficiency * curCiv.morale.efficiency) * civData.copper.require.ore);
+        let charUsed = Math.min(civData.charcoal.owned, (civData.coppsmith.owned * efficiency * curCiv.morale.efficiency) * civData.copper.require.charcoal);
+
+        //oreUsed = Math.min(oreUsed, civData.iron.limit - civData.iron.owned); // can't use more than we have
+        civData.ore.net -= oreUsed;
+        civData.ore.owned -= oreUsed;
+        //charUsed = Math.min(charUsed, civData.iron.limit - civData.iron.owned); // can't make more than we can store
+        civData.charcoal.net -= charUsed;
+        civData.charcoal.owned -= charUsed;
+
+        oreUsed = oreUsed / civData.copper.require.ore;
+        charUsed = charUsed / civData.copper.require.charcoal;
+        let coppEarned = (((oreUsed + charUsed) / 2) * getWonderBonus(civData.copper));
+
+        coppEarned = Math.min(coppEarned, civData.copper.limit - civData.copper.owned); // can't make more than we can store
+        civData.copper.net += coppEarned;
+        civData.copper.owned += coppEarned;
     }
 }
 
@@ -430,8 +454,9 @@ function dismissWorkers() {
     dismissWorker(unitType.blacksmith, buildingType.smithy, 1);
     dismissWorker(unitType.healer, buildingType.apothecary, 1);
     dismissWorker(unitType.cleric, buildingType.temple, 1);
-    dismissWorker(unitType.ironsmith, buildingType.ironWorks, 1);
     dismissWorker(unitType.charBurner, buildingType.charKiln, 1);
+    dismissWorker(unitType.ironsmith, buildingType.ironWorks, 1);
+    dismissWorker(unitType.coppsmith, buildingType.coppWorks, 1);
 
     // these buildings have 10 units
     dismissWorker(unitType.soldier, buildingType.barracks, 10);
@@ -466,7 +491,12 @@ function minerMods(efficiency_base) {
     return efficiency_base + (0.1 * (civData.mathematics.owned + civData.wheel.owned));
 }
 
+function getMetalOreChance() {
+    return 0.1 * (civData.ironOre.owned + civData.coppOre.owned);
+    // todo (civData.ironOre.owned + civData.coppOre.owned + etc)
+}
+
 export {
     doFarmers, doWoodcutters, doMiners, doBlacksmiths, doTanners, doApothecaries, doClerics, doHealers, doPlague, doGraveyards, doCorpses, canSpreadPlague,
-    dismissWorkers, farmerMods, woodcutterMods, minerMods, doIronsmiths, doCharcoalBurners
+    dismissWorkers, farmerMods, woodcutterMods, minerMods, doCharcoalBurners, doIronsmiths, doCoppersmiths
 };
