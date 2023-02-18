@@ -130,6 +130,8 @@ function getPurchaseRowText(purchaseObj) {
 function addUITable(civObjs, groupElemName) {
     let s = "";
     civObjs.forEach(function (elem) {
+        //console.log("addUITable=" + elem.id);
+
         s += elem.type == civObjType.resource ? getResourceRowText(elem)
             : elem.type == civObjType.upgrade ? getUpgradeRowText(elem)
                 : getPurchaseRowText(elem);
@@ -147,6 +149,7 @@ function addUITable(civObjs, groupElemName) {
 //  - Upgrades are sometimes generated in a table with <tr>, but sometimes
 //    outside of one with <span>.
 function getUpgradeRowText(upgradeObj, inTable) {
+    //console.log("getUpgradeRowText=" + upgradeObj.id);
     if (inTable === undefined) { inTable = true; }
     let cellTagName = inTable ? "td" : "span";
     let rowTagName = inTable ? "tr" : "span";
