@@ -60,11 +60,11 @@ function getUpgradeData() {
             effectText: "Increase charcoal production"
         }),
         new Upgrade({
-            id: "ironOre", name: "Iron Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 250, ore: 500, iron: 10 },
+            id: "ironOre", name: "Iron Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 250, ore: 500, iron: 25 },
             effectText: "Low grade ore. Increase ore and iron production"
         }),
         new Upgrade({
-            id: "magnetite", name: "Magnetite", subType: subTypes.upgrade, prereqs: { ironOre: true }, require: { charcoal: 2500, ore: 5000, iron: 100 },
+            id: "magnetite", name: "Magnetite", subType: subTypes.upgrade, prereqs: { ironOre: true }, require: { charcoal: 2500, ore: 5000, iron: 250 },
             effectText: "High grade iron ore. Increase ore and iron production"
         }),
         new Upgrade({
