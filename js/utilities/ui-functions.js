@@ -188,6 +188,7 @@ function setGameSpeed(interval) {
 // Generate two HTML <span> texts to display an item's cost and effect note.
 function getCostNote(civObj) {
     // Only add a ":" if both items are present.
+    //console.log("getCostNote.civObj=" + civObj.id);
     let reqText = getReqText(civObj.require);
     let effectText = (isValid(civObj.effectText)) ? civObj.effectText : "";
     let separator = (reqText && effectText) ? ": " : "";
@@ -198,13 +199,14 @@ function getCostNote(civObj) {
 
 function setReqText(civObj) {
     if (!civObj || !civObj.require) {
-        //console.warn("civObj require not found: " + civObj.require);
+        console.warn("ui-functions.setReqText() civObj or require not found");
         return;
     }
+    //console.log("setReqText()" + civObj.id);
     let elem = ui.find("#" + civObj.id + "Req");
     if (!elem) {
         // not all resources have requirements
-        //console.warn("elem not found: " + "#" + civObj.id + "Req");
+        //console.warn("ui-functions.setReqText() elem not found: " + "#" + civObj.id + "Req");
         return;
     }
     let reqText = getReqText(civObj.require);
