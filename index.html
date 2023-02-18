@@ -325,7 +325,7 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <img src="images/wood.png" class="icon icon-lg" alt="Charcoal" />
+                                            <!--<img src="images/wood.png" class="icon icon-lg" alt="Charcoal" />-->
                                             <label>Charcoal:</label>
                                             <span id='charcoalReq' class='cost'>...3 wood</span>
                                         </td>
@@ -338,15 +338,28 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <img src="images/metal.png" class="icon icon-lg" alt="Iron" />
+                                            <!--<img src="images/metal.png" class="icon icon-lg" alt="Iron" />-->
                                             <label>Iron:</label>
-                                            <span id='ironReq' class='cost'>...3 ore, 4 wood</span>
+                                            <span id='ironReq' class='cost'>iron</span>
                                         </td>
                                         <td class="number">
                                             <span class="number" data-action="display" data-target="iron">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxiron">...</span>
                                         </td>
                                         <td class="number">
                                             <span class="number net" data-action="displayNet" data-target="iron">0</span><span class="perSecond">/s</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <!--<img src="images/metal.png" class="icon icon-lg" alt="Iron" />-->
+                                            <label>Copper:</label>
+                                            <span id='copperReq' class='cost'>copper</span>
+                                        </td>
+                                        <td class="number">
+                                            <span class="number" data-action="display" data-target="copper">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxcopper">...</span>
+                                        </td>
+                                        <td class="number">
+                                            <span class="number net" data-action="displayNet" data-target="copper">0</span><span class="perSecond">/s</span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -594,18 +607,7 @@
                                 <span id="cornexchangeRow"></span>
 
                                 <h4>Buy Resources (1 gold)</h4>
-                                <!-- 66g todo: these should be added through script -->
-                                <div id="buyButtonGroup"></div>
-                                <!--<button id="buyFood" class="tradeResource" xonmousedown="buy('food')">Buy <span id="foodCost">5000</span> Food</button><br />
-                    <button id="buyWood" class="tradeResource" xonmousedown="buy('wood')">Buy <span id="woodCost">5000</span> Wood</button><br />
-                    <button id="buyStone" class="tradeResource" xonmousedown="buy('stone')">Buy <span id="stoneCost">5000</span> Stone</button><br />
-                    <button id="buySkins" class="tradeResource" xonmousedown="buy('skins')">Buy <span id="skinsCost">500</span> Skins</button><br />
-                    <button id="buyHerbs" class="tradeResource" xonmousedown="buy('herbs')">Buy <span id="herbsCost">500</span> Herbs</button><br />
-                    <button id="buyOre" class="tradeResource" xonmousedown="buy('ore')">Buy <span id="oreCost">500</span> Ore</button><br />
-                    <button id="buyLeather" class="tradeResource" xonmousedown="buy('leather')">Buy <span id="leatherCost">250</span> Leather</button><br />
-                    <button id="buyPotions" class="tradeResource" xonmousedown="buy('potions')">Buy <span id="potionsCost">250</span> Potions</button><br />
-                    <button id="buyMetal" class="tradeResource" xonmousedown="buy('metal')">Buy <span id="metalCost">250</span> Metal</button><br />
-                    <button id="buyIron" class="tradeResource">Buy <span id="ironCost">250</span> Iron</button><br />-->
+                                <div id="buyButtonGroup"><!-- populated through script --></div>
                             </div>
                         </div>
                     </div>
