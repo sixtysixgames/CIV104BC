@@ -87,7 +87,7 @@ function updateTradeButton(materialId, cost) {
     traceLog("trade.updateTradeButton: " + materialId);
     let materialCostID = "#" + materialId + "Cost";
     let elem = ui.find(materialCostID);
-    if (!elem) { console.warn("Missing UI element for " + materialCostID); return; }
+    if (!elem) { console.warn("trade.updateTradeButton() Missing UI element for " + materialCostID); return; }
 
     elem.innerHTML = prettify(cost);
 }
