@@ -57,6 +57,14 @@ function getUpgradeData() {
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
+            id: "ironOre", name: "Iron Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 200, ore: 500, iron: 10 },
+            effectText: "Increase ore and iron production"
+        }),
+        new Upgrade({
+            id: "coppOre", name: "Copper Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 500, ore: 1000, copper: 25 },
+            effectText: "Increase ore and copper production"
+        }),
+        new Upgrade({
             id: "wheel", name: "The Wheel", subType: subTypes.upgrade, prereqs: { carpentry: true }, require: { wood: 500, stone: 500 },
             effectText: "Increase basic worker output. Unlock more buildings"
         }),
@@ -182,15 +190,18 @@ function getUpgradeData() {
             effectText: "Improve soldiers"
         }),
         new Upgrade({
-            id: "advweaponry", name: "Advanced Weaponry", subType: subTypes.upgrade, prereqs: { weaponry: true, engineering: true }, require: { wood: 2500, metal: 2500, leather: 1000 },
+            id: "advweaponry", name: "Advanced Weaponry", subType: subTypes.upgrade, prereqs: { weaponry: true, engineering: true },
+            require: { wood: 2500, metal: 2500, leather: 1000 },
             effectText: "Improve soldiers"
         }),
         new Upgrade({
-            id: "advshields", name: "Advanced Shields", subType: subTypes.upgrade, prereqs: { shields: true, engineering: true }, require: { wood: 2500, leather: 2500, metal: 1000 },
+            id: "advshields", name: "Advanced Shields", subType: subTypes.upgrade, prereqs: { shields: true, engineering: true },
+            require: { wood: 2500, leather: 2500, metal: 1000 },
             effectText: "Improve soldiers"
         }),
         new Upgrade({
-            id: "advarmour", name: "Advanced Armour", subType: subTypes.upgrade, prereqs: { armour: true, engineering: true }, require: { leather: 2500, metal: 2500 },
+            id: "advarmour", name: "Advanced Armour", subType: subTypes.upgrade, prereqs: { armour: true, engineering: true },
+            require: { leather: 2500, metal: 2500 },
             effectText: "Improve soldiers"
         }),
         new Upgrade({
