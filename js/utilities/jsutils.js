@@ -189,8 +189,8 @@ function indexArrayByAttr(inArray, attr) {
             Object.defineProperty(arr, elem.id, { value: elem, enumerable: false });
         }
         else {
-            //console.log("Duplicate or missing " + attr + " attribute in array: " + elem[attr]);
-            console.log("Duplicate or missing " + attr + " attribute in array: " + JSON.stringify(elem));
+            console.log("Duplicate or missing " + attr + " attribute in array: " + elem[attr]);
+            //console.log("Duplicate or missing " + attr + " attribute in array: " + JSON.stringify(elem));
         }
     });
 }
