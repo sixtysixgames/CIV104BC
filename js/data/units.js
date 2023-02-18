@@ -44,7 +44,8 @@ function getUnitData() {
         new Unit({
             id: unitType.healer, singular: "healer", plural: "healers", source: unitType.unemployed,
             prereqs: { apothecary: 1 }, require: { herbs: 2 },
-            efficiency: 0.42, defence: 0.01, 
+            efficiency: 0.42, // the lower the efficiency, the longer it takes to make 1
+            defence: 0.01, 
             init: function (fullInit) { Unit.prototype.init.call(this, fullInit); this.cureCount = 0; },
             get limit() { return civData.apothecary.owned; },
             set limit(value) { return this.limit; }, 
@@ -71,14 +72,14 @@ function getUnitData() {
         new Unit({
             id: unitType.charBurner, singular: "charcoal burner", plural: "charcoal burner", source: unitType.unemployed,
             efficiency: 0.5, defence: 0.04, 
-            prereqs: { charKiln: 1 }, require: { wood: 3 },
+            prereqs: { charKiln: 1 }, require: { wood: 2 },
             get limit() { return civData.charKiln.owned; },
             set limit(value) { return this.limit; }, 
             effectText: "Use wood to make charcoal"
         }),
         new Unit({
             id: unitType.ironsmith, singular: "ironsmith", plural: "ironsmiths", source: unitType.unemployed,
-            efficiency: 0.25, defence: 0.04, 
+            efficiency: 0.2, defence: 0.04, 
             prereqs: { ironWorks: 1 }, require: { ore: 5, charcoal: 2 },
             get limit() { return civData.ironWorks.owned; },
             set limit(value) { return this.limit; }, 
@@ -91,6 +92,30 @@ function getUnitData() {
             get limit() { return civData.coppWorks.owned; },
             set limit(value) { return this.limit; }, 
             effectText: "Use ore and charcoal to make copper"
+        }),
+        new Unit({
+            id: unitType.leadsmith, singular: "leadsmith", plural: "leadsmiths", source: unitType.unemployed,
+            efficiency: 0.027, defence: 0.04, 
+            prereqs: { leadWorks: 1 }, require: { ore: 15, charcoal: 10 },
+            get limit() { return civData.leadWorks.owned; },
+            set limit(value) { return this.limit; }, 
+            effectText: "Use ore and charcoal to make lead"
+        }),
+        new Unit({
+            id: unitType.tinsmith, singular: "tinsmith", plural: "tinsmiths", source: unitType.unemployed,
+            efficiency: 0.02, defence: 0.04, 
+            prereqs: { tinWorks: 1 }, require: { ore: 20, charcoal: 15 },
+            get limit() { return civData.tinWorks.owned; },
+            set limit(value) { return this.limit; }, 
+            effectText: "Use ore and charcoal to make tin"
+        }),
+        new Unit({
+            id: unitType.silvsmith, singular: "silversmith", plural: "silversmiths", source: unitType.unemployed,
+            efficiency: 0.015, defence: 0.04, 
+            prereqs: { silvWorks: 1 }, require: { ore: 40, charcoal: 20 },
+            get limit() { return civData.silvWorks.owned; },
+            set limit(value) { return this.limit; }, 
+            effectText: "Use ore and charcoal to make silver"
         }),
         new Unit({
             id: unitType.labourer, singular: "labourer", plural: "labourers", source: unitType.unemployed,
@@ -151,7 +176,7 @@ function getUnitData() {
             id: unitType.wolf, singular: "wolf", plural: "wolves",
             alignment: alignmentType.enemy, combatType: combatTypes.animal,
             prereqs: undefined,
-            efficiency: 0.05,
+            efficiency: 0.04,
             onWin: function () { doWolves(this); },
             // see invader for definitions
             killFatigue: (0.99), 
@@ -164,7 +189,7 @@ function getUnitData() {
             id: unitType.bandit, singular: "bandit", plural: "bandits",
             alignment: alignmentType.enemy, combatType: combatTypes.infantry,
             prereqs: undefined, 
-            efficiency: 0.07,
+            efficiency: 0.06,
             onWin: function () { doBandits(this); },
             // see invader for definitions
             lootFatigue: (0.1),  
@@ -182,7 +207,7 @@ function getUnitData() {
             id: unitType.barbarian, singular: "barbarian", plural: "barbarians",
             alignment: alignmentType.enemy, combatType: combatTypes.infantry,
             prereqs: undefined, 
-            efficiency: 0.09,
+            efficiency: 0.11,
             onWin: function () { doBarbarians(this); },
             // see invader for definitions
             lootFatigue: (0.1), 
@@ -203,7 +228,7 @@ function getUnitData() {
             id: unitType.invader, singular: "invader", plural: "invaders",
             alignment: alignmentType.enemy, combatType: combatTypes.infantry,
             prereqs: undefined, // Cannot be purchased.
-            efficiency: 0.11,
+            efficiency: 0.19, // must be less than soldiers plus mods see combat.getPlayerCombatMods()
             onWin: function () { doInvaders(this); },
             lootFatigue: (0.05), // Max fraction that leave after cleaning out a resource
             lootStop: (0.85), // Chance of an attacker leaving after looting a resource
@@ -270,7 +295,7 @@ function getUnitData() {
         new Unit({
             id: unitType.esoldier, singular: "soldier", plural: "soldiers", alignment: alignmentType.enemy, combatType: combatTypes.infantry,
             prereqs: undefined, // Cannot be purchased.
-            efficiency: 0.05,
+            efficiency_base: 0.05, efficiency: 0.05,
             place: placeType.party,
             effectText: "Defending enemy troops"
         }),
