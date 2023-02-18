@@ -123,12 +123,45 @@ function getResourceData() {
         }),
         new Resource({
             id: resourceType.copper, name: "copper", subType: subTypes.special,
-            require: { ore: 100, charcoal: 50 },
-            initTradeAmount: 50,
-            baseTradeAmount: 5,
+            require: { ore: 10, charcoal: 5 },
+            initTradeAmount: 150,
+            baseTradeAmount: 30,
             get limit() {
                 let bonus = getStoreroomBonus();
                 return 50 + (civData.coppWorks.owned * bonus);
+            },
+            set limit(value) { return this.limit; }
+        }),
+        new Resource({
+            id: resourceType.lead, name: "lead", subType: subTypes.special,
+            require: { ore: 15, charcoal: 10 },
+            initTradeAmount: 100,
+            baseTradeAmount: 20,
+            get limit() {
+                let bonus = getStoreroomBonus();
+                return 50 + (civData.leadWorks.owned * bonus);
+            },
+            set limit(value) { return this.limit; }
+        }),
+        new Resource({
+            id: resourceType.tin, name: "tin", subType: subTypes.special,
+            require: { ore: 20, charcoal: 15 },
+            initTradeAmount: 50,
+            baseTradeAmount: 10,
+            get limit() {
+                let bonus = getStoreroomBonus();
+                return 50 + (civData.tinWorks.owned * bonus);
+            },
+            set limit(value) { return this.limit; }
+        }),
+        new Resource({
+            id: resourceType.silver, name: "silver", subType: subTypes.special,
+            require: { ore: 50, charcoal: 25 },
+            initTradeAmount: 25,
+            baseTradeAmount: 5,
+            get limit() {
+                let bonus = getStoreroomBonus();
+                return 50 + (civData.silvWorks.owned * bonus);
             },
             set limit(value) { return this.limit; }
         }),
