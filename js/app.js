@@ -169,6 +169,7 @@ setup.game = function () {
     addUITable(homeUnits, "jobs"); // Dynamically create the job controls table.
     addUITable(armyUnits, "party"); // Dynamically create the party controls table.
     addUpgradeRows(); // This sets up the framework for the upgrade items.
+    //console.log("setup.game.normalUpgrades: " + normalUpgrades.);
     addUITable(normalUpgrades, "upgrades"); // Place the stubs for most upgrades under the upgrades tab.
     addAchievementRows();
     addRaidRows();
