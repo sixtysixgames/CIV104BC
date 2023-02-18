@@ -30,15 +30,12 @@ function getBuildingData() {
         new Building({
             id: buildingType.house, singular: "house", plural: "houses", prereqs: { construction: true }, require: { wood: 30, stone: 70 },
             get effectText() {
-                //let maxPop = 10 + 2 * (civData.slums.owned + civData.tenements.owned);
                 let maxPop = this.limit;
                 return "+" + maxPop + " citizens";
             },
-            get limit() { return 10 + 2 * (civData.slums.owned + civData.tenements.owned); },
             set effectText(value) { return this.require; }, // Only here for JSLint.
-            update: function () {
-                updateNote(this.id, this.effectText);
-            }
+            get limit() { return 10 + 2 * (civData.slums.owned + civData.tenements.owned); },
+            update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
             id: buildingType.mansion, singular: "mansion", plural: "mansions",
@@ -47,7 +44,7 @@ function getBuildingData() {
         }),
         new Building({
             id: buildingType.palace, singular: "palace", plural: "palaces",
-            prereqs: { architecture: true }, require: { wood: 1000, stone: 1000, leather: 250, iron: 250, gold: 10 },
+            prereqs: { architecture: true }, require: { wood: 1000, stone: 1000, iron: 50, copper: 25, gold: 5 },
             effectText: "+150 citizens", limit: 150
         }),
         new Building({
@@ -81,15 +78,6 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.apothecary, singular: "apothecary", plural: "apothecaries", prereqs: { carpentry: true, masonry: true }, require: { wood: 30, stone: 70, herbs: 5 },
-            get effectText() {
-                let bonus = getStoreroomBonus();
-                return "allows 1 healer; +" + bonus + " potion storage";
-            },
-            set effectText(value) { return this.effectText; },
-            update: function () { updateNote(this.id, this.effectText); }
-        }),
-        new Building({
             id: buildingType.temple, singular: "temple", plural: "temples", prereqs: { carpentry: true, masonry: true }, require: { wood: 30, stone: 120, herbs: 10 },
             get effectText() {
                 let bonus = 50 + getPietyLimitBonus();
@@ -104,6 +92,15 @@ function getBuildingData() {
                     adjustMorale(num * 25 / population.living);
                 }
             }
+        }),
+        new Building({
+            id: buildingType.apothecary, singular: "apothecary", plural: "apothecaries", prereqs: { carpentry: true, masonry: true }, require: { wood: 30, stone: 70, herbs: 5 },
+            get effectText() {
+                let bonus = getStoreroomBonus();
+                return "allows 1 healer; +" + bonus + " potion storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
             id: buildingType.tannery, singular: "tannery", plural: "tanneries", prereqs: { carpentry: true, masonry: true }, require: { wood: 30, stone: 70, skins: 5 },
@@ -136,7 +133,16 @@ function getBuildingData() {
             id: buildingType.ironWorks, singular: "iron works", plural: "iron works", prereqs: { smelting: true }, require: { wood: 80, stone: 140, ore: 5 },
             get effectText() {
                 let bonus = getStoreroomBonus();
-                return "allows 1 iron smith; +" + bonus + " iron storage";
+                return "allows 1 ironsmith; +" + bonus + " iron storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
+            id: buildingType.coppWorks, singular: "copper works", plural: "copper works", prereqs: { smelting: true }, require: { wood: 80, stone: 140, ore: 10 },
+            get effectText() {
+                let bonus = getStoreroomBonus();
+                return "allows 1 coppersmith; +" + bonus + " copper storage";
             },
             set effectText(value) { return this.effectText; },
             update: function () { updateNote(this.id, this.effectText); }
