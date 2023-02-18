@@ -1,5 +1,4 @@
-﻿
-import { Upgrade, deityDomains, renameDeity, subTypes, updatePopulation, updateResourceTotals, updateUpgrades } from "../index.js";
+﻿import { Upgrade, deityDomains, renameDeity, subTypes, updatePopulation, updateResourceTotals, updateUpgrades } from "../index.js";
 
 function getUpgradeData() {
     let data = [
@@ -153,28 +152,28 @@ function getUpgradeData() {
             onGain: function () { updateResourceTotals(); }
         }),
         new Upgrade({
-            id: "storehouses", name: "Storehouses", subType: subTypes.upgrade, prereqs: { warehouses: true }, require: { skins: 600, herbs: 600, ore: 600 },
+            id: "storehouses", name: "Storehouses", subType: subTypes.upgrade, prereqs: { construction: true }, require: { skins: 600, herbs: 600, ore: 600 },
             effectText: "Store double the amount of found resources (skins, herbs, ore etc)",
             onGain: function () { updateResourceTotals(); }
         }),
         new Upgrade({
-            id: "storerooms", name: "Storerooms", subType: subTypes.upgrade, prereqs: { storehouses: true }, require: { leather: 300, potions: 300, metal: 300 },
+            id: "storerooms", name: "Storerooms", subType: subTypes.upgrade, prereqs: { construction: true }, require: { leather: 300, potions: 300, metal: 300 },
             effectText: "Store double the amount of made resources (leather, potions, metal etc)",
             onGain: function () { updateResourceTotals(); }
         }),
         new Upgrade({
             id: "rampart", name: "Ramparts", subType: subTypes.upgrade, prereqs: { construction: true }, require: { wood: 500, stone: 1000 },
-            efficiency: 0.005, // Subtracted from attacker efficiency.
+            efficiency: 0.005, // Subtracted from attacker efficiency
             effectText: "Enemies do less damage"
         }),
         new Upgrade({
             id: "palisade", name: "Palisades", subType: subTypes.upgrade, prereqs: { engineering: true, rampart: true }, require: { wood: 2500, stone: 1000 },
-            efficiency: 0.01, // Subtracted from attacker efficiency.
+            efficiency: 0.01, // see rampart
             effectText: "Enemies do less damage"
         }),
         new Upgrade({
             id: "battlement", name: "Battlements", subType: subTypes.upgrade, prereqs: { architecture: true, palisade: true }, require: { wood: 2500, stone: 5000 },
-            efficiency: 0.02, // Subtracted from attacker efficiency.
+            efficiency: 0.02, // see rampart
             effectText: "Enemies do less damage"
         }),
         new Upgrade({
