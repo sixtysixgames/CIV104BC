@@ -28,6 +28,8 @@ function resetRaiding() {
     // Also reset the enemy party units.
     unitData.filter(function (elem) { return ((elem.alignment == alignmentType.enemy) && (elem.place == placeType.party)); })
         .forEach(function (elem) { elem.reset(); });
+
+    ui.show("#raidEventsContainer", true);
 }
 
 function getPlayerCombatMods() {
@@ -92,9 +94,13 @@ function invade(ecivtype) {
     };
     //lootable.forEach(function (elem) { curCiv.raid.plunderLoot[elem.id] = Math.round(baseLoot * Math.random()); });
     baseLoot -= Math.round(curCiv.raid.plunderLoot.freeLand * Math.random());
+    //66g todo: we don't want rare resources plundered from low population, so decrease baseLoot quicker
+    let counter = 0;
     lootable.forEach(function (elem) {
+        counter++;
         curCiv.raid.plunderLoot[elem.id] = Math.round(baseLoot * Math.random());
-        baseLoot -= Math.round(curCiv.raid.plunderLoot[elem.id] * Math.random());
+        baseLoot -= counter + Math.round(curCiv.raid.plunderLoot[elem.id] * Math.random());
+        if (baseLoot < 0) { baseLoot = 0; }
     });
 
     ui.hide("#raidNews");
@@ -102,6 +108,7 @@ function invade(ecivtype) {
     updateTargets(); //Hides raid buttons until the raid is finished
     updatePartyButtons();
 }
+
 function onInvade(control) { return invade(dataset(control, "target")); }
 
 function onInvadeMult(control) {
@@ -158,12 +165,15 @@ function plunder() {
 
     // Create message to notify player
     plunderMsg = civSizes[curCiv.raid.last].name + " raided! (pop." + prettify(curCiv.raid.epop) + ")<br/>";
-    plunderMsg += "Plundered " + getReqText(curCiv.raid.plunderLoot) + ". ";
+    let lootMsg = getReqText(curCiv.raid.plunderLoot);
+    if (lootMsg == "") {
+        lootMsg = "nothing";
+    }
+    plunderMsg += "Plundered " + lootMsg + ". ";
     //gameLog(plunderMsg);
     raidLog(plunderMsg);
 
     ui.show(raidNewsElt, true);
-    ui.show("#raidEventsContainer", true);
     raidNewsElt.innerHTML = "Results of last raid: " + plunderMsg;
 
     // Victory outcome has been handled, end raid
