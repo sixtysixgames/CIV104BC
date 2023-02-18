@@ -1,9 +1,11 @@
 
-import { abs, achData, alignmentType, armyUnits, basicResources, buildingData, buildingType, calculatePopulation, calcWorkerCost, calcZombieCost, canAfford, canPurchase, 
- civData, civObjType, civSizes, curCiv, dataset, deityDomains, wonderSelect, lootable, getBuyButton, setInitTradePrice,
- getCombatants, getCivType, getCurDeityDomain, getCurrentAltarId, getLandTotals, getReqText, getWonderLowItem, homeBuildings, homeUnits, 
- idToType, isTraderHere, isUnderAttack, isValid, isWonderLimited, logSearchFn, makeDeitiesTables, meetsPrereqs, onBulkEvent, placeType, population, powerData, prettify, 
- settings, sgn, subTypes, sysLog, unitData, upgradeData, ui, UIComponents, wonderResources, traceLog, updateTradeButton, setReqText} from "../index.js";
+import {
+    abs, achData, alignmentType, armyUnits, basicResources, buildingData, buildingType, calculatePopulation, calcWorkerCost, calcZombieCost, canAfford, canPurchase,
+    civData, civObjType, civSizes, curCiv, dataset, deityDomains, wonderSelect, lootable, getBuyButton, setInitTradePrice,
+    getCombatants, getCivType, getCurDeityDomain, getCurrentAltarId, getLandTotals, getReqText, getWonderLowItem, homeBuildings, homeUnits,
+    idToType, isTraderHere, isUnderAttack, isValid, isWonderLimited, logSearchFn, makeDeitiesTables, meetsPrereqs, onBulkEvent, placeType, population, powerData, prettify,
+    settings, sgn, subTypes, sysLog, unitData, upgradeData, ui, UIComponents, wonderResources, traceLog, updateTradeButton, setReqText
+} from "../index.js";
 
 // Update functions. Called by other routines in order to update the interface.
 function updateAll() {
@@ -114,17 +116,23 @@ function updateTrader() {
 //xxx This should become an onGain() member method of the building classes
 function updateRequirements(buildingObj) {
     let displayNode = document.getElementById(buildingObj.id + "Cost");
-    if (displayNode) { displayNode.innerHTML = getReqText(buildingObj.require); }
+    if (displayNode) {
+        //console.log("updateRequirements() " + buildingObj.id);
+        displayNode.innerHTML = getReqText(buildingObj.require);
+    }
 }
 
 function updatePurchaseRow(purchaseObj) {
     if (!purchaseObj) { return; }
 
     let elem = ui.find("#" + purchaseObj.id + "Row");
-    if (!elem) { console.warn("Missing UI element for " + purchaseObj.id); return; }
+    if (!elem) { console.warn("updates.updatePurchaseRow() Missing UI element for " + purchaseObj.id); return; }
 
     // If the item's cost is variable, update its requirements.
-    if (purchaseObj.hasVariableCost()) { updateRequirements(purchaseObj); }
+    if (purchaseObj.hasVariableCost()) {
+        //console.log("updatePurchaseRow() variable " + purchaseObj.id);
+        updateRequirements(purchaseObj);
+    }
 
     // Already having one reveals it as though we met the prereq.
     // freeLand added to stop annoying UI jump
@@ -161,7 +169,10 @@ function updateResourceRows() {
 // Enables/disabled building buttons - calls each type of building in turn
 // Can't do altars; they're not in the proper format.
 function updateBuildingButtons() {
-    homeBuildings.forEach(function (elem) { updatePurchaseRow(elem); });
+    homeBuildings.forEach(function (elem) {
+        //console.log("updateBuildingButtons() " + elem.id);
+        updatePurchaseRow(elem);
+    });
 }
 // Update the page with the latest worker distribution and stats
 function updateJobButtons() {
@@ -192,12 +203,11 @@ function updateResourceTotals() {
         //if (!isValid(val)) { continue; }
         if (!isValid(val) || typeof val != "number") {
             // hack to fix NaN stored
-            console.log("updateResourceTotals id = " +  dataset(elem, "target"));
-            console.warn("updateResourceTotals: owned not number. = " + val);
+            console.log("updates.updateResourceTotals() id = " + dataset(elem, "target"));
+            console.warn("updates.updateResourceTotals() owned not number. = " + val);
             curCiv[dataset(elem, "target")].owned = 0;
             val = curCiv[dataset(elem, "target")].owned;
-
-            console.log("Val is now:" + val + ". owned=" + curCiv[dataset(elem, "target")].owned);
+            //console.log("updates.updateResourceTotals() Val is now:" + val + ". owned=" + curCiv[dataset(elem, "target")].owned);
         }
 
         elem.innerHTML = prettify(Math.floor(val));
@@ -212,8 +222,8 @@ function updateResourceTotals() {
         //if (!isValid(val)) { continue; }
         if (!isValid(val) || typeof val != "number") {
             // hack to fix NaN stored
-            console.log("updateResourceTotals id = " +  dataset(elem, "target"));
-            console.warn("updateResourceTotals: net not number. = " + val);
+            console.log("updates.updateResourceTotals() id = " + dataset(elem, "target"));
+            console.warn("updates.updateResourceTotals() net not number. = " + val);
 
             civData[dataset(elem, "target")].net = 0;
             val = civData[dataset(elem, "target")].net;
@@ -708,6 +718,7 @@ function updateMoraleIcon(morale) {
 
 function setResourcesReqText() {
     lootable.forEach(function (resElem) {
+        //console.log("updates.setResourcesReqText()" + resElem.id);
         setReqText(resElem);
     });
 }
@@ -734,7 +745,7 @@ function addWonderSelectText() {
         elem = document.getElementById(elem.id);
         elem.onmousedown = function (e) { wonderSelect(elem.id); };
     });
-    
+
 }
 
 //updates the display of wonders and wonder building
@@ -770,18 +781,16 @@ function updateWonder() {
     ui.find("#speedWonder").disabled = (curCiv.curWonder.stage !== 1 || !canAfford({ gold: 100 }));
     if (curCiv.curWonder.stage === 1) {
         if (typeof curCiv.curWonder.progress != "number") {
-            console.warn("curCiv.curWonder.progress not a number");
+            console.warn("updates.updateWonder() curCiv.curWonder.progress not a number");
             curCiv.curWonder.progress = 0; // hack to fix NaN saved
         }
-            ui.find("#progressBar").style.width = curCiv.curWonder.progress.toFixed(4) + "%";
-            ui.find("#progressNumber").title = curCiv.curWonder.progress;//.toFixed(6);
-            ui.find("#progressNumber").innerHTML = curCiv.curWonder.progress.toFixed(3);
-        
+        ui.find("#progressBar").style.width = curCiv.curWonder.progress.toFixed(4) + "%";
+        ui.find("#progressNumber").title = curCiv.curWonder.progress;//.toFixed(6);
+        ui.find("#progressNumber").innerHTML = curCiv.curWonder.progress.toFixed(3);
     }
 
     // Finished, but haven't picked the resource yet.
     ui.show("#wonderCompleted", (curCiv.curWonder.stage === 2));
-
     updateWonderList();
 }
 
@@ -848,7 +857,7 @@ function getPlayingTimeShort() {
 
     let ret = "";
     if (days > 0) { ret += days + ":"; }
-    
+
     ret += ('00' + hours).slice(-2) + ":";
     ret += ('00' + mins).slice(-2) + ":";
     ret += ('00' + seconds).slice(-2);
