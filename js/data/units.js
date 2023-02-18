@@ -34,6 +34,14 @@ function getUnitData() {
             effectText: "Automatically mine stone"
         }),
         new Unit({
+            id: unitType.cleric, singular: "cleric", plural: "clerics", source: unitType.unemployed,
+            prereqs: { temple: 1 }, require: { herbs: 4 },
+            efficiency: 0.05, defence: 0.01, // default is 0.05
+            get limit() { return civData.temple.owned; },
+            set limit(value) { return this.limit; }, // Only here for JSLint.
+            effectText: "Generate piety, bury corpses"
+        }),
+        new Unit({
             id: unitType.healer, singular: "healer", plural: "healers", source: unitType.unemployed,
             prereqs: { apothecary: 1 }, require: { herbs: 2 },
             efficiency: 0.42, defence: 0.01, // default is 0.05
@@ -43,14 +51,6 @@ function getUnitData() {
             get cureCount() { return this.data.cureCount; }, // Carry over fractional healing
             set cureCount(value) { this.data.cureCount = value; }, // Only here for JSLint.
             effectText: "Make potions from herbs. Cure sick workers"
-        }),
-        new Unit({
-            id: unitType.cleric, singular: "cleric", plural: "clerics", source: unitType.unemployed,
-            prereqs: { temple: 1 }, require: { herbs: 4 },
-            efficiency: 0.05, defence: 0.01, // default is 0.05
-            get limit() { return civData.temple.owned; },
-            set limit(value) { return this.limit; }, // Only here for JSLint.
-            effectText: "Generate piety, bury corpses"
         }),
         new Unit({
             id: unitType.tanner, singular: "tanner", plural: "tanners", source: unitType.unemployed,
@@ -78,11 +78,19 @@ function getUnitData() {
         }),
         new Unit({
             id: unitType.ironsmith, singular: "ironsmith", plural: "ironsmiths", source: unitType.unemployed,
-            efficiency: 0.05, defence: 0.04, // default is 0.05
-            prereqs: { ironWorks: 1 }, require: { ore: 2, charcoal: 4 },
+            efficiency: 0.25, defence: 0.04, // default is 0.05
+            prereqs: { ironWorks: 1 }, require: { ore: 5, charcoal: 2 },
             get limit() { return civData.ironWorks.owned; },
             set limit(value) { return this.limit; }, // Only here for JSLint.
-            effectText: "Use ore and wood to make iron"
+            effectText: "Use ore and charcoal to make iron"
+        }),
+        new Unit({
+            id: unitType.coppsmith, singular: "coppersmith", plural: "coppersmiths", source: unitType.unemployed,
+            efficiency: 0.038, defence: 0.04, // default is 0.05
+            prereqs: { coppWorks: 1 }, require: { ore: 10, charcoal: 5 },
+            get limit() { return civData.coppWorks.owned; },
+            set limit(value) { return this.limit; }, // Only here for JSLint.
+            effectText: "Use ore and charcoal to make copper"
         }),
         new Unit({
             id: unitType.labourer, singular: "labourer", plural: "labourers", source: unitType.unemployed,
