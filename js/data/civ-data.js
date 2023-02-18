@@ -103,6 +103,7 @@ function setIndexArrays(civData) {
         } else if (elem.type == civObjType.upgrade) {
             upgradeData.push(elem);
             if (elem.subType == subTypes.upgrade) {
+                //console.log("normalUpgrades.push: " + elem.id);
                 normalUpgrades.push(elem);
             }
         }
