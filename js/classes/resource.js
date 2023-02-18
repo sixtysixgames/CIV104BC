@@ -31,16 +31,17 @@ Resource.prototype = new CivObj({
     //        this.data.net = value;
     //    }
     //},
+    nett: 0,
     get net() {
         if (typeof this.nett != "number") {
-            console.warn(this.id + ".nett get not a number: " + this.nett);
+            console.warn("resource.js " + this.id + ".nett get not a number: " + this.nett);
             this.nett = 0; // hack to fix NaN stored in .net
         }
         return this.nett;
     },
     set net(value) {
         if (typeof value != "number") {
-            console.warn(this.id + ".net set value not a number: " + value);
+            console.warn("resource.js " + this.id + ".net set value not a number: " + value);
         }
         else {
             this.nett = value;
