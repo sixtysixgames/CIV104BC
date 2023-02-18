@@ -181,8 +181,7 @@ function updateResourceTotals() {
 
     // Scan the HTML document for elements with a "data-action" element of
     // "display".  The "data-target" of such elements (or their ancestors) 
-    // is presumed to contain
-    // the global variable name to be displayed as the element's content.
+    // is presumed to contain the global variable name to be displayed as the element's content.
     //xxx Note that this is now also updating nearly all updatable values,
     // including population
     displayElems = document.querySelectorAll("[data-action='display']");
@@ -191,13 +190,16 @@ function updateResourceTotals() {
         //xxx Have to use curCiv here because of zombies and other non-civData displays.
         val = curCiv[dataset(elem, "target")].owned;
         //if (!isValid(val)) { continue; }
-        if (typeof val != "number") {
+        if (!isValid(val) || typeof val != "number") {
             // hack to fix NaN stored
             console.log("updateResourceTotals id = " +  dataset(elem, "target"));
             console.warn("updateResourceTotals: owned not number. = " + val);
             curCiv[dataset(elem, "target")].owned = 0;
             val = curCiv[dataset(elem, "target")].owned;
+
+            console.log("Val is now:" + val + ". owned=" + curCiv[dataset(elem, "target")].owned);
         }
+        //console.log("Val is now:" + val + ". owned=" + curCiv[dataset(elem, "target")].owned);
         elem.innerHTML = prettify(Math.floor(val));
         //elem.innerHTML = prettify(Math.floor(curCiv[dataset(elem, "target")].owned));
     }
@@ -208,7 +210,14 @@ function updateResourceTotals() {
     for (i = 0; i < displayElems.length; ++i) {
         elem = displayElems[i];
         val = civData[dataset(elem, "target")].net;
-        if (!isValid(val)) { continue; }
+        //if (!isValid(val)) { continue; }
+        if (!isValid(val) || typeof val != "number") {
+            // hack to fix NaN stored
+            console.log("updateResourceTotals id = " +  dataset(elem, "target"));
+            console.warn("updateResourceTotals: net not number. = " + val);
+            curCiv[dataset(elem, "target")].net = 0;
+            val = curCiv[dataset(elem, "target")].net;
+        }
 
         // Colourise net production values.
         if (val < 0) { elem.style.color = "#f00"; }
