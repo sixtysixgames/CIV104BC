@@ -105,7 +105,7 @@
 					case "COL": displayVal = "table-column"; break;
 					case "TD": displayVal = "table-cell"; break;
 					case "LI": displayVal = "list-item"; break;
-					default: console.warn("Unsupported tag <"+tagName+"> passed to ui.show"); break;
+					default: console.warn("ui.show() Unsupported tag <"+tagName+"> passed to ui.show"); break;
 				}
 			} else {
 				displayVal = "none";
