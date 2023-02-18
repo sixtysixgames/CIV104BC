@@ -26,14 +26,14 @@ CivObj.prototype = {
         if (typeof initOwned == "number" && typeof this.data.owned != "number") {
             console.warn("CivObj.owned get not a number");
             //return 0;
-            this.data.owned = 0; // hack to fix NaN stored in .net
+            this.data.owned = 0; // hack to fix NaN stored
         }
         return this.data.owned;
     },
     set owned(value) {
         if (typeof initOwned == "number" && typeof value != "number") {
             console.warn("CivObj.owned set not a number");
-            // hack to fix NaN stored in .net
+            // hack to fix NaN stored
             //this.data.owned = 0;
         }
         else {
