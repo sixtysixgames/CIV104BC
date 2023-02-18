@@ -28,8 +28,10 @@ const resourceType = {
     gold: "gold",
     corpses: "corpses",
     devotion: "devotion",
+    charcoal: "charcoal",
     iron: "iron",
-    charcoal: "charcoal"
+    copper: "copper"
+    
 };
 const buildingType = {
     freeLand: "freeLand",
@@ -46,6 +48,7 @@ const buildingType = {
     smithy: "smithy",
     charKiln: "charKiln",
     ironWorks: "ironWorks",
+    coppWorks: "coppWorks",
     apothecary: "apothecary",
     temple: "temple",
     barracks: "barracks",
@@ -67,6 +70,7 @@ const unitType = {
     blacksmith: "blacksmith",
     charBurner: "charBurner",
     ironsmith: "ironsmith",
+    coppsmith: "coppsmith",
     healer: "healer",
     cleric: "cleric",
     labourer: "labourer",
