@@ -40,7 +40,6 @@ function getCivData() {
     return civDatax;
 }
 
-
 function augmentCivData(civDatax) {
     //console.log("augmentCivData=" + civDatax.length);
 
@@ -59,9 +58,9 @@ function augmentCivData(civDatax) {
 
 const civData = getCivData(); // Giant array of data, defined in "-data" js
 
-
 function getWonderResources(civData) {
     // The resources that Wonders consume, and can give bonuses for.
+    // note not all resources are used e.g. rare metals iron, copper etc
     return [
         civData.food,
         civData.wood,
@@ -72,7 +71,8 @@ function getWonderResources(civData) {
         civData.leather,
         civData.potions,
         civData.metal,
-        civData.piety
+        civData.piety,
+        civData.charcoal
     ];
 }
 // The resources that Wonders consume, and can give bonuses for.
