@@ -148,6 +148,33 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
+            id: buildingType.leadWorks, singular: "lead works", plural: "lead works", prereqs: { smelting: true }, require: { wood: 150, stone: 200, ore: 15 },
+            get effectText() {
+                let bonus = getStoreroomBonus();
+                return "allows 1 leadsmith; +" + bonus + " lead storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
+            id: buildingType.tinWorks, singular: "tin works", plural: "tin works", prereqs: { smelting: true }, require: { wood: 200, stone: 300, ore: 20 },
+            get effectText() {
+                let bonus = getStoreroomBonus();
+                return "allows 1 tinsmith; +" + bonus + " tin storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
+            id: buildingType.silvWorks, singular: "silver works", plural: "silver works", prereqs: { smelting: true }, require: { wood: 500, stone: 800, ore: 50 },
+            get effectText() {
+                let bonus = getStoreroomBonus();
+                return "allows 1 silversmith; +" + bonus + " silver storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
             id: buildingType.barracks, name: "barracks", prereqs: { carpentry: true, masonry: true }, require: { food: 20, wood: 60, stone: 120, metal: 10 },
             effectText: "allows 10 soldiers"
         }),
@@ -170,7 +197,8 @@ function getBuildingData() {
                 };
             },
             set require(value) { return this.require; }, // Only here for JSLint.
-            effectText: "improves farmers"
+            effectText: "improves farmers",
+            onGain: function () { updateRequirements(this)(); }
         }),
         new Building({
             id: buildingType.fortification, singular: "fortification", plural: "fortifications", efficiency: 0.01, prereqs: { engineering: true },
@@ -182,7 +210,8 @@ function getBuildingData() {
                 };
             },
             set require(value) { return this.require; }, // Only here for JSLint.
-            effectText: "helps protect against attack"
+            effectText: "helps protect against attack",
+            onGain: function () { updateRequirements(this)(); }
         }),
         // Altars
         // The 'name' on the altars is really the label on the button to make them.
