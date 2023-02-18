@@ -262,13 +262,10 @@ var LZString = {
                     status = 0;
                     break;
             }
-
-
             i++;
         }
 
         return LZString.decompress(output);
-        //return output;
     },
 
     compress: function (uncompressed) {
@@ -453,8 +450,6 @@ var LZString = {
                     }
                     value = value >> 1;
                 }
-
-
             }
             context_enlargeIn--;
             if (context_enlargeIn == 0) {

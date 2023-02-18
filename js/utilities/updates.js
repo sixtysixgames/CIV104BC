@@ -199,9 +199,8 @@ function updateResourceTotals() {
 
             console.log("Val is now:" + val + ". owned=" + curCiv[dataset(elem, "target")].owned);
         }
-        //console.log("Val is now:" + val + ". owned=" + curCiv[dataset(elem, "target")].owned);
+
         elem.innerHTML = prettify(Math.floor(val));
-        //elem.innerHTML = prettify(Math.floor(curCiv[dataset(elem, "target")].owned));
     }
 
     // Update net production values for primary resources.  Same as the above,
@@ -215,8 +214,9 @@ function updateResourceTotals() {
             // hack to fix NaN stored
             console.log("updateResourceTotals id = " +  dataset(elem, "target"));
             console.warn("updateResourceTotals: net not number. = " + val);
-            curCiv[dataset(elem, "target")].net = 0;
-            val = curCiv[dataset(elem, "target")].net;
+
+            civData[dataset(elem, "target")].net = 0;
+            val = civData[dataset(elem, "target")].net;
         }
 
         // Colourise net production values.
@@ -230,17 +230,6 @@ function updateResourceTotals() {
     }
 
     //Update page with building numbers, also stockpile limits.
-    // 66g this could probably be done in a loop over resourceData
-    //ui.find("#maxfood").innerHTML = prettify(civData.food.limit);
-    //ui.find("#maxwood").innerHTML = prettify(civData.wood.limit);
-    //ui.find("#maxstone").innerHTML = prettify(civData.stone.limit);
-    //ui.find("#maxskins").innerHTML = prettify(civData.skins.limit);
-    //ui.find("#maxherbs").innerHTML = prettify(civData.herbs.limit);
-    //ui.find("#maxore").innerHTML = prettify(civData.ore.limit);
-    //ui.find("#maxleather").innerHTML = prettify(civData.leather.limit);
-    //ui.find("#maxpotions").innerHTML = prettify(civData.potions.limit);
-    //ui.find("#maxmetal").innerHTML = prettify(civData.metal.limit);
-    //ui.find("#maxiron").innerHTML = prettify(civData.iron.limit);
     let resID = "";
     lootable.forEach(function (resElem) {
         resID = "#max" + resElem.id;
@@ -469,27 +458,9 @@ function updateLandBar() {
 
 function updateRaidBar(attacker, defender) {
     updateFightBar(attacker, defender, "#raidBar");
-    //let barElt = ui.find("#raidBar");
-    //let h = '';
-    //let apc = attacker.owned * 100 / (attacker.owned + defender.owned);
-    //let dpc = 100 - apc;
-
-    //h += '<div class="attacker" style="width: ' + apc + '%"></div>';
-    //h += '<div class="defender" style="width: ' + dpc + '%"></div>';
-
-    //barElt.innerHTML = '<div style="min-width: 100%">' + h + '</div>';
 }
 function updateMobBar(attacker, defender) {
     updateFightBar(defender, attacker, "#mobBar");
-    //let barElt = ui.find("#mobBar");
-    //let h = '';
-    //let apc = attacker.owned * 100 / (attacker.owned + defender.owned);
-    //let dpc = 100 - apc;
-
-    //h += '<div class="attacker" style="width: ' + apc + '%"></div>';
-    //h += '<div class="defender" style="width: ' + dpc + '%"></div>';
-
-    //barElt.innerHTML = '<div style="min-width: 100%">' + h + '</div>';
 }
 function updateFightBar(attacker, defender, elementId) {
     let barElt = ui.find(elementId);
@@ -615,7 +586,6 @@ function updateDevotion() {
     });
 
     //xxx Smite should also be disabled if there are no foes.
-
     //xxx These costs are not yet handled by canAfford().
     if (population.healthy < 1) {
         ui.find("#wickerman").disabled = true;
@@ -739,8 +709,6 @@ function updateMoraleIcon(morale) {
 function setResourcesReqText() {
     lootable.forEach(function (resElem) {
         setReqText(resElem);
-        //resID = "#max" + resElem.id;
-        //ui.find(resID).innerHTML = prettify(civData[resElem.id].limit);
     });
 }
 
@@ -835,7 +803,6 @@ function updateGameDate() {
 
         // get total seconds between two dates
         let seconds = Math.floor(Math.abs(date1.getTime() - date2.getTime()) / 1000);
-        //traceLog("updateGameDate " + seconds + ". curCiv.loopCounter " + curCiv.loopCounter );
 
         if (curCiv.loopCounter > seconds) {
             curCiv.loopCounter = seconds;
@@ -844,26 +811,9 @@ function updateGameDate() {
     let elem = ui.find("#gameDate");
     if (curCiv.loopCounter % 60 != 0 && elem.innerHTML != "0000-00-00") { return; }
 
-    //elem.innerHTML = getGameDate();
     elem.innerHTML = getPlayingTime();
 }
-//function getGameDate() {
-//    let t = Math.floor(curCiv.loopCounter / 24);
-//    let y = Math.floor(t / 360) + 1;
-//    t = t % 360;
-//    let m = Math.floor(t / 30) + 1;
-//    let d = (t % 30) + 1;
 
-//    return y + "-" + ('00' + m).slice(-2) + "-" + ('00' + d).slice(-2);
-//}
-//function getGameTime() {
-//    let h = curCiv.loopCounter % 24;
-//    let s = Math.floor(Math.random() * 60);
-//    return ('00' + h).slice(-2) + ":" + ('00' + s).slice(-2);
-//}
-//function getGameDateTime() {
-//    return getGameDate() + " " + getGameTime();
-//}
 function getPlayingTime() {
     let oneDay = 24 * 60 * 60;
     let oneHour = 60 * 60;

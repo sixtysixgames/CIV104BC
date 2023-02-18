@@ -56,8 +56,7 @@
 		// Moved from jsutils.js, setElemDisplay function, and refactored ...
 		// Wrapper to set an HTML element's visibility.
 		// Pass the element object or ID as the 1st param.
-		// Pass true as the 2nd param to be visible, false to be hidden, no value to
-		// toggle.
+		// Pass true as the 2nd param to be visible, false to be hidden, no value to toggle.
 		// Compensates for IE's lack of support for the "initial" property value.
 		// May not support all HTML elements.
 		// Returns the input visibility state, or undefined on an error.

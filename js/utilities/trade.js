@@ -17,7 +17,6 @@ function startTrader() {
     if (!checkTradeAmounts(resourceType.herbs)) { return; }
     if (!checkTradeAmounts(resourceType.metal)) { return; }
 
-    //let selected = lootable[Math.floor(Math.random() * lootable.length)];
     // select a resource the player actually has some to trade
     let selected = getRandomTradeableResource();
     if (isValid(selected)) {
@@ -95,18 +94,7 @@ function updateTradeButton(materialId, cost) {
 
 function updateTradeButtons() {
     traceLog("updates.updateTradeButtons");
-    // 66g todo: iterate over salable resources
-    //updateTradeButton(resourceType.food, curCiv.food.tradeAmount);
-    //updateTradeButton(resourceType.wood, curCiv.wood.tradeAmount);
-    //updateTradeButton(resourceType.stone, curCiv.stone.tradeAmount);
-    //updateTradeButton(resourceType.skins, curCiv.skins.tradeAmount);
-    //updateTradeButton(resourceType.herbs, curCiv.herbs.tradeAmount);
-    //updateTradeButton(resourceType.ore, curCiv.ore.tradeAmount);
-    //updateTradeButton(resourceType.leather, curCiv.leather.tradeAmount);
-    //updateTradeButton(resourceType.potions, curCiv.potions.tradeAmount);
-    //updateTradeButton(resourceType.metal, curCiv.metal.tradeAmount);
-    //updateTradeButton(resourceType.iron, curCiv.iron.tradeAmount);
-
+    // 66g: iterate over salable resources
     lootable.forEach(function (elem) {
         updateTradeButton(elem.id, curCiv[elem.id].tradeAmount);
     });
@@ -140,14 +128,8 @@ function updateTradeAmount() {
     traceLog("updates.updateTradeAmount");
     let materialId = curCiv.trader.materialId;
     let origCost = curCiv[materialId].tradeAmount;
-    // simply change to 20% whatever was requested because requested is random and base amount is fifth of init amount
-    // and we don't want to make buying profitable
-    //curCiv[materialId].tradeAmount = Math.floor(curCiv.trader.requested / 5);
-    //curCiv[materialId].tradeAmount = Math.floor(curCiv.trader.requested);
 
-    // make it less obvious with another +/- 10% of new price
-    //let extra = Math.ceil((curCiv[materialId].tradeAmount / 10));
-    // let extra = Math.ceil((curCiv[materialId].tradeAmount / 10) * Math.random());
+    // make it less obvious with another +/- 10% of base price
     let extra = Math.ceil((civData[materialId].baseTradeAmount / 10)) * Math.ceil((Math.random() * 5));
     let r = Math.random()
     if (r < 0.1) {

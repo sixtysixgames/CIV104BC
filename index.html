@@ -37,8 +37,8 @@
     <div id="strip">
         <div id="header">
             <h1>
-                The <span id="civType">Thorp</span> of <span id="civName">Rome</span>
-                <span id="ruler">Ruled by the <span id="appellation">mighty</span> <span id="rulerName">Caesar</span></span>
+                The <span id="civType">Tribe</span> of <span id="civName">You</span>
+                <span id="ruler">Ruled by the <span id="appellation">mighty</span> <span id="rulerName">Chief</span></span>
             </h1>
         </div>
     </div>
@@ -215,7 +215,9 @@
                 </table>
             </div>
         </div>
-
+        <!--
+            pane selectors
+        -->
         <div id="leftColumn75" class="column left width75">
             <div id="panesSelectors" class="civSection">
                 <div id="selectors" class="panesTabs">
@@ -264,7 +266,9 @@
                         <div class="info">i</div>
                     </div>
                 </div>
-
+                <!--
+                    populationPane
+                -->
                 <div id="populationPane" class="selectPane selected">
                     <div id="jobsContainer" class="civSection">
                         <div id="populationBar" class="bar" title="Population">
@@ -280,16 +284,16 @@
                                     <option value="miner">Miners</option>
                                 </select>
                                 <span class="cost">for <span id="workerCost">...</span> food</span><span class="note">.</span>
-                                <button class="unit1" id="spawn1button" xonmousedown="spawn(1)">+1</button>
-                                <button class="unit10" id="spawn10button" xonmousedown="spawn(10)">+10</button>
-                                <button class="unit100" id="spawn100button" xonmousedown="spawn(100)">+100</button>
-                                <button class="unit1000" id="spawn1000button" xonmousedown="spawn(1000)">+1k</button>
-                                <button class="unit10000" id="spawn10000button" xonmousedown="spawn(10000)">+10k</button>
-                                <button class="unit100000" id="spawn100000button" xonmousedown="spawn(100000)">+100k</button>
-                                <button class="unitInfinity" id="spawnMaxbutton" xonmousedown="spawn(Infinity)">+<span id="workerNumMax">Max</span></button>
+                                <button class="unit1" id="spawn1button">+1</button>
+                                <button class="unit10" id="spawn10button">+10</button>
+                                <button class="unit100" id="spawn100button">+100</button>
+                                <button class="unit1000" id="spawn1000button">+1k</button>
+                                <button class="unit10000" id="spawn10000button">+10k</button>
+                                <button class="unit100000" id="spawn100000button">+100k</button>
+                                <button class="unitInfinity" id="spawnMaxbutton">+<span id="workerNumMax">Max</span></button>
                             </div>
                             <div id="customSpawnQuantity">
-                                <button id="spawnCustomButton" xonmousedown="spawn('custom')">Recruit Citizens</button><input id="spawnCustomQty" type="number" min="1" step="1" value="1" />
+                                <button id="spawnCustomButton">Recruit Citizens</button><input id="spawnCustomQty" type="number" min="1" step="1" value="1" />
                             </div>
                         </div>
                         <p id="customJobQuantity">
@@ -303,7 +307,9 @@
                         <!-- populated by javascript -->
                     </div>
                 </div>
-
+                <!--
+                    buildingsPane
+                -->
                 <div id="buildingsPane" class="selectPane">
                     <p id="customBuildQuantity">
                         Custom Quantity <input id="buildingCustomQty" type="number" min="1" step="1" value="1" />
@@ -313,8 +319,8 @@
                     </table>
                 </div>
                 <!--
-        resourcesPane
-    -->
+                    resourcesPane
+                -->
                 <div id="resourcesPane" class="selectPane">
                     <div class="stats">
                         Resource clicks: <span id="clicks">0</span>
@@ -370,8 +376,8 @@
                     </div>
                 </div>
                 <!--
-        upgradesPane
-    -->
+                    upgradesPane
+                -->
                 <div id="upgradesPane" class="selectPane">
                     <div class="columns">
                         <div class="column left">
@@ -387,13 +393,13 @@
                         <div class="column right">
                             <div id="wondersContainer">
                                 <h3>Wonders</h3>
-                                <span id="startWonderLine"><button id="startWonder" xonmousedown="startWonder()">Start Building Wonder</button></span>
+                                <span id="startWonderLine"><button id="startWonder">Start Building Wonder</button></span>
                                 <div id="wonderInProgress">
-                                    <span class="wonderTitle">Progress on <span id="wonderNameP">Wonder</span> - <span id="progressNumber">0</span>%</span> - <button id="renameWonder" xonmousedown="renameWonder()">Rename</button>
+                                    <span class="wonderTitle">Progress on <span id="wonderNameP">Wonder</span> - <span id="progressNumber">0</span>%</span> - <button id="renameWonder">Rename</button>
                                     <div id="progressContainer"><div id="progressBar"></div></div>
                                     <div id="lowResources">Limited<span id="limited"> by low resources</span></div>
                                     <div id="speedWonderGroup">
-                                        <br /><button id="speedWonder" xonmousedown="speedWonder()">Speed Wonder</button>
+                                        <br /><button id="speedWonder">Speed Wonder</button>
                                         <span id="speedWonderCost" class="cost">100 gold</span><span class="note">: Increase wonder progress</span>
                                     </div>
                                 </div>
@@ -406,8 +412,8 @@
                     </div>
                 </div>
                 <!--
-        deityPane
-    -->
+                    deityPane
+                -->
                 <div id="deityPane" class="selectPane">
                     <div class="notYet">
                         Your civilization does not yet worship a deity.
@@ -430,25 +436,25 @@
                         <ul>
                             <li id="battleRow" class="purchaseRow" data-target="battle">
                                 <span class="upgradetrue" data-quantity="true">
-                                    <button id="battleDeity" class="xtrue purchaseFor500Piety" xonmousedown="selectDeity('battle')">Battle</button>
+                                    <button id="battleDeity" class="xtrue purchaseFor500Piety">Battle</button>
                                 </span>
                                 <span id="battleCost" class="cost">500 piety</span>
                             </li>
                             <li id="fieldsRow" class="purchaseRow" data-target="fields">
                                 <span class="upgradetrue" data-quantity="true">
-                                    <button id="fieldsDeity" class="xtrue purchaseFor500Piety" xonmousedown="selectDeity('fields')">Fields</button>
+                                    <button id="fieldsDeity" class="xtrue purchaseFor500Piety">Fields</button>
                                 </span>
                                 <span id="fieldsCost" class="cost">500 piety</span>
                             </li>
                             <li id="underworldRow" class="purchaseRow" data-target="underworld">
                                 <span class="upgradetrue" data-quantity="true">
-                                    <button id="underworldDeity" class="xtrue purchaseFor500Piety" xonmousedown="selectDeity('underworld')">Underworld</button>
+                                    <button id="underworldDeity" class="xtrue purchaseFor500Piety">Underworld</button>
                                 </span>
                                 <span id="underworldCost" class="cost">500 piety</span>
                             </li>
                             <li id="catsRow" class="purchaseRow" data-target="cats">
                                 <span class="upgradetrue" data-quantity="true">
-                                    <button id="catsDeity" class="xtrue purchaseFor500Piety" xonmousedown="selectDeity('cats')">Cats</button>
+                                    <button id="catsDeity" class="xtrue purchaseFor500Piety">Cats</button>
                                 </span>
                                 <span id="catsCost" class="cost">500 piety</span>
                             </li>
@@ -506,7 +512,7 @@
                         <table id="oldDeities"><tr><td></td></tr></table>
                     </div>
                     <div id="iconoclasmGroup">
-                        <button id="iconoclasm" xonmousedown="iconoclasmList()">Iconoclasm</button>
+                        <button id="iconoclasm">Iconoclasm</button>
                         <span id="iconoclasmCost" class="cost">1,000 piety</span>
                         <span id="iconoclasmNote" class="note">: Remove an old deity to gain gold</span><br />
                         <div id="iconoclasmList"></div>
@@ -516,7 +522,9 @@
                         <div id="purchasedPantheon"></div>
                     </div>
                 </div>
-
+                <!--
+                    conquestPane
+                -->
                 <div id="conquestPane" class="selectPane">
                     <div class="notYet">
                         You cannot command an army yet because you don't own a battle standard.
@@ -532,7 +540,7 @@
                             <span id="raidLoop">
                                 0
                             </span>
-                            <button id="breakInvadeLoop" xonmousedown="breakInvadeLoop()">Exit</button>
+                            <button id="breakInvadeLoop">Exit</button>
                         </div>
                         <p id="customPartyQuantity">
                             Custom Quantity <input id="partyCustomQty" type="number" min="1" step="1" value="1" />
@@ -556,7 +564,7 @@
                                 </div>
                                 <div id="victoryGroup">
                                     <h3>Victory!</h3>
-                                    <button id="plunder" xonmousedown="plunder()">Plunder Resources</button><br />
+                                    <button id="plunder">Plunder Resources</button><br />
                                 </div>
                             </div>
 
@@ -574,6 +582,9 @@
                         </div>
                     </div>
                 </div>
+                <!--
+                    tradePane
+                -->
 
                 <div id="tradePane" class="selectPane">
                     <div class="notYet">
@@ -585,7 +596,7 @@
                                 Trader offers 1 gold for <span id="tradeRequested">...</span> <span id="tradeType">...</span>
                                 for the next <span id="traderTimer">...</span>.
                                 <br />
-                                <button id="tradeButton" xonmousedown="trade()">Trade</button>
+                                <button id="tradeButton">Trade</button>
                             </div>
                             <div id="noTrader">
                                 No trader visiting
@@ -612,7 +623,9 @@
                         </div>
                     </div>
                 </div>
-
+                <!--
+                    achievementsPane
+                -->
                 <div id="achievementsPane" class="selectPane">
                     <div id="achievements">
                         <!-- populated by javascript -->
@@ -624,71 +637,51 @@
                         </table>
                     </div>
                 </div>
-
+                <!--
+                    settingsPane
+                -->
                 <div id="settingsPane" class="selectPane">
                     <div class="columns">
                         <div class="column left width33">
                             <h2>Naming</h2>
-                            <button id="renameCiv" xonmousedown="renameCiv()" title="Rename your civilisation">Rename Civilisation</button><br />
-                            <button id="renameRuler" xonmousedown="renameRuler()" title="Rename yourself">Rename Yourself</button><br />
-                            <button id="renameDeity" xonmousedown="renameDeity()" title="Rename your deity" disabled="disabled">Rename Current Deity</button>
+                            <button id="renameCiv" title="Rename your civilisation">Rename Civilisation</button><br />
+                            <button id="renameRuler" title="Rename yourself">Rename Yourself</button><br />
+                            <button id="renameDeity" title="Rename your deity" disabled="disabled">Rename Current Deity</button>
                             <br />
                             <h2>Display</h2>
                             <span id="textSize">
-                                <button id="smallerText" xonmousedown="textSize(-1)" title="Smaller Text">&minus;</button>Text Size
-                                <button id="largerText" xonmousedown="textSize(1)" title="Larger Text">+</button>
+                                <button id="smallerText" title="Smaller Text">&minus;</button>Text Size
+                                <button id="largerText" title="Larger Text">+</button>
                             </span><br />
                             <br />
-                            <label><input id="toggleCustomQuantities" type="checkbox" xonclick="onToggleCustomQuantities(this)" title="Custom Quantity" />Use Custom Quantities</label><br />
-                            <!--<label><input id="toggleDelimiters" type="checkbox" onclick="onToggleDelimiters(this)" title="Toggle Delimiters" />Number Delimiters</label><br />-->
-                            <!--<label><input id="toggleShadow" type="checkbox" onclick="onToggleShadow(this)" title="Toggle Text Shadow" />Text Shadows</label><br />-->
-                            <label><input id="toggleNotes" type="checkbox" xonclick="onToggleNotes(this)" title="Toggle Notes" />Show Notes</label><br />
-                            <!--<label><input id="toggleWorksafe" type="checkbox" onclick="onToggleWorksafe(this)" title="Toggle Worksafe Mode" />Worksafe Mode</label><br />-->
-                            <label><input id="toggleIcons" type="checkbox" xonclick="onToggleIcons(this)" title="Toggle Icons" />Use Icons</label><br />
+                            <label><input id="toggleCustomQuantities" type="checkbox" title="Custom Quantity" />Use Custom Quantities</label><br />
+                            <label><input id="toggleNotes" type="checkbox" title="Toggle Notes" />Show Notes</label><br />
+                            <label><input id="toggleIcons" type="checkbox" title="Toggle Icons" />Use Icons</label><br />
                             <h2>Game Speed</h2>
-                            <label><input id="gameSpeedSlow" name="gameSpeed" type="radio" xonclick="onToggleIcons(this)" title="Slow" />Slow</label><br />
-                            <label><input id="gameSpeedNorm" name="gameSpeed" type="radio" xonclick="onToggleIcons(this)" title="Normal" checked="checked" />Normal</label><br />
-                            <label><input id="gameSpeedFast" name="gameSpeed" type="radio" xonclick="onToggleIcons(this)" title="Fast" />Fast</label><br />
+                            <label><input id="gameSpeedSlow" name="gameSpeed" type="radio" title="Slow" />Slow</label><br />
+                            <label><input id="gameSpeedNorm" name="gameSpeed" type="radio" title="Normal" checked="checked" />Normal</label><br />
+                            <label><input id="gameSpeedFast" name="gameSpeed" type="radio" title="Fast" />Fast</label><br />
                         </div>
                         <div class="column middle width33">
                             <h2>Save &amp; Load Controls</h2>
-                            <button id="manualSave" xonmousedown="save('manual')" title="Save your current stats">Manual Save</button><br />
-                            <label><input id="toggleAutosave" type="checkbox" xonclick="onToggleAutosave(this)" title="Autosave" />Autosave</label><br />
-                            <button id="resetGame" xonmousedown="reset()" title="Reset your game">Reset Game</button><span class="note"><span id="resetNote"><br />Resetting allows you to </span><span id="resetDeity">gain another deity</span><span id="resetBoth"><br /> and </span><span id="resetWonder">build another Wonder</span></span>
+                            <button id="manualSave" title="Save your current stats">Manual Save</button><br />
+                            <label><input id="toggleAutosave" type="checkbox" title="Autosave" />Autosave</label><br />
+                            <button id="resetGame" title="Reset your game">Reset Game</button><span class="note"><span id="resetNote"><br />Resetting allows you to </span><span id="resetDeity">gain another deity</span><span id="resetBoth"><br /> and </span><span id="resetWonder">build another Wonder</span></span>
                             <br /><br />
                             <label>Save game data:</label>
                             <textarea id="impexpField"></textarea>
-                            <button id="expButton" xonclick="save('export')">Export</button>
+                            <button id="expButton">Export</button>
                             <button id="expSelect" onclick="document.getElementById('impexpField').select();">Select All</button>
-                            <button id="impButton" xonclick="load('import')">Import</button>
+                            <button id="impButton">Import</button>
                             <br /><br /><br />
                             <span class="note">Deleting the saved stats removes everything and allows you to start again from scratch</span><br />
-                            <button id="delSave" xonmousedown="deleteSave()" title="Delete your saved stats">Delete Saved Stats</button>
+                            <button id="delSave" title="Delete your saved stats">Delete Saved Stats</button>
                         </div>
                         <div class="column right width33">
                             <div id="sysEventsContainer" class="civSection">
                                 <h2>System Events</h2>
                                 <table id="syslogTable">
                                     <tr id="syslog0"><td id="syslogT"></td><td id="syslogL"></td><td id="syslogR"></td></tr>
-                                    <!--<tr id="syslog1"><td colspan="3"></td></tr>
-                        <tr id="syslog2"><td colspan="3"></td></tr>
-                        <tr id="syslog3"><td colspan="3"></td></tr>
-                        <tr id="syslog4"><td colspan="3"></td></tr>
-                        <tr id="syslog5"><td colspan="3"></td></tr>
-                        <tr id="syslog6"><td colspan="3"></td></tr>
-                        <tr id="syslog7"><td colspan="3"></td></tr>
-                        <tr id="syslog8"><td colspan="3"></td></tr>
-                        <tr id="syslog9"><td colspan="3"></td></tr>
-                        <tr id="syslog10"><td colspan="3"></td></tr>
-                        <tr id="syslog11"><td colspan="3"></td></tr>
-                        <tr id="syslog12"><td colspan="3"></td></tr>
-                        <tr id="syslog13"><td colspan="3"></td></tr>
-                        <tr id="syslog14"><td colspan="3"></td></tr>
-                        <tr id="syslog15"><td colspan="3"></td></tr>
-                        <tr id="syslog16"><td colspan="3"></td></tr>
-                        <tr id="syslog17"><td colspan="3"></td></tr>
-                        <tr id="syslog18"><td colspan="3"></td></tr>
-                        <tr id="syslog19"><td colspan="3"></td></tr>-->
                                 </table>
                             </div>
                         </div>
@@ -702,35 +695,6 @@
                 <h3>Latest News <span id="gameDate">0000-00-00</span></h3>
                 <table id="logTable">
                     <tr id="log0"><td id="logT"></td><td id="logL"></td><td id="logR"></td></tr>
-                    <!--<tr id="log1"><td colspan="3"></td></tr>
-                    <tr id="log2"><td colspan="3"></td></tr>
-                    <tr id="log3"><td colspan="3"></td></tr>
-                    <tr id="log4"><td colspan="3"></td></tr>
-                    <tr id="log5"><td colspan="3"></td></tr>
-                    <tr id="log6"><td colspan="3"></td></tr>
-                    <tr id="log7"><td colspan="3"></td></tr>
-                    <tr id="log8"><td colspan="3"></td></tr>
-                    <tr id="log9"><td colspan="3"></td></tr>
-                    <tr id="log10"><td colspan="3"></td></tr>
-                    <tr id="log11"><td colspan="3"></td></tr>
-                    <tr id="log12"><td colspan="3"></td></tr>
-                    <tr id="log13"><td colspan="3"></td></tr>
-                    <tr id="log14"><td colspan="3"></td></tr>
-                    <tr id="log15"><td colspan="3"></td></tr>
-                    <tr id="log16"><td colspan="3"></td></tr>
-                    <tr id="log17"><td colspan="3"></td></tr>
-                    <tr id="log18"><td colspan="3"></td></tr>
-                    <tr id="log19"><td colspan="3"></td></tr>
-                    <tr id="log20"><td colspan="3"></td></tr>
-                    <tr id="log21"><td colspan="3"></td></tr>
-                    <tr id="log22"><td colspan="3"></td></tr>
-                    <tr id="log23"><td colspan="3"></td></tr>
-                    <tr id="log24"><td colspan="3"></td></tr>
-                    <tr id="log25"><td colspan="3"></td></tr>
-                    <tr id="log26"><td colspan="3"></td></tr>
-                    <tr id="log27"><td colspan="3"></td></tr>
-                    <tr id="log28"><td colspan="3"></td></tr>
-                    <tr id="log29"><td colspan="3"></td></tr>-->
                 </table>
             </div>
         </div>
@@ -743,6 +707,5 @@
         <!--<a href="updates.html" target="_blank">Game Updates Log</a>-->
         <!--<span id="versionAlert"> - <span id="newVersionText" onclick="location.reload()">New Version Available</span></span>-->
     </footer>
-
 </body>
 </html>

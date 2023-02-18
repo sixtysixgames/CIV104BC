@@ -13,10 +13,7 @@ function setDefaultSettings() {
     setAutosave();
     setCustomQuantities();
     textSize(0);
-    //setDelimiters();
-    //setShadow();
     setNotes();
-    //setWorksafe();
     setIcons();
 }
 
@@ -131,7 +128,6 @@ function load(loadType) {
     console.log(lsgv, loadType);
     sysLog(lsgv + loadType);
 
-    //if (isValid(settingsVar)) { settings = mergeObj(settings, settingsVar); }
     if (isValid(settingsVar)) { mergeObj(settings, settingsVar); }
 
     adjustMorale(0);
@@ -158,8 +154,6 @@ function load(loadType) {
     ui.find("#wonderNameP").innerHTML = curCiv.curWonder.name;
     ui.find("#wonderNameC").innerHTML = curCiv.curWonder.name;
 
-    //updateTradeButtons();
-
     return true;
 }
 
@@ -184,8 +178,7 @@ function importByInput(elt) {
 
     //notify user
     sysLog("Imported saved game");
-    //close import/export dialog
-    //impexp();	
+
     return loadVar;
 }
 
@@ -225,7 +218,6 @@ function save(savetype) {
 
         //Update console for debugging, also the player depending on the type of save (manual/auto)
         if (savetype == saveTypes.auto) {
-            //console.log("Autosaved");
             sysLog("Autosaved");
         } else if (savetype == saveTypes.manual) {
             alert("Game Saved");
@@ -293,7 +285,6 @@ function renameRuler(newName) {
     }
 
     curCiv.rulerName = newName;
-
     ui.find("#rulerName").innerHTML = curCiv.rulerName;
 }
 
@@ -387,15 +378,6 @@ function reset() {
 
 function resetTradeAmounts() {
     traceLog("settings.resetTradeAmounts");
-    //curCiv.food.tradeAmount = civData.food.initTradeAmount;
-    //curCiv.wood.tradeAmount = civData.wood.initTradeAmount;
-    //curCiv.stone.tradeAmount = civData.stone.initTradeAmount;
-    //curCiv.skins.tradeAmount = civData.skins.initTradeAmount;
-    //curCiv.herbs.tradeAmount = civData.herbs.initTradeAmount;
-    //curCiv.ore.tradeAmount = civData.ore.initTradeAmount;
-    //curCiv.leather.tradeAmount = civData.leather.initTradeAmount;
-    //curCiv.potions.tradeAmount = civData.potions.initTradeAmount;
-    //curCiv.metal.tradeAmount = civData.metal.initTradeAmount;
 
     lootable.forEach(function (elem) {
         curCiv[elem.id].tradeAmount = civData[elem.id].initTradeAmount;
@@ -409,34 +391,6 @@ function setInitTradeAmount() {
             curCiv[elem.id].tradeAmount = civData[elem.id].initTradeAmount;
         }
     });
-
-    //if (!isValid(curCiv.food.tradeAmount)) {
-    //    curCiv.food.tradeAmount = civData.food.initTradeAmount;
-    //}
-    //if (!isValid(curCiv.wood.tradeAmount)) {
-    //    curCiv.wood.tradeAmount = civData.wood.initTradeAmount;
-    //}
-    //if (!isValid(curCiv.stone.tradeAmount)) {
-    //    curCiv.stone.tradeAmount = civData.stone.initTradeAmount;
-    //}
-    //if (!isValid(curCiv.skins.tradeAmount)) {
-    //    curCiv.skins.tradeAmount = civData.skins.initTradeAmount;
-    //}
-    //if (!isValid(curCiv.herbs.tradeAmount)) {
-    //    curCiv.herbs.tradeAmount = civData.herbs.initTradeAmount;
-    //}
-    //if (!isValid(curCiv.ore.tradeAmount)) {
-    //    curCiv.ore.tradeAmount = civData.ore.initTradeAmount;
-    //}
-    //if (!isValid(curCiv.leather.tradeAmount)) {
-    //    curCiv.leather.tradeAmount = civData.leather.initTradeAmount;
-    //}
-    //if (!isValid(curCiv.potions.tradeAmount)) {
-    //    curCiv.potions.tradeAmount = civData.potions.initTradeAmount;
-    //}
-    //if (!isValid(curCiv.metal.tradeAmount)) {
-    //    curCiv.metal.tradeAmount = civData.metal.initTradeAmount;
-    //}
 }
 
 function tickAutosave() {

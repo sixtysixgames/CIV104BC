@@ -1,4 +1,3 @@
-
 // These are not saved, but we need them up here for the asset data to init properly.
 let population = {
     current: 0,

@@ -1,5 +1,4 @@
-﻿
-import {
+﻿import {
     achData, civData, civObjType, civSizes, curCiv, population, PATIENT_LIST,
     alignmentType, buildingData, killable, lootable, matchType, placeType, resourceData, sackable, speciesType, subTypes, unitData, unitType,
     getCurDeityDomain, getCustomNumber, getWonderBonus, updateAchievements, updateBuildingButtons, updateDevotion, updateJobButtons, updateMorale, updatePartyButtons, updatePopulation,
@@ -47,8 +46,7 @@ function meetsPrereqs(prereqObj) {
     //let i;
     for (let i in prereqObj) {
         //xxx HACK:  Ugly special checks for non-upgrade pre-reqs.
-        // This should be simplified/eliminated once the resource
-        // system is unified.
+        // This should be simplified/eliminated once the resource system is unified.
         if (i === "deity") { // Deity
             if (getCurDeityDomain() != prereqObj[i]) { return false; }
         } else if (i === "wonderStage") { //xxx Hack to check if we're currently building a wonder.
@@ -62,8 +60,7 @@ function meetsPrereqs(prereqObj) {
 }
 
 // Returns how many of this item the player can afford.
-// Looks only at the item's cost and the player's resources, and not
-// at any other limits.
+// Looks only at the item's cost and the player's resources, and not at any other limits.
 // Negative quantities are always fully permitted.
 // An undefined cost structure is assumed to mean it cannot be purchased.
 // A boolean quantity is converted to +1 (true) -1 (false)
@@ -138,7 +135,6 @@ function canPurchase(purchaseObj, qty) {
     // If this is a destination item, it's just a relocation of an existing
     // item, so we ignore purchase limits.  Otherwise we check them.
     if (purchaseObj.isDest && !purchaseObj.isDest()) {
-        //qty = Math.min(qty, purchaseObj.limit - purchaseObj.total);
         qty = Math.min(qty, Math.max(0, purchaseObj.limit - purchaseObj.total));
     }
     // if source limit has changed ie barracks destroyed, we need to check limit of source
@@ -420,22 +416,7 @@ function getRandomPatient(n) {
 }
 
 function clearSpecialResourceNets() {
-    //66g todo: some sort of loop over resources
-    // see below and use subType = subTypes.special
-    //civData.food.net = 0;
-    //civData.wood.net = 0;
-    //civData.stone.net = 0;
-
-    //civData.skins.net = 0;
-    //civData.herbs.net = 0;
-    //civData.ore.net = 0;
-
-    //civData.leather.net = 0;
-    //civData.potions.net = 0;
-    //civData.metal.net = 0;
-    //civData.iron.net = 0;
-
-    //let resID = "";
+    //66g: some sort of loop over resources
     lootable.forEach(function (resElem) {
         civData[resElem.id].net = 0;
     });
@@ -468,16 +449,7 @@ function calculatePopulation() {
     if (curCiv.zombie.owned < 0) {
         curCiv.zombie.owned = 0;
     }
-    //population = {
-    //    current: 0,
-    //    living: 0,
-    //    zombie: curCiv.zombie.owned,
-    //    limit: 0,
-    //    limitIncludingUndead: 0,
-    //    healthy: 0,
-    //    totalSick: 0,
-    //    extra: 0
-    //};
+
     // 66g todo: need a reset method on population
     // population is readonly from an import
     population.current = 0;
@@ -490,25 +462,6 @@ function calculatePopulation() {
     population.extra = 0;
 
     //Update population limit by multiplying out housing numbers
-    // 66g todo: limits should be hardcoded with civData
-    //population.limit = (
-    //    civData.tent.owned
-    //    + (civData.hut.owned * 3)
-    //    + (civData.cottage.owned * 6)
-    //    + (civData.house.owned * (10 + (civData.tenements.owned * 2) + (civData.slums.owned * 2)))
-    //    + (civData.mansion.owned * 50)
-    //    + (civData.palace.owned * 150)
-    //);
-    // 66g todo: need better way to calculate
-    // perhaps loop over all 'dwellings'
-    //population.limit = (
-    //    (civData.tent ? civData.tent.total : 0)
-    //    + (civData.hut ? civData.hut.total : 0)
-    //    + (civData.cottage ? civData.cottage.total : 0)
-    //    + (civData.house ? civData.house.total : 0)
-    //    + (civData.mansion ? civData.mansion.total : 0)
-    //    + (civData.palace ? civData.palace.total : 0)
-    //);
     population.limit = (
         (civData.tent.total)
         + (civData.hut.total)
@@ -659,7 +612,6 @@ function doStarve() {
         if (numberStarve == 1) {
             gameLog("citizen starved to death");
         } else if (numberStarve > 1) {
-            //gameLog(prettify(numberStarve) + " citizens starved to death");
             gameLog("citizens starved to death");
         }
         civData.food.owned = 0;
@@ -677,7 +629,6 @@ function doHomeless() {
             let who = numDie == 1 ? "homeless citizen" : "homeless citizens";
             let where = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
             let what = Math.random() < 0.99 ? " died of exposure" : " migrated " + where[Math.floor(Math.random() * where.length)];
-            //gameLog(prettify(numDie) + who + what);
             gameLog(who + what);
         }
     }
@@ -685,7 +636,6 @@ function doHomeless() {
 
 function killUnit(unit) {
     if (!unit) { return 0; }
-    //let killed = 0;
     if (unit.ill) { unit.ill -= 1; }
     else { unit.owned -= 1; }
 

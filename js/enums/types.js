@@ -1,4 +1,3 @@
-
 /*
  * Constants - because we don't like hard-coded strings
  * do not use the defer attribute on the script tag in index.html

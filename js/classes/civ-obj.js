@@ -62,8 +62,7 @@ CivObj.prototype = {
     }, // true (1) for booleans, 0 otherwise.
     set limit(value) { return this.limit; }, // Only here for JSLint.
     //xxx This is a hack; it assumes that any CivObj with a getter for its
-    // 'require' has a variable cost.  Which is currently true, but might not
-    // always be.
+    // 'require' has a variable cost.  Which is currently true, but might not always be.
     hasVariableCost: function () {
         let i;
         // If our requirements have a getter, assume variable.
@@ -88,7 +87,6 @@ CivObj.prototype = {
 
 //class CivObj {
 //    constructor(props) {
-
 //    }
 //}
 

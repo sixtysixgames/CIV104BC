@@ -120,36 +120,6 @@ setup.events = function () {
     elem.onmousedown = function (e) { trade(); };
 
     // buying resources
-    //elem = document.getElementById("buyFood");
-    //elem.onmousedown = function (e) { buy('food'); };
-
-    //elem = document.getElementById("buyWood");
-    //elem.onmousedown = function (e) { buy('wood'); };
-
-    //elem = document.getElementById("buyStone");
-    //elem.onmousedown = function (e) { buy('stone'); };
-
-    //elem = document.getElementById("buySkins");
-    //elem.onmousedown = function (e) { buy('skins'); };
-
-    //elem = document.getElementById("buyHerbs");
-    //elem.onmousedown = function (e) { buy('herbs'); };
-
-    //elem = document.getElementById("buyOre");
-    //elem.onmousedown = function (e) { buy('ore'); };
-
-    //elem = document.getElementById("buyLeather");
-    //elem.onmousedown = function (e) { buy('leather'); };
-
-    //elem = document.getElementById("buyPotions");
-    //elem.onmousedown = function (e) { buy('potions'); };
-
-    //elem = document.getElementById("buyMetal");
-    //elem.onmousedown = function (e) { buy('metal'); };
-
-    //elem = document.getElementById("buyIron");
-    //elem.onmousedown = function (e) { buy('iron'); };
-
     let buttID = "";
     let butt;
     lootable.forEach(function (elem) {
@@ -190,9 +160,7 @@ setup.civSizes = function () {
 
 setup.game = function () {
     traceLog("app.setup.game");
-    console.log("Setting up game");
     sysLog("Starting game");
-    //document.title = "CivClicker ("+versionData+")"; //xxx Not in XML DOM.
 
     // we need to set up ui stuff before loading saved data
     addBuyButtons();

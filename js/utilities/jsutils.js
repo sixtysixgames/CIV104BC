@@ -181,7 +181,6 @@ function matchType(inVar, toMatch) {
 // Looks for the specified attribute in each array entry, and adds an alias for
 // it at the top level.
 function indexArrayByAttr(inArray, attr) {
-    //console.log("indexArrayByAttr=" + inArray.length);
     inArray.forEach(function (elem, ignore, arr) {
         // Add a named alias to each entry.
         
@@ -211,7 +210,6 @@ function sgn(x) {
             : (typeof x == "boolean") ? sgnbool(x) : 0;
 }
 function abs(x) { return (typeof x == "number") ? Math.abs(x) : (typeof x == "string") ? absstr(x) : x; }
-
 
 export {
     isValid, ifValid, valOf, bake_cookie, read_cookie, calcArithSum, logSearchFn, mergeObj, dataset, rndRound, copyProps, deleteCookie, getStdObj,

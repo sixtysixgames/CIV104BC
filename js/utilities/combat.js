@@ -8,8 +8,7 @@ import {
     updateAltars, updateRaidBar, updateMobBar, updatePartyButtons, updateRequirements, updateResourceTotals, updateTargets
 } from "../index.js";
 
-// there might be a better way to check this
-// loop over all enemy types
+// there might be a better way to check this i.e. loop over all enemy types
 function isUnderAttack() {
     return (curCiv.wolf.owned > 0) ||
         (curCiv.bandit.owned > 0) ||
@@ -86,7 +85,7 @@ function invade(ecivtype) {
     // Glory redoubles rewards
     baseLoot = baseLoot * (1 + (civData.glory.timer <= 0 ? 0 : 1));
 
-    // Set rewards of land and other random plunder.
+    // Set rewards of land and other random plunder
     // land between 25 and 50% because it can be doubled with administration and we don't want to gain too much
     let baseLand = (baseLoot / 3) * (1 + (civData.administration.owned));
     curCiv.raid.plunderLoot = {
@@ -94,7 +93,7 @@ function invade(ecivtype) {
     };
     //lootable.forEach(function (elem) { curCiv.raid.plunderLoot[elem.id] = Math.round(baseLoot * Math.random()); });
     baseLoot -= Math.round(curCiv.raid.plunderLoot.freeLand * Math.random());
-    //66g todo: we don't want rare resources plundered from low population, so decrease baseLoot quicker
+    //66g we don't want rare resources plundered from low population, so decrease baseLoot quicker
     let counter = 0;
     lootable.forEach(function (elem) {
         counter++;
@@ -170,7 +169,6 @@ function plunder() {
         lootMsg = "nothing";
     }
     plunderMsg += "Plundered " + lootMsg + ". ";
-    //gameLog(plunderMsg);
     raidLog(plunderMsg);
 
     ui.show(raidNewsElt, true);
@@ -260,8 +258,6 @@ function doWolves(attacker) {
         attacker.owned -= gone; // wolves leave after eating
         // just in case
         if (civData.corpses.owned < 0) { civData.corpses.owned = 0; }
-
-        //gameLog(prettify(gone) + " rotting " + civData.corpses.getQtyName(gone) + " devoured by wolves");
         gameLog(civData.corpses.getQtyName(gone) + " consumed by wolves");
 
     } else {
@@ -327,7 +323,6 @@ function doSlaughter(attacker) {
             if (attacker.species == speciesType.animal) {
                 civData.corpses.owned -= 1;
             }
-            //gameLog("1 " + targetUnit.getQtyName(1) + " " + killVerb + " by " + attacker.getQtyName(2)); // always use plural
             gameLog(targetUnit.getQtyName(1) + " " + killVerb + " by " + attacker.getQtyName(2)); // always use plural
         }
         else {
@@ -392,7 +387,6 @@ function doSlaughterMulti(attacker) {
         let who = population.living <= 0 ? "zombies " : "citizens ";
         let killVerb = Math.random() < 0.001 ? "captured" : "slaughtered";
         let killNote = (kills == 1) ? lastTarget + " murdered by " : who + killVerb + " by ";
-        //gameLog(prettify(kills) + killNote + attacker.getQtyName(2)); // always use plural attacker
         gameLog(killNote + attacker.getQtyName(2)); // always use plural attacker
         calculatePopulation();
     }
@@ -415,10 +409,7 @@ function doLoot(attacker) {
         stolenQty = Math.min(stolenQty, Math.floor(target.owned));
         if (stolenQty > 0) {
             target.owned -= stolenQty;
-            //if (Math.random() < attacker.lootStop) { --attacker.owned; } // Attackers might leave after stealing something.
             if (Math.random() < attacker.lootStop) { attacker.owned -= looters; } // Attackers might leave after stealing something.
-            //gameLog(prettify(stolenQty) + " " + target.getQtyName(stolenQty) + " stolen by " + attacker.getQtyName(2)); // always plural
-
             gameLog(target.getQtyName(stolenQty) + " stolen by " + attacker.getQtyName(2)); // always plural
         }
     }
@@ -449,8 +440,6 @@ function doSack(attacker) {
         updateRequirements(target);
         updateResourceTotals();
         calculatePopulation(); // Limits might change
-
-        //gameLog("1 " + target.getQtyName(1) + " " + destroyVerb + " by " + attacker.getQtyName(2)); // always plural
         gameLog(target.getQtyName(1) + " " + destroyVerb + " by " + attacker.getQtyName(2)); // always plural
     }
     if (!isValid(target) || (isValid(target) && target.owned <= 0)) {
@@ -489,7 +478,6 @@ function doSackMulti(attacker) {
     if (sacks > 0) {
         let destroyVerb = (Math.random() < 0.01) ? " burned by " : " destroyed by ";
         let destroyNote = (sacks == 1) ? lastTarget + destroyVerb : "buildings " + destroyVerb;
-        //gameLog(prettify(sacks) + destroyNote + attacker.getQtyName(2)); // always use plural attacker
         gameLog(destroyNote + attacker.getQtyName(2)); // always use plural attacker
         updateResourceTotals();
         calculatePopulation(); // Limits might change
@@ -511,7 +499,6 @@ function doConquer(attacker) {
         land = Math.min(civData.freeLand.owned, land);
         if (land > 0) {
             civData.freeLand.owned -= land;
-            //gameLog(prettify(land) + " land occupied by " + attacker.getQtyName(2)); // always plural
             // 66g: barbariand 'lay waste' to land
             gameLog("land occupied by " + attacker.getQtyName(2)); // always plural
             // Attackers might leave after conquering land.
@@ -701,7 +688,8 @@ function doMobs() {
     let resources = getResourceTotal();
     let altars = getAltarsOwned();
 
-    let civLimit = population.limit; //population.current// attacks can still happen if there are habitable buildings to destroy, resources to plunder, graves/altars to desecrate, zombies to hack
+    let civLimit = population.limit; //population.current
+    // attacks can still happen if there are habitable buildings to destroy, resources to plunder, graves/altars to desecrate, zombies to hack
     let totalStuff = population.limit + landTotals.sackableTotal + resources + civData.freeLand.owned + civData.graveyard.owned + altars + curCiv.zombie.owned;
 
     if (totalStuff < 1) {
@@ -749,10 +737,7 @@ function doMobs() {
                 }
                 else {
                     // we want loads of attackers, but not too many otherwise the browser breaks
-                    // get the min pop from the max civ this player has raided
-                    //mobNum = civSizes[curCiv.raid.targetMax].min_pop;
-                    //mobNum = Math.ceil(mobNum * Math.random());
-                    // 66g 20230119 we don't want more than there is stuff to do.  the above is too much
+                    // 66g 20230119 we don't want more than there is stuff to do
                     mobNum = Math.ceil(totalStuff * Math.random());
                 }
             }

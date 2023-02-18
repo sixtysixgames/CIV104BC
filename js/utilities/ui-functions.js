@@ -1,18 +1,13 @@
 ﻿"use strict";
-
 import { appSettings, dataset, gameLoop, getLandTotals, getPlayingTimeShort, getReqText, isValid, population, settings, ui, updateResourceTotals } from "../index.js";
-
-//========== UI functions
 
 // Called when user switches between the various panes on the left hand side of the interface
 // Returns the target pane element.
 function paneSelect(e) {
     let oldTarget;
-    //console.log("paneSelect:" + e.target);
 
     let control = e.target;
-    // Identify the target pane to be activated, and the currently active
-    // selector tab(s).
+    // Identify the target pane to be activated, and the currently active selector tab(s).
     let newTarget = dataset(control, "target");
     let selectors = ui.find("#selectors");
     if (!selectors) {
@@ -165,17 +160,6 @@ function textSize(value) {
     ui.body.style.fontSize = settings.fontSize + "em";
 }
 
-//function setShadow(value) {
-//    if (value !== undefined) { settings.textShadow = value; }
-//    ui.find("#toggleShadow").checked = settings.textShadow;
-//    let shadowStyle = "3px 0 0 #fff, -3px 0 0 #fff, 0 3px 0 #fff, 0 -3px 0 #fff"
-//        + ", 2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff";
-//    ui.body.style.textShadow = settings.textShadow ? shadowStyle : "none";
-//}
-//function onToggleShadow(control) {
-//    return setShadow(control.checked);
-//}
-
 // Does nothing yet, will probably toggle display for "icon" and "word" classes 
 // as that's probably the simplest way to do this.
 function setIcons(value) {
@@ -200,33 +184,6 @@ function setGameSpeed(interval) {
     window.clearInterval(appSettings.loopTimer);
     appSettings.loopTimer = window.setInterval(gameLoop, interval);
 }
-
-//function setDelimiters(value) {
-//    if (value !== undefined) { settings.delimiters = value; }
-//    ui.find("#toggleDelimiters").checked = settings.delimiters;
-//}
-//function onToggleDelimiters(control) {
-//    //return setDelimiters(control.checked);
-//    setDelimiters(control.checked);
-//    updateResourceTotals();
-//}
-
-//function setWorksafe(value) {
-//    if (value !== undefined) { settings.worksafe = value; }
-//    ui.find("#toggleWorksafe").checked = settings.worksafe;
-
-//    //xxx Should this be applied to the document instead of the body?
-//    if (settings.worksafe) {
-//        ui.body.classList.remove("hasBackground");
-//    } else {
-//        ui.body.classList.add("hasBackground");
-//    }
-
-//    setIcons(); // Worksafe overrides icon settings.
-//}
-//function onToggleWorksafe(control) {
-//    return setWorksafe(control.checked);
-//}
 
 // Generate two HTML <span> texts to display an item's cost and effect note.
 function getCostNote(civObj) {
@@ -254,38 +211,6 @@ function setReqText(civObj) {
     elem.innerHTML = reqText;
 }
 
-// TODO: we should probably pass the relevant table to a single function
-// even better would be to use a div with a scrollbars so that no messages are lost
-//function xxxgameLog(message) {
-//    //get the current date, extract the current time in HH.MM format
-//    //xxx It would be nice to use Date.getLocaleTimeString(locale,options) here, but most browsers don't allow the options yet.
-//    //let d = new Date();
-//    // todo: output some sort of in-game date based on how long played
-//    //let curTime = d.getHours() + ":" + ((d.getMinutes() < 10) ? "0" : "") + d.getMinutes();
-//    //let curTime = getGameDateTime();
-//    let curTime = getPlayingTimeShort();
-//    message = sentenceCase(message);
-
-//    //Check to see if the last message was the same as this one, if so just increment the (xNumber) value
-//    if (ui.find("#logL").innerHTML != message) {
-//        appSettings.logRepeat = 0; //Reset the (xNumber) value
-
-//        //Go through all the logs in order, moving them down one and successively overwriting them.
-//        let i = 30; // Number of lines of log to keep. See the logTable in index.html
-//        while (--i > 1) { ui.find("#log" + i).innerHTML = ui.find("#log" + (i - 1)).innerHTML; }
-//        //Since ids need to be unique, log1 strips the ids from the log0 elements when copying the contents.
-//        ui.find("#log1").innerHTML = (
-//            "<td>" + ui.find("#logT").innerHTML
-//            + "</td><td>" + ui.find("#logL").innerHTML
-//            + "</td><td>" + ui.find("#logR").innerHTML + "</td>"
-//        );
-//    }
-//    // Updates most recent line with new time, message, and xNumber.
-//    let s = "<td id='logT'>" + curTime + "</td><td id='logL'>" + message + "</td><td id='logR'>";
-//    if (++appSettings.logRepeat > 1) { s += "(x" + appSettings.logRepeat + ")"; } // Optional (xNumber)
-//    s += "</td>";
-//    ui.find("#log0").innerHTML = s;
-//}
 function gameLog(message) {
     let curTime = getPlayingTimeShort();
     message = sentenceCase(message);
@@ -336,7 +261,6 @@ function logMessage(tableID, time, message, repeatCount) {
     return repeatCount;
 }
 
-// a copy of the gameLog function above
 // outputs to the Event Log tab
 function sysLog(message) {
     //get the current date, extract the current time in HH.MM format
@@ -347,26 +271,6 @@ function sysLog(message) {
     appSettings.sysLogRepeat = logMessage("#syslogTable", curTime, message, appSettings.sysLogRepeat); 
 
     console.log(message);
-
-    //Check to see if the last message was the same as this one, if so just increment the (xNumber) value
-    //if (ui.find("#syslogL").innerHTML != message) {
-    //    appSettings.sysLogRepeat = 0; //Reset the (xNumber) value
-
-    //    //Go through all the logs in order, moving them down one and successively overwriting them.
-    //    let i = 20; // Number of lines of log to keep.
-    //    while (--i > 1) { ui.find("#syslog" + i).innerHTML = ui.find("#syslog" + (i - 1)).innerHTML; }
-    //    //Since ids need to be unique, log1 strips the ids from the log0 elements when copying the contents.
-    //    ui.find("#syslog1").innerHTML = (
-    //        "<td>" + ui.find("#syslogT").innerHTML
-    //        + "</td><td>" + ui.find("#syslogL").innerHTML
-    //        + "</td><td>" + ui.find("#syslogR").innerHTML + "</td>"
-    //    );
-    //}
-    //// Updates most recent line with new time, message, and xNumber.
-    //let s = "<td id='syslogT'>" + curTime + "</td><td id='syslogL'>" + message + "</td><td id='syslogR'>";
-    //if (++appSettings.sysLogRepeat > 1) { s += "(x" + appSettings.sysLogRepeat + ")"; } // Optional (xNumber)
-    //s += "</td>";
-    //ui.find("#syslog0").innerHTML = s;
 }
 function tradeLog(message) {
     let curTime = getPlayingTimeShort();

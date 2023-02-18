@@ -1,4 +1,3 @@
-
 // Civ size category minimums
 const civSizes = [
     { min_pop: 0, name: "Tribe", id: "tribe" },

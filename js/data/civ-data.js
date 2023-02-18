@@ -21,15 +21,10 @@ function getCivData() {
     civDatax = civDatax.concat(getUnitData());
     civDatax = civDatax.concat(getAchievementData());
 
-    //console.log("civDatax="+civDatax.length);
-
     civDatax = augmentCivData(civDatax);
 
-    //console.log("civDatax=" + civDatax.length);
-
     // Create 'civData.foo' entries as aliases for the civData element with 
-    // id = "foo".  This makes it a lot easier to refer to the array
-    // elements in a readable fashion.
+    // id = "foo".  This makes it a lot easier to refer to the array elements in a readable fashion.
     indexArrayByAttr(civDatax, "id");
 
     // Initialize our data. 

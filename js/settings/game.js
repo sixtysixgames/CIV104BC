@@ -1,4 +1,3 @@
-
 import {
     civData, curCiv, gameLog, tickAutosave, calculatePopulation, clearSpecialResourceNets, dismissWorkers, doFarmers, doWoodcutters,
     doMiners, doBlacksmiths, doApothecaries, doTanners, doClerics, doStarve, doHomeless, checkResourceLimits, doMobs, doPestControl,
@@ -17,7 +16,6 @@ function gameLoop() {
     //let start = new Date().getTime();
 
     tickAutosave();
-
     calculatePopulation();
 
     // The "net" values for special resources are just running totals of the

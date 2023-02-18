@@ -1,5 +1,4 @@
-﻿
-import {
+﻿import {
     civData, curCiv, isValid, deityDomains, buildingType, deityTypes, ui, updateDeity, getCustomNumber, logSearchFn, calcZombieCost,
     gameLog, calculatePopulation, updatePopulation, updateResourceTotals, payFor, updateUpgrades, lootable, getRandomHealthyWorker, resourceType,
 prettify, population, getPietyEarnedBonus, updateJobButtons, adjustMorale, updateMorale} from "../index.js";
@@ -175,7 +174,6 @@ function wickerman() {
 }
 
 function walk(increment) {
-    //console.log("walk start");
     if (increment == undefined) { increment = 1; }
     if (increment == false) { increment = 0; civData.walk.rate = 0; }
 
@@ -188,7 +186,6 @@ function walk(increment) {
 }
 
 function tickWalk() {
-    //console.log("tickWalk start");
     let target = "";
     if (civData.walk.rate > population.healthy) {
         civData.walk.rate = population.healthy;

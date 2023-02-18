@@ -216,8 +216,6 @@ function getBuildingData() {
             effectText: "+1 Devotion"
         })
     ];
-
-    //console.log(buildData.length);
     return buildData;
 }
 

@@ -175,14 +175,7 @@ function getPantheonUpgradeRowText(upgradeObj) {
     s += "<td class='" + upgradeObj.type + "true'><button id='" + upgradeObj.id + "' class='xtrue'";
     s += " data-action='purchase' data-quantity='true' data-target=" + upgradeObj.id;
     s += " disabled='disabled' "; 
-    // The event handler can take three forms, depending on whether this is
-    // an altar, a prayer, or a pantheon upgrade.
-    //if (upgradeObj.subType != subTypes.altar && upgradeObj.subType != subTypes.pantheon) {
-    //    // we add onmousedown event for altars later
-    //    s += " onmousedown=\"";
-    //    s += ((upgradeObj.subType == subTypes.prayer) ? (upgradeObj.id + "()") : ("onPurchase(this)"));
-    //    s += "\"";
-    //}
+    // The event handler can take three forms, depending on whether this is an altar, a prayer, or a pantheon upgrade.
     s += ">" + upgradeObj.getQtyName() + "</button>";
     s += (isValid(upgradeObj.extraText) ? upgradeObj.extraText : "") + "</td>";
     s += "<td>" + getCostNote(upgradeObj) + "</td>";
@@ -260,7 +253,6 @@ function addUpgradeRows() {
 
 function getPrayerFunction(id) {
     //wickerman, walk, smite, glory, raiseDead, summonShade, pestControl, grace
-    //console.log(id);
     let elem = null;
     switch (id) {
         case "wickerman":
@@ -289,7 +281,6 @@ function getPrayerFunction(id) {
     return false;
 }
 
-//<button id="buyIron" class="tradeResource">Buy <span id="ironCost">250</span> Iron</button><br />
 function getBuyButton(elem) {
     traceLog("Getting buy button: " + elem.id);
     let s = "";

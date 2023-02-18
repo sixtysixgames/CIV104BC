@@ -1,4 +1,3 @@
-
 import { VersionData } from "../index.js";
 
 const appSettings = {
@@ -19,11 +18,11 @@ const appSettings = {
     achLogRepeat: 1
 };
 
-// These are settings that should probably be tied to the browser.
+// These are settings that should probably be tied to the browser
 let settings = {
     autosave: true,
     autosaveCounter: 1,
-    autosaveTime: 120, //Currently autosave is every 2 minutes. Might change to 5 mins in future.
+    autosaveTime: 120, //Currently autosave is every 2 minutes
     customIncr: false,
     fontSize: 1.0,
     delimiters: true,

@@ -23,18 +23,4 @@ Achievement.prototype = new CivObj({
     set limit(value) { return this.limit; } // Only here for JSLint.
 }, true);
 
-//class Achievement extends CivObj{
-//    constructor(props) {
-//        super(props);
-//        this.type = civObjType.achievement;
-//        this.initOwned = false;
-//        this.prestige = true; // Achievements are not lost on reset.
-//        this.vulnerable = false;
-//    }
-
-//    get limit() { return 1; } // Can't re-buy these.
-//    set limit(value) { return this.limit; } // Only here for JSLint.
-//}
-
-
 export { Achievement };
