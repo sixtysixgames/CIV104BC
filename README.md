@@ -1,2 +1,14 @@
 # CIV104BC
-CIV 104 BC - Another CivClicker
+CIV 104 BC - Another CivClicker clone
+
+Why the name?
+Well CIV in Roman numerals = 104 and BC = Browser Civilisation, because that's where it is :-)
+
+This builds on my other CivClicker clone https://github.com/sixtysixgames/CivClicker
+
+The major difference is I've ported it to use JavaScript modules in an effort to keep the index.html file as lean as possible.
+Also means I've been able to split up the large .js files into related methods.
+
+And I've added new buildings, units and resources
+
+Very much in development as I intend adding more stuff, so there will probably be breaking changes
