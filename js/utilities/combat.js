@@ -33,7 +33,15 @@ function resetRaiding() {
 
 function getPlayerCombatMods() {
     let mods = 0.01 * (civData.riddle.owned + civData.weaponry.owned + civData.shields.owned + civData.armour.owned);
-    mods += 0.02 * (civData.advweaponry.owned + civData.advshields.owned + civData.advarmour.owned);
+    // bandits should be a bit less than 0.05 + 0.04 = 0.09 ~0.06
+    mods += 0.02 * (civData.stdweaponry.owned + civData.stdshields.owned + civData.stdarmour.owned);
+    // barbarians should be a bit less than 0.05 + 0.04 + 0.6 = 0.15 ~0.11
+    mods += 0.03 * (civData.advweaponry.owned + civData.advshields.owned + civData.advarmour.owned);
+    // invaders should be a bit less than 0.05 + 0.04 + 0.6 + 0.9 = 0.24 ~0.19
+
+    // total 0.04 + 0.06 + 0.09 = 0.19
+    // soldiers = base = 0.05 + 0.19 = 0.24
+    // cavalry = base = 0.08 + 0.19 = 0.27
     return mods;
 }
 
@@ -79,6 +87,8 @@ function invade(ecivtype) {
     // 5-25% of enemy population is soldiers.
     civData.esoldier.owned += (curCiv.raid.epop / 20) + Math.floor(Math.random() * (curCiv.raid.epop / 5));
     civData.efort.owned += Math.floor(Math.random() * (curCiv.raid.epop / 5000));
+    // increase enemy efficiency depending on invasion target
+    civData.esoldier.efficiency = civData.esoldier.efficiency_base + civSizes[ecivtype].efficiency;
 
     // 66g todo: should we should take into account size of raiding party
     let baseLoot = Math.min(civData.soldierParty.owned + civData.cavalryParty.owned, curCiv.raid.epop);
@@ -91,7 +101,7 @@ function invade(ecivtype) {
     curCiv.raid.plunderLoot = {
         freeLand: Math.floor((baseLand * 0.25) + Math.round(Math.random() * (baseLand * 0.25)))
     };
-    //lootable.forEach(function (elem) { curCiv.raid.plunderLoot[elem.id] = Math.round(baseLoot * Math.random()); });
+
     baseLoot -= Math.round(curCiv.raid.plunderLoot.freeLand * Math.random());
     //66g we don't want rare resources plundered from low population, so decrease baseLoot quicker
     let counter = 0;
