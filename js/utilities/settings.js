@@ -28,7 +28,9 @@ function handleStorageError(err) {
 
 // Load in saved data
 function load(loadType) {
+    //deleteSave()
     traceLog("settings.load");
+
     //define load variables
     let loadVar = {},
         loadVar2 = {},
@@ -251,7 +253,7 @@ function deleteSave() {
         localStorage.removeItem(appSettings.saveTag);
         localStorage.removeItem(appSettings.saveTag2);
         localStorage.removeItem(appSettings.saveSettingsTag);
-        sysLog("Save Deleted");
+        console.log("Save Deleted");
         if (confirm("Save Deleted. Refresh page to start over?")) {
             window.location.reload();
         }
