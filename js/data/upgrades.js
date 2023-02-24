@@ -57,38 +57,42 @@ function getUpgradeData() {
         }),
         new Upgrade({
             id: "coppicing", name: "Coppicing", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { wood: 1000 },
-            effectText: "Increase charcoal production"
+            effectText: "Increase wood and charcoal production"
         }),
         new Upgrade({
-            id: "ironOre", name: "Iron Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 250, ore: 500, iron: 25 },
+            id: "limestone", name: "Limestone", subType: subTypes.upgrade, prereqs: { construction: true }, require: { wood: 1000, stone: 1000 },
+            effectText: "Increase lime production"
+        }),
+        new Upgrade({
+            id: "ironOre", name: "Iron Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 250, ore: 500, iron: 65 },
             effectText: "Low grade ore. Increase ore and iron production"
         }),
         new Upgrade({
-            id: "magnetite", name: "Magnetite", subType: subTypes.upgrade, prereqs: { ironOre: true }, require: { charcoal: 2500, ore: 5000, iron: 250 },
+            id: "magnetite", name: "Magnetite", subType: subTypes.upgrade, prereqs: { ironOre: true }, require: { charcoal: 2500, ore: 5000, iron: 650 },
             effectText: "High grade iron ore. Increase ore and iron production"
         }),
         new Upgrade({
-            id: "coppOre", name: "Copper Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 500, ore: 1000, copper: 25 },
+            id: "coppOre", name: "Copper Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 500, ore: 1000, copper: 55 },
             effectText: "Low grade ore. Increase ore and copper production"
         }),
         new Upgrade({
-            id: "malachite", name: "Malachite", subType: subTypes.upgrade, prereqs: { coppOre: true }, require: { charcoal: 5000, ore: 10000, copper: 250 },
+            id: "malachite", name: "Malachite", subType: subTypes.upgrade, prereqs: { coppOre: true }, require: { charcoal: 5000, ore: 10000, copper: 550 },
             effectText: "High grade copper ore. Increase ore and copper production"
         }),
         new Upgrade({
-            id: "leadOre", name: "Lead Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 800, ore: 1500, lead: 25 },
+            id: "leadOre", name: "Lead Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 800, ore: 1600, lead: 45 },
             effectText: "Low grade ore. Increase ore and lead production"
         }),
         new Upgrade({
-            id: "galena", name: "Galena", subType: subTypes.upgrade, prereqs: { leadOre: true }, require: { charcoal: 8000, ore: 15000, lead: 250 },
+            id: "galena", name: "Galena", subType: subTypes.upgrade, prereqs: { leadOre: true }, require: { charcoal: 8000, ore: 16000, lead: 450 },
             effectText: "High grade lead ore. Increase ore and lead production"
         }),
         new Upgrade({
-            id: "tinOre", name: "Tin Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 1000, ore: 2000, tin: 25 },
+            id: "tinOre", name: "Tin Ore", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { charcoal: 1000, ore: 2000, tin: 35 },
             effectText: "Low grade ore. Increase ore and tin production"
         }),
         new Upgrade({
-            id: "cassiterite", name: "Cassiterite", subType: subTypes.upgrade, prereqs: { tinOre: true }, require: { charcoal: 12000, ore: 24000, tin: 250 },
+            id: "cassiterite", name: "Cassiterite", subType: subTypes.upgrade, prereqs: { tinOre: true }, require: { charcoal: 12000, ore: 24000, tin: 350 },
             effectText: "High grade tin ore. Increase ore and tin production"
         }),
         new Upgrade({
