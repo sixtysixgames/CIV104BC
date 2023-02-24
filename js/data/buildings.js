@@ -30,7 +30,7 @@ function getBuildingData() {
             effectText: "+6 citizens", limit: 6
         }),
         new Building({
-            id: buildingType.house, singular: "house", plural: "houses", prereqs: { construction: true }, require: { wood: 30, stone: 70 },
+            id: buildingType.house, singular: "house", plural: "houses", prereqs: { construction: true }, require: { wood: 30, stone: 50, lime: 10 },
             get effectText() {
                 let maxPop = this.limit;
                 return "+" + maxPop + " citizens";
@@ -41,12 +41,12 @@ function getBuildingData() {
         }),
         new Building({
             id: buildingType.mansion, singular: "mansion", plural: "mansions",
-            prereqs: { engineering: true }, require: { wood: 500, stone: 500, leather: 100, metal: 100 },
+            prereqs: { engineering: true }, require: { wood: 500, stone: 500, leather: 100, metal: 100, lime: 25 },
             effectText: "+50 citizens", limit: 50
         }),
         new Building({
             id: buildingType.palace, singular: "palace", plural: "palaces",
-            prereqs: { architecture: true }, require: { wood: 1000, stone: 1000, iron: 50, copper: 25, gold: 5 },
+            prereqs: { architecture: true }, require: { wood: 1000, stone: 1000, iron: 50, copper: 25, lime: 500, gold: 1 },
             effectText: "+150 citizens", limit: 150
         }),
         new Building({
@@ -123,7 +123,16 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.charKiln, singular: "charcoal kiln", plural: "charcoal kiln", prereqs: { smelting: true }, require: { wood: 50, stone: 100 },
+            id: buildingType.limeKiln, singular: "lime kiln", plural: "lime kilns", prereqs: { construction: true }, require: { wood: 100, stone: 100 },
+            get effectText() {
+                let bonus = getStoreroomBonus();
+                return "allows 1 lime burner; +" + bonus + " lime storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
+            id: buildingType.charKiln, singular: "charcoal kiln", plural: "charcoal kilns", prereqs: { smelting: true }, require: { wood: 50, stone: 100 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 charcoal burner; +" + bonus + " charcoal storage";
