@@ -32,7 +32,8 @@ const resourceType = {
     copper: "copper",
     lead: "lead",
     tin: "tin",
-    silver: "silver"
+    silver: "silver",
+    lime: "lime"
 };
 const buildingType = {
     freeLand: "freeLand",
@@ -47,6 +48,7 @@ const buildingType = {
     stonestock: "stonestock",
     tannery: "tannery",
     smithy: "smithy",
+    limeKiln: "limeKiln",
     charKiln: "charKiln",
     ironWorks: "ironWorks",
     coppWorks: "coppWorks",
@@ -72,6 +74,7 @@ const unitType = {
     miner: "miner",
     tanner: "tanner",
     blacksmith: "blacksmith",
+    limeBurner: "limeBurner",
     charBurner: "charBurner",
     ironsmith: "ironsmith",
     coppsmith: "coppsmith",
