@@ -91,11 +91,12 @@ function doLabourers() {
 
         //then set wonder.stage so things will be updated appropriately
         ++curCiv.curWonder.stage;
-    } else { //we're still building
+    } else if(civData.labourer.owned > 0) { //we're still building
         prod = getWonderProduction();
 
         //remove resources
         wonderResources.forEach(function (resource) {
+            //console.log("resource=" + resource.id + ". prod=" + prod);
             resource.owned -= prod;
             resource.net -= prod;
         });
