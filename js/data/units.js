@@ -70,7 +70,15 @@ function getUnitData() {
             effectText: "Convert ore to metal"
         }),
         new Unit({
-            id: unitType.charBurner, singular: "charcoal burner", plural: "charcoal burner", source: unitType.unemployed,
+            id: unitType.limeBurner, singular: "lime burner", plural: "lime burners", source: unitType.unemployed,
+            efficiency: 0.5, defence: 0.04, 
+            prereqs: { limeKiln: 1 }, require: { wood: 2, stone: 2 },
+            get limit() { return civData.limeKiln.owned; },
+            set limit(value) { return this.limit; }, 
+            effectText: "Use wood and stone to make lime"
+        }),
+        new Unit({
+            id: unitType.charBurner, singular: "charcoal burner", plural: "charcoal burners", source: unitType.unemployed,
             efficiency: 0.5, defence: 0.04, 
             prereqs: { charKiln: 1 }, require: { wood: 2 },
             get limit() { return civData.charKiln.owned; },
@@ -96,7 +104,7 @@ function getUnitData() {
         new Unit({
             id: unitType.leadsmith, singular: "leadsmith", plural: "leadsmiths", source: unitType.unemployed,
             efficiency: 0.027, defence: 0.04, 
-            prereqs: { leadWorks: 1 }, require: { ore: 15, charcoal: 10 },
+            prereqs: { leadWorks: 1 }, require: { ore: 25, charcoal: 10 },
             get limit() { return civData.leadWorks.owned; },
             set limit(value) { return this.limit; }, 
             effectText: "Use ore and charcoal to make lead"
@@ -104,7 +112,7 @@ function getUnitData() {
         new Unit({
             id: unitType.tinsmith, singular: "tinsmith", plural: "tinsmiths", source: unitType.unemployed,
             efficiency: 0.02, defence: 0.04, 
-            prereqs: { tinWorks: 1 }, require: { ore: 20, charcoal: 15 },
+            prereqs: { tinWorks: 1 }, require: { ore: 50, charcoal: 25 },
             get limit() { return civData.tinWorks.owned; },
             set limit(value) { return this.limit; }, 
             effectText: "Use ore and charcoal to make tin"
@@ -112,7 +120,7 @@ function getUnitData() {
         new Unit({
             id: unitType.silvsmith, singular: "silversmith", plural: "silversmiths", source: unitType.unemployed,
             efficiency: 0.015, defence: 0.04, 
-            prereqs: { silvWorks: 1 }, require: { ore: 40, charcoal: 20 },
+            prereqs: { silvWorks: 1 }, require: { ore: 100, charcoal: 50 },
             get limit() { return civData.silvWorks.owned; },
             set limit(value) { return this.limit; }, 
             effectText: "Use ore and charcoal to make silver"
