@@ -3,7 +3,7 @@ import {
     doMiners, doBlacksmiths, doApothecaries, doTanners, doClerics, doStarve, doHomeless, checkResourceLimits, doMobs, doPestControl,
     tickGlory, doShades, doEsiege, doRaid, placeType, alignmentType, doRaidCheck, doGraveyards, doHealers, doPlague, doCorpses, doThrone,
     tickGrace, tickWalk, doLabourers, tickTraders, updateResourceTotals, testAchievements, updateAll,
-    doIronsmiths, doCharcoalBurners, doCoppersmiths, doLeadsmiths, doTinsmiths, doSilversmiths } from "../index.js";
+    doIronsmiths, doCharcoalBurners, doCoppersmiths, doLeadsmiths, doTinsmiths, doSilversmiths, doLimeBurners, } from "../index.js";
 
 // Create a cat
 function spawnCat() {
@@ -33,6 +33,7 @@ function gameLoop() {
     doBlacksmiths();
     doApothecaries();
     doTanners();
+    doLimeBurners();
     doCharcoalBurners();
     doIronsmiths();
     doCoppersmiths();
@@ -54,7 +55,7 @@ function gameLoop() {
     doPestControl();
     tickGlory();
     doShades();
-    doEsiege(civData.esiege, civData.fortification);
+    //doEsiege(civData.esiege, civData.fortification); - 66g moved to doMobs
     doRaid(placeType.party, alignmentType.player, alignmentType.enemy);
     doRaidCheck(placeType.party, alignmentType.player, alignmentType.enemy);
 
