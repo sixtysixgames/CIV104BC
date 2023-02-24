@@ -714,6 +714,25 @@ function getStorehouseBonus() {
 function getWarehouseBonus() {
     return (civData.warehouses.owned ? 2 : 1) * 200;
 }
+// 66g todo variable bonus depending on resource
+//function getStoreroomBonus(base) {
+//    if (!isValid(base) || base <= 0) {
+//        base = 50;
+//    }
+//    return (civData.storerooms.owned ? 2 : 1) * base;
+//}
+//function getStorehouseBonus(base) {
+//    if (!isValid(base) || base <= 0) {
+//        base = 100;
+//    }
+//    return (civData.storehouses.owned ? 2 : 1) * base;
+//}
+//function getWarehouseBonus(base) {
+//    if (!isValid(base) || base <= 0) {
+//        base = 200;
+//    }
+//    return (civData.warehouses.owned ? 2 : 1) * base;
+//}
 
 export {
     getCivType, getReqText, meetsPrereqs, canAfford, payFor, canPurchase, doPurchase, getLandTotals, getResourceTotal, testAchievements, calcWorkerCost, calcZombieCost,
