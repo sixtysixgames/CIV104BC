@@ -85,7 +85,7 @@ function invade(ecivtype) {
     if (civData.glory.timer > 0) { curCiv.raid.epop *= 2; } //doubles soldiers fought
 
     // 5-25% of enemy population is soldiers.
-    civData.esoldier.owned += (curCiv.raid.epop / 20) + Math.floor(Math.random() * (curCiv.raid.epop / 5));
+    civData.esoldier.owned += Math.ceil((curCiv.raid.epop / 20) + Math.floor(Math.random() * (curCiv.raid.epop / 5)));
     civData.efort.owned += Math.floor(Math.random() * (curCiv.raid.epop / 5000));
     // increase enemy efficiency depending on invasion target
     civData.esoldier.efficiency = civData.esoldier.efficiency_base + civSizes[ecivtype].efficiency;
@@ -192,7 +192,19 @@ function plunder() {
 
 // Returns all of the combatants present for a given place and alignment that.
 function getCombatants(place, alignment) {
+    //console.log("getCombatants() place=" + place + ". align=" + alignment);
     return unitData.filter(function (elem) {
+        /*
+        if (place=="home" && alignment=="enemy") {
+            if (elem.combatType == "infantry" || elem.combatType == "cavalry" || elem.combatType == "animal") {
+                console.log("getCombatants() id=" + elem.id);
+                console.log("getCombatants() alignment=" + elem.alignment);
+                console.log("getCombatants() place=" + elem.place);
+                console.log("getCombatants() combattype=" + elem.combatType);
+                console.log("getCombatants() owned=" + elem.owned);
+            }
+        }
+        */
         return ((elem.alignment == alignment) && (elem.place == place)
             && (elem.combatType) && (elem.owned > 0));
     });
@@ -207,14 +219,45 @@ function getCasualtyMod(attacker, defender) {
 
     return 1.0; // Otherwise no modifier
 }
+/*
+ * doFight()
+combat.js:225 attacker.owned=4028 defender.owned=160000
+combat.js:233 fortMod=1.24
+combat.js:241 defenceMod=0.035
+combat.js:242 defender.efficiency=0.24
+combat.js:243 attacker.efficiency=0.19
+combat.js:250 attackerCas=4028
+combat.js:251 defenderCas=0
 
+doFight()
+combat.js:234 attacker.owned=12782defender.owned=160000
+combat.js:242 fortMod=1.24
+combat.js:250 defenceMod=0.035
+combat.js:251 defender.efficiency=0.24
+combat.js:252 attacker.efficiency=0.11
+jsutils.js:140 rndRound() num=38400. base=38400
+jsutils.js:140 rndRound() num=0. base=0
+combat.js:259 attackerCas=12782
+combat.js:260 defenderCas=0
+
+ * */
 function doFight(attacker, defender) {
+    //console.log("doFight()");
+    //console.log("attacker.owned=" + attacker.owned + ". defender.owned=" + defender.owned);
     if ((attacker.owned <= 0) || (defender.owned <= 0)) { return; }
 
     // Defenses vary depending on whether the player is attacking or defending.
     let fortMod = (defender.alignment == alignmentType.player ?
-        (civData.fortification.owned * civData.fortification.efficiency)
-        : (civData.efort.owned * civData.efort.efficiency));
+                    (civData.fortification.owned * civData.fortification.efficiency)
+                    : (civData.efort.owned * civData.efort.efficiency));
+
+    //console.log("fortMod=" + fortMod);
+    // 66g HACK! if fortmod is 1 or greater, there will be no defense casualties.  This happens if over 100 fortification are owned because fort efficiency is 0.01
+    if (fortMod > 1.0) {
+        fortMod = 0.99;
+        console.log("doFight() fortMod changed=" + fortMod);
+    }
+    
 
     let defenceMod = 0;
     if (defender.alignment == alignmentType.player) {
@@ -222,11 +265,17 @@ function doFight(attacker, defender) {
         defenceMod += civData.palisade.owned ? civData.palisade.efficiency : 0;
         defenceMod += civData.battlement.owned ? civData.battlement.efficiency : 0;
     }
+    //console.log("defenceMod=" + defenceMod);
+    //console.log("defender.efficiency=" + defender.efficiency);
+    //console.log("attacker.efficiency=" + attacker.efficiency);
 
     // Determine casualties on each side.  Round fractional casualties
     // probabilistically, and don't inflict more than 100% casualties.
     let attackerCas = Math.ceil(Math.min(attacker.owned, rndRound(getCasualtyMod(defender, attacker) * defender.owned * defender.efficiency)));
     let defenderCas = Math.ceil(Math.min(defender.owned, rndRound(getCasualtyMod(attacker, defender) * attacker.owned * (attacker.efficiency - defenceMod) * Math.max(1 - fortMod, 0))));
+
+    //console.log("attackerCas=" + attackerCas);
+    //console.log("defenderCas=" + defenderCas);
 
     attacker.owned -= attackerCas;
     defender.owned -= defenderCas;
@@ -234,12 +283,8 @@ function doFight(attacker, defender) {
     // 66g attempt to control zombie pop = population.living <= 0 &&
     if (curCiv.zombie.owned > 0) {
         // kill zombies
-        if (attacker.alignment == alignmentType.player) {
-            curCiv.zombie.owned -= attackerCas;
-        }
-        if (defender.alignment == alignmentType.player) {
-            curCiv.zombie.owned -= defenderCas;
-        }
+        if (attacker.alignment == alignmentType.player) { curCiv.zombie.owned -= attackerCas; }
+        if (defender.alignment == alignmentType.player) { curCiv.zombie.owned -= defenderCas; }
     }
 
     // Give player credit for kills.
@@ -572,6 +617,7 @@ function doDesecrate(attacker) {
 }
 
 function doShades() {
+    //console.log("doShades()");
     let defender = civData.shade;
     if (defender.owned <= 0) { return; }
 
@@ -589,9 +635,14 @@ function doShades() {
 
 // Deals with potentially capturing enemy siege engines.
 function doEsiege(siegeObj, targetObj) {
+    //console.log("doEsiege() siegeObj=" + siegeObj.id + ". targetObj=" + targetObj.id);
+    //console.log("doEsiege() siegeObj.owned=" + siegeObj.owned);
     if (siegeObj.owned <= 0) { return; }
 
     //First check there are enemies there defending them
+    //console.log("doEsiege() siegeObj.length=" + getCombatants(siegeObj.place, siegeObj.alignment).length);
+    //console.log("doEsiege() targetObj.length=" + getCombatants(targetObj.place, targetObj.alignment).length);
+
     if (!getCombatants(siegeObj.place, siegeObj.alignment).length &&
         getCombatants(targetObj.place, targetObj.alignment).length) {
         //the siege engines are undefended; maybe capture them.
@@ -612,12 +663,15 @@ function doEsiege(siegeObj, targetObj) {
 // Process siege engine attack.
 // Returns the number of hits.
 function doSiege(siegeObj, targetObj) {
+    //console.log("doSiege()");
     let hit, hits = 0;
     // Only half can fire every round due to reloading time.
     // We also allow no more than 2 per defending fortification.
     let firing = Math.ceil(Math.min(siegeObj.owned / 2, targetObj.owned * 2));
+    //console.log("doSiege() firing=" + firing);
     for (let i = 0; i < firing; ++i) {
         hit = Math.random();
+        //console.log("hit=" + hit + ". effic=" + siegeObj.efficiency);
         if (hit > 0.95) { --siegeObj.owned; } // misfire; destroys itself
         if (hit >= siegeObj.efficiency) { continue; } // miss
         ++hits; // hit
@@ -629,6 +683,7 @@ function doSiege(siegeObj, targetObj) {
 //Handling raids
 //starts when player clicks button on Conquest page. see invade
 function doRaid(place, attackAlignment, defendAlignment) {
+    //console.log("doRaid()");
     if (!curCiv.raid.raiding) {
         ui.show("#raidBar", false);
         return;
@@ -691,6 +746,7 @@ function doRaidCheck(place, attackAlignment, defendAlignment) {
 }
 
 function doMobs() {
+    //console.log("doMobs()");
     //Checks when mobs will attack
     //xxx Perhaps this should go after the mobs attack, so we give 1 turn's warning?
     let mobType, choose;
@@ -757,7 +813,13 @@ function doMobs() {
     ui.show("#mobBar", isUnderAttack());
 
     //Handling mob attacks
+    //console.log("doMobs() combatants.length=" + getCombatants(placeType.home, alignmentType.enemy).length);
+    // do siege engines first
+    if (civData.esiege.owned > 0) {
+        doEsiege(civData.esiege, civData.fortification);
+    }
     getCombatants(placeType.home, alignmentType.enemy).forEach(function (attacker) {
+        //console.log("doMobs() attacker.owned=" + attacker.owned);
         if (attacker.owned <= 0) { ui.show("#mobBar", false); return; } // In case the last one was killed in an earlier iteration.
 
         let defenders = getCombatants(attacker.place, alignmentType.player);
