@@ -67,7 +67,8 @@ function getWonderResources(civData) {
         civData.potions,
         civData.metal,
         civData.piety,
-        civData.charcoal
+        civData.charcoal,
+        civData.lime
     ];
 }
 // The resources that Wonders consume, and can give bonuses for.
