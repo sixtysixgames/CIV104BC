@@ -640,21 +640,28 @@ function addRaidRows() {
 // Dynamically add the buttons for the various resources.
 function addBuyButtons() {
     traceLog("updates.addBuyButtons");
-    let s = '';
+    let s = '<table><tr><td valign=\"top\">';
+    //let half = Math.ceil(lootable.length / 2);
+    let counter = 0;
     lootable.forEach(function (elem) {
         s += getBuyButton(elem);
+        counter++;
+        //&& counter != (lootable.length - 1)
+        if (counter == 9 ) {
+            s += "</td><td valign=\"top\">"
+        }
     });
-
+    s += "</td></tr></table>";
     let group = ui.find("#buyButtonGroup");
     group.innerHTML += s;
     lootable.forEach(function (elem) {
         setInitTradePrice(elem);
-        //updateTradeButton(elem.id, elem.tradeAmount);
     });
 }
 
 // Enable the raid buttons for eligible targets.
 function updateTargets() {
+    //console.log("updateTargets()");
     let i;
     let raidButtons = document.getElementsByClassName("raid");
     let raid10Buttons = document.querySelectorAll(".raid-mult.mult-10");
@@ -726,13 +733,13 @@ function setResourcesReqText() {
 function addWonderSelectText() {
     let wcElem = ui.find("#wonderCompleted");
     if (!wcElem) {
-        console.log("Error: No wonderCompleted element found.");
-        sysLog("Error: No wonderCompleted element found.");
+        console.error("addWonderSelectText() Error: No wonderCompleted element found.");
+        //sysLog("Error: No wonderCompleted element found.");
         return;
     }
     let s = wcElem.innerHTML;
     wonderResources.forEach(function (elem, i, wr) {
-        s += "<button id=\"" + elem.id + "\" xonmousedown='wonderSelect(\"" + elem.id + "\")'>" + elem.getQtyName(0) + "</button>";
+        s += "<button id=\"" + elem.id + "\" >" + elem.getQtyName(0) + "</button>";
         // Add newlines to group by threes (but no newline for the last one)
         if (!((i + 1) % 3) && (i != wr.length - 1)) { s += "<br />"; }
     });
