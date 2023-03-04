@@ -112,7 +112,7 @@ function doBlacksmiths() {
     if (civData.metal.owned < civData.metal.limit) {
         let efficiency = civData.blacksmith.efficiency + (0.1 * civData.blacksmith.efficiency * civData.mathematics.owned);
         let oreUsed = Math.min(civData.ore.owned, (civData.blacksmith.owned * efficiency * curCiv.morale.efficiency) * civData.metal.require.ore);
-
+        if (oreUsed == 0) { return; }
         oreUsed = Math.min(oreUsed, (civData.metal.limit - civData.metal.owned) * civData.metal.require.ore); // can't use more than we can store
         civData.ore.net -= oreUsed;
         civData.ore.owned -= oreUsed;
@@ -130,7 +130,7 @@ function doTanners() {
     if (civData.leather.owned < civData.leather.limit) {
         let efficiency = civData.tanner.efficiency + (0.1 * civData.tanner.efficiency * civData.astronomy.owned);
         let skinsUsed = Math.min(civData.skins.owned, (civData.tanner.owned * efficiency * curCiv.morale.efficiency) * civData.leather.require.skins);
-
+        if (skinsUsed == 0) { return; }
         skinsUsed = Math.min(skinsUsed, (civData.leather.limit - civData.leather.owned) * civData.leather.require.skins); // can't use more than we can store
         civData.skins.net -= skinsUsed;
         civData.skins.owned -= skinsUsed;
@@ -148,7 +148,7 @@ function doApothecaries() {
     if (civData.potions.owned < civData.potions.limit) {
         let efficiency = civData.healer.efficiency + (0.1 * civData.healer.efficiency * civData.medicine.owned);
         let herbsUsed = Math.min(civData.herbs.owned, (civData.healer.owned * efficiency * curCiv.morale.efficiency) * civData.potions.require.herbs);
-
+        if (herbsUsed == 0) { return; }
         herbsUsed = Math.min(herbsUsed, (civData.potions.limit - civData.potions.owned) * civData.potions.require.herbs ); // can't use more than we can store
         civData.herbs.net -= herbsUsed;
         civData.herbs.owned -= herbsUsed;
@@ -209,7 +209,7 @@ function doCharcoalBurners() {
         let efficiency = civData[jobId].efficiency + (0.1 * civData[jobId].efficiency * civData[upgradeId].owned);
         efficiency = efficiency * curCiv.morale.efficiency;
         let woodUsed = Math.min(civData.wood.owned, civData[jobId].owned * efficiency * civData[resourceId].require.wood);
-
+        if (woodUsed == 0) { return; }
         woodUsed = Math.min(woodUsed, (civData[resourceId].limit - civData[resourceId].owned) * civData[resourceId].require.wood ); // don't use more than we can store
         civData.wood.net -= woodUsed;
         civData.wood.owned -= woodUsed;
@@ -235,6 +235,8 @@ function doLimeBurners() {
         efficiency = efficiency * curCiv.morale.efficiency;
         let woodUsed = Math.min(civData.wood.owned, civData[jobId].owned * efficiency * civData[resourceId].require.wood);
         let stoneUsed = Math.min(civData.stone.owned, civData[jobId].owned * efficiency * civData[resourceId].require.stone);
+
+        if (woodUsed == 0 || stoneUsed == 0) { return; }
 
         woodUsed = Math.min(woodUsed, (civData[resourceId].limit - civData[resourceId].owned) * civData[resourceId].require.wood ); // don't use more than we can store
         civData.wood.net -= woodUsed;
@@ -318,6 +320,8 @@ function doMetalsmiths(jobId, resourceId, upgrade1Id, upgrade2Id) {
         efficiency = efficiency * curCiv.morale.efficiency;
         let oreUsed = Math.min(civData.ore.owned, civData[jobId].owned * efficiency * civData[resourceId].require.ore);
         let charUsed = Math.min(civData.charcoal.owned, civData[jobId].owned * efficiency * civData[resourceId].require.charcoal);
+
+        if (oreUsed == 0 || charUsed == 0) { return; }
 
         oreUsed = Math.min(oreUsed, (civData[resourceId].limit - civData[resourceId].owned) * civData[resourceId].require.ore ); // don't use more than we can store
         civData.ore.net -= oreUsed;
