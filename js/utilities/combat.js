@@ -652,8 +652,10 @@ function doEsiege(siegeObj, targetObj) {
         }
         siegeObj.owned = 0;
     }
-    else if (doSiege(siegeObj, targetObj) > 0) {
-        if (targetObj.id === buildingType.fortification) {
+    else {
+        let damage = doSiege(siegeObj, targetObj);
+        if (damage > 0 && targetObj.id === buildingType.fortification) {
+            civData.freeLand.owned += damage;
             updateRequirements(targetObj);
             gameLog("Enemy siege engine damaged our fortifications");
         }
