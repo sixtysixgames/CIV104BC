@@ -29,12 +29,12 @@ function gameLoop() {
     doFarmers();
     doWoodcutters();
     doMiners();
-
-    doBlacksmiths();
+    // do in order of usefulness
     doApothecaries();
+    doBlacksmiths();
     doTanners();
-    doLimeBurners();
     doCharcoalBurners();
+    doLimeBurners();
     doIronsmiths();
     doCoppersmiths();
     doLeadsmiths()
