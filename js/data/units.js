@@ -7,7 +7,7 @@ function getUnitData() {
         new Unit({
             id: unitType.unemployed, singular: "idle citizen", plural: "idle citizens",
             require: undefined,  // Cannot be purchased (through normal controls) xxx Maybe change this?
-            defence: 0.025, // default is 0.05 same as wolf efficiency
+            defence: 0.03, // default is 0.05 same as wolf efficiency
             salable: false,  // Cannot be sold.
             customQtyId: "spawnCustomQty",
             effectText: "Playing idle games"
@@ -21,16 +21,20 @@ function getUnitData() {
         }),
         new Unit({
             id: unitType.woodcutter, singular: "woodcutter", plural: "woodcutters", source: unitType.unemployed,
-            efficiency_base: 0.49, defence: 0.055, 
-            get efficiency() { return woodcutterMods(this.efficiency_base); },
-            set efficiency(value) { this.efficiency_base = value; },
+            //efficiency_base: 0.49,
+            efficiency: 0.49,
+            defence: 0.055, 
+            //get efficiency() { return woodcutterMods(this.efficiency_base); },
+            //set efficiency(value) { this.efficiency_base = value; },
             effectText: "Automatically cut wood"
         }),
         new Unit({
             id: unitType.miner, singular: "miner", plural: "miners", source: unitType.unemployed,
-            efficiency_base: 0.19, defence: 0.055, 
-            get efficiency() { return minerMods(this.efficiency_base); },
-            set efficiency(value) { this.efficiency_base = value; },
+            //efficiency_base: 0.19,
+            efficiency: 0.19,
+            defence: 0.055, 
+            //get efficiency() { return minerMods(this.efficiency_base); },
+            //set efficiency(value) { this.efficiency_base = value; },
             effectText: "Automatically mine stone"
         }),
         new Unit({
