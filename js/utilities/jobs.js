@@ -36,6 +36,15 @@ function doFarmers() {
         civData.skins.owned += skinsEarned;
     }
 }
+function farmerMods(efficiency_base) {
+    return efficiency_base + (0.1 * (
+        + civData.farming.owned + civData.agriculture.owned + civData.wheel.owned
+        + civData.ploughshares.owned + civData.irrigation.owned
+        + civData.croprotation.owned + civData.selectivebreeding.owned + civData.fertilisers.owned
+        + civData.blessing.owned));
+}
+
+
 //function doFarmers() {
 //    //Farmers farm food
 //    let millMod = 1;
@@ -71,7 +80,8 @@ function doFarmers() {
 function doWoodcutters() {
     //Woodcutters cut wood
     if (civData.wood.owned < civData.wood.limit) {
-        let efficiency = civData.woodcutter.efficiency + (0.1 * civData.woodcutter.efficiency * (civData.carpentry.owned + civData.coppicing.owned));
+        //let efficiency = civData.woodcutter.efficiency + (0.1 * civData.woodcutter.efficiency * (civData.carpentry.owned + civData.coppicing.owned));
+        let efficiency = civData.woodcutter.efficiency + (0.1 * civData.woodcutter.efficiency * woodcutterMods());
         civData.wood.net = civData.woodcutter.owned * (efficiency * curCiv.morale.efficiency) * getWonderBonus(civData.wood);
         let woodEarned = Math.min(civData.wood.net, civData.wood.limit - civData.wood.owned); // can't make more than we can store
         civData.wood.net = woodEarned;
@@ -86,11 +96,18 @@ function doWoodcutters() {
         civData.herbs.owned += herbsEarned;
     }
 }
+//function woodcutterMods(efficiency_base) {
+//    return efficiency_base + (0.1 * (civData.astronomy.owned + civData.wheel.owned));
+//}
+function woodcutterMods() {
+    return (civData.astronomy.owned + civData.wheel.owned + civData.carpentry.owned + civData.coppicing.owned);
+}
 
 function doMiners() {
     //Miners mine stone
     if (civData.stone.owned < civData.stone.limit) {
-        let efficiency = civData.miner.efficiency + (0.1 * civData.miner.efficiency * civData.mining.owned);
+        //let efficiency = civData.miner.efficiency + (0.1 * civData.miner.efficiency * civData.mining.owned);
+        let efficiency = civData.miner.efficiency + (0.1 * civData.miner.efficiency * minerMods());
         civData.stone.net = civData.miner.owned * (efficiency * curCiv.morale.efficiency) * getWonderBonus(civData.stone);
         let stoneEarned = Math.min(civData.stone.net, civData.stone.limit - civData.stone.owned); // can't make more than we can store
         civData.stone.net = stoneEarned;
@@ -104,6 +121,13 @@ function doMiners() {
         civData.ore.net += oreEarned;
         civData.ore.owned += oreEarned;
     }
+}
+
+//function minerMods(efficiency_base) {
+//    return efficiency_base + (0.1 * (civData.mathematics.owned + civData.wheel.owned));
+//}
+function minerMods() {
+    return (civData.mathematics.owned + civData.wheel.owned + civData.mining.owned);
 }
 
 function doBlacksmiths() {
@@ -533,6 +557,7 @@ function dismissWorkers() {
     // cavalry 
     dismissWorker(unitType.cavalry, buildingType.stable, 10);
 }
+
 function dismissWorker(unitTypeId, buildingTypeId, limit) {
     let diff = 0;
     let total = 0;
@@ -545,21 +570,7 @@ function dismissWorker(unitTypeId, buildingTypeId, limit) {
     }
 }
 
-function farmerMods(efficiency_base) {
-    return efficiency_base + (0.1 * (
-        + civData.farming.owned + civData.agriculture.owned + civData.wheel.owned
-        + civData.ploughshares.owned + civData.irrigation.owned
-        + civData.croprotation.owned + civData.selectivebreeding.owned + civData.fertilisers.owned
-        + civData.blessing.owned));
-}
 
-function woodcutterMods(efficiency_base) {
-    return efficiency_base + (0.1 * (civData.astronomy.owned + civData.wheel.owned));
-}
-
-function minerMods(efficiency_base) {
-    return efficiency_base + (0.1 * (civData.mathematics.owned + civData.wheel.owned));
-}
 
 function getMetalOreChance() {
     // cannot be 1 or greater
