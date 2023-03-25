@@ -49,7 +49,7 @@ function load(loadType) {
             sysLog("Loaded saved game from cookie");
             sysLog("Save system switching to localStorage.");
         } else {
-            console.log("Unable to find cookie");
+            console.log("load() Unable to find cookie");
             sysLog("Unable to find cookie");
             return false;
         }
@@ -66,7 +66,7 @@ function load(loadType) {
             string2 = localStorage.getItem(appSettings.saveTag2);
 
             if (!string1) {
-                console.log("Unable to find variables in localStorage. Attempting to load cookie.");
+                console.log("load() Unable to find variables in localStorage. Attempting to load cookie.");
                 sysLog("Unable to find variables in localStorage. Attempting to load cookie.");
                 //return load("cookie");
                 return false;
@@ -88,7 +88,7 @@ function load(loadType) {
         if (loadVar2) { loadVar = mergeObj(loadVar, loadVar2); loadVar2 = undefined; }
 
         if (!loadVar) {
-            console.log("Unable to parse variables in localStorage. Attempting to load cookie.");
+            console.log("load() Unable to parse variables in localStorage. Attempting to load cookie.");
             sysLog("Unable to parse variables in localStorage. Attempting to load cookie.");
             return load("cookie");
         }
@@ -105,7 +105,7 @@ function load(loadType) {
     if (saveVersion.toNumber() > appSettings.versionData.toNumber()) {
         // Refuse to load saved games from future versions.
         let alertStr = "Cannot load; saved game version " + saveVersion + " is newer than game version " + appSettings.versionData;
-        console.log(alertStr);
+        console.log("load() " + alertStr);
         sysLog(alertStr);
         alert(alertStr);
         return false;
@@ -127,7 +127,7 @@ function load(loadType) {
     }
 
     let lsgv = "Loaded save game version " + saveVersion.major + "." + saveVersion.minor + "." + saveVersion.sub + "(" + saveVersion.mod + ") via ";
-    console.log(lsgv, loadType);
+    //console.log(lsgv, loadType);
     sysLog(lsgv + loadType);
 
     if (isValid(settingsVar)) { mergeObj(settings, settingsVar); }
@@ -173,7 +173,7 @@ function importByInput(elt) {
         if (loadVar2) { loadVar = mergeObj(loadVar, loadVar2); loadVar2 = undefined; }
     }
     if (!loadVar) {
-        console.log("Unable to parse saved game string.");
+        console.log("importByInput() Unable to parse saved game string.");
         sysLog("Unable to parse saved game string.");
         return false;
     }
@@ -201,7 +201,8 @@ function save(savetype) {
         let savestring = "[" + JSON.stringify(saveVar) + "]";
         console.log(savestring);
         let compressed = LZString.compressToBase64(savestring);
-        console.log("Compressed save from " + savestring.length + " to " + compressed.length + " characters");
+        console.log("save() Compressed save from " + savestring.length + " to " + compressed.length + " characters");
+        sysLog("Compressed save from " + savestring.length + " to " + compressed.length + " characters");
         ui.find("#impexpField").value = compressed;
         sysLog("Exported game to text");
         return true;
@@ -223,19 +224,19 @@ function save(savetype) {
             sysLog("Autosaved");
         } else if (savetype == saveTypes.manual) {
             alert("Game Saved");
-            console.log("Manual Save");
+            console.log("save() Manual Save");
             sysLog("Saved game");
         }
     } catch (err) {
         handleStorageError(err);
 
         if (savetype == saveTypes.auto) {
-            console.log("Autosave Failed");
+            console.log("save() Autosave Failed");
             sysLog("Autosave Failed");
         } else if (savetype == saveTypes.manual) {
-            alert("Save Failed!");
-            console.log("Save Failed");
-            sysLog("Save Failed");
+            alert("Manual Save Failed!");
+            console.log("save() Manual Save Failed");
+            sysLog("Manual Save Failed");
         }
         return false;
     }
@@ -253,7 +254,7 @@ function deleteSave() {
         localStorage.removeItem(appSettings.saveTag);
         localStorage.removeItem(appSettings.saveTag2);
         localStorage.removeItem(appSettings.saveSettingsTag);
-        console.log("Save Deleted");
+        console.log("deleteSave() Save Deleted");
         if (confirm("Save Deleted. Refresh page to start over?")) {
             window.location.reload();
         }
@@ -324,7 +325,7 @@ function renameDeity(newName) {
 }
 
 function reset() {
-    console.log("Reset");
+    //console.log("Reset");
     //Resets the game, keeping some values but resetting most back to their initial values.
     let msg = "Really reset? You will keep past deities and wonders (and cats)"; //Check player really wanted to do that.
     if (!confirm(msg)) { return false; } // declined
@@ -346,12 +347,19 @@ function reset() {
     // Insert space for a fresh deity.
     curCiv.deities.unshift({ name: "", domain: "", maxDev: 0 });
 
-    population = {
-        current: 0,
-        limit: 0,
-        healthy: 0,
-        totalSick: 0
-    };
+    // cannot assign to readonly var
+    //population = {
+    //    current: 0,
+    //    limit: 0,
+    //    healthy: 0,
+    //    totalSick: 0
+    //};
+
+    population.current = 0;
+    population.limit = 0;
+    population.healthy = 0;
+    population.totalSick = 0;
+
 
     resetRaiding();
     curCiv.raid.targetMax = civSizes[0].id;
@@ -362,6 +370,7 @@ function reset() {
     curCiv.trader.counter = 0; // How long since last trader?
     curCiv.trader.userTraded = false;
 
+    //Neverclick ach test: curCiv.curWonder.stage === 3 && curCiv.resourceClicks <= 22;
     curCiv.curWonder.name = "";
     curCiv.curWonder.stage = 0;
     curCiv.curWonder.rushed = false;
