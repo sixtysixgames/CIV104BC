@@ -223,6 +223,8 @@ function doPestControl() {
 
 /* Iconoclasm */
 function iconoclasmList() {
+    //console.log("iconoclasmList()");
+    let elem;
     //Lists the deities for removing
     if (civData.piety.owned >= 1000) {
         civData.piety.owned -= 1000;
@@ -230,12 +232,20 @@ function iconoclasmList() {
         ui.find("#iconoclasm").disabled = true;
         let append = "<br />";
         for (let i = 1; i < curCiv.deities.length; ++i) {
-            append += '<button onclick="iconoclasm(' + i + ')">';
+            append += '<button id="iconoclasmSelect' + i + '" >';
             append += curCiv.deities[i].name;
             append += '</button><br />';
         }
-        append += '<br /><button onclick=\'iconoclasm("cancel")\'>Cancel</button>';
+        append += '<br /><button id="iconoclasmCancel" >Cancel</button>';
         ui.find("#iconoclasmList").innerHTML = append;
+
+        // assign events
+        elem = document.getElementById("iconoclasmCancel");
+        elem.onclick = function (e) { iconoclasm("cancel"); };
+        for (let i = 1; i < curCiv.deities.length; ++i) {
+            elem = document.getElementById("iconoclasmSelect" + i);
+            elem.onclick = function (e) { iconoclasm(i); };
+        }
     }
 }
 
