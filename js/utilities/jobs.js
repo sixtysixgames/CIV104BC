@@ -194,6 +194,8 @@ function doClerics() {
 
     civData.piety.net += pietyEarned;
     civData.piety.owned += pietyEarned;
+
+    ui.find("#iconoclasm").disabled = (civData.piety.owned < 1000);
 }
 
 function doHealers() {
