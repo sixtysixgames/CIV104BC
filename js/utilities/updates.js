@@ -32,7 +32,7 @@ function updateWonderList() {
         try {
             wonderhtml += "<tr><td>" + curCiv.wonders[i].name + "</td><td>" + curCiv.wonders[i].resourceId + "</td></tr>";
         } catch (err) {
-            console.log("Could not build wonder row " + i);
+            console.log("updateWonderList() Could not build wonder row " + i);
             sysLog("Could not build wonder row " + i);
         }
     }
@@ -265,7 +265,10 @@ function updateResourceTotals() {
     // Cheaters don't get names.
     ui.find("#renameRuler").disabled = (curCiv.rulerName == "Cheater");
 
-    ui.show("#resourcesSelect .info", curCiv.resourceClicks == 22);// neverclick is a possibility
+    if (!curCiv.neverclickAch.owned) {
+        ui.show("#resourcesSelect .info", curCiv.resourceClicks == 22);// neverclick is a possibility
+        ui.show("#neverclickInfo", curCiv.resourceClicks == 22);// neverclick is a possibility
+    }
 }
 
 //Update page with numbers
@@ -546,7 +549,9 @@ function updateUpgrades() {
 }
 
 function updateDeity() {
+    //console.log("updateDeity() current deity: " + curCiv.deities[0].name);
     let hasDeity = (curCiv.deities[0].name) ? true : false;
+
     //Update page with deity details
     ui.find("#deityAName").innerHTML = curCiv.deities[0].name;
     ui.find("#deityADomain").innerHTML = getCurDeityDomain() ? ", deity of " + idToType(getCurDeityDomain()) : "";
@@ -560,6 +565,7 @@ function updateDeity() {
     ui.show("#oldDeities", (hasDeity || curCiv.deities.length > 1));
     ui.show("#pantheonContainer", (hasDeity || curCiv.deities.length > 1));
     ui.show("#iconoclasmGroup", (curCiv.deities.length > 1));
+    
 }
 
 function updateAltars() {
