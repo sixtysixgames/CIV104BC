@@ -11,7 +11,7 @@ function paneSelect(e) {
     let newTarget = dataset(control, "target");
     let selectors = ui.find("#selectors");
     if (!selectors) {
-        console.log("No selectors found");
+        console.log("paneSelect() No selectors found");
         sysLog("No selectors found");
         return null;
     }
@@ -33,7 +33,7 @@ function paneSelect(e) {
 }
 
 function versionAlert() {
-    console.log("New Version Available");
+    console.log("versionAlert() New Version Available");
     ui.find("#versionAlert").style.display = "inline";
 }
 
@@ -174,13 +174,13 @@ function setIcons(value) {
 }
 
 function onToggleIcons(control) {
-    console.log("onToggleIcons: " + control.checked);
+    //console.log("onToggleIcons: " + control.checked);
     return setIcons(control.checked);
 }
 
 //loopTimer = window.setInterval(gameLoop, 10)
 function setGameSpeed(interval) {
-    console.log("setGameSpeed: " + interval);
+    //console.log("setGameSpeed: " + interval);
     window.clearInterval(appSettings.loopTimer);
     appSettings.loopTimer = window.setInterval(gameLoop, interval);
 }
@@ -272,7 +272,7 @@ function sysLog(message) {
 
     appSettings.sysLogRepeat = logMessage("#syslogTable", curTime, message, appSettings.sysLogRepeat); 
 
-    console.log(message);
+    console.log("sysLog() " + message);
 }
 function tradeLog(message) {
     let curTime = getPlayingTimeShort();
