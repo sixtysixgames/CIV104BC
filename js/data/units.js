@@ -298,7 +298,7 @@ function getUnitData() {
         //    plural: "mercenaries",
         //    efficiency: 0.05, // 
         //    prereqs: { standard: true, wheel: true },
-        //    require: { food: 20, gold: 1 },
+        //    require: { food: 20, silver: 1 },
         //    species: speciesType.human,
         //    place: placeType.party,
         //    salable: false,
