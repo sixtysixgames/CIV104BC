@@ -46,7 +46,7 @@ function getBuildingData() {
         }),
         new Building({
             id: buildingType.palace, singular: "palace", plural: "palaces",
-            prereqs: { architecture: true }, require: { wood: 1000, stone: 1000, iron: 50, copper: 25, lime: 500, gold: 1 },
+            prereqs: { architecture: true }, require: { wood: 1000, stone: 1000, lime: 500, iron: 50, copper: 25, lead: 10 },
             effectText: "+150 citizens", limit: 150
         }),
         new Building({
