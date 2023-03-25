@@ -253,9 +253,9 @@ function doFight(attacker, defender) {
 
     //console.log("fortMod=" + fortMod);
     // 66g HACK! if fortmod is 1 or greater, there will be no defense casualties.  This happens if over 100 fortification are owned because fort efficiency is 0.01
-    if (fortMod > 1.0) {
+    if (fortMod >= 1.0) {
         fortMod = 0.99;
-        console.log("doFight() fortMod changed=" + fortMod);
+        //console.log("doFight() fortMod changed=" + fortMod);
     }
     
 
