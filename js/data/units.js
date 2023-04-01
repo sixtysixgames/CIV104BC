@@ -266,7 +266,8 @@ function getUnitData() {
         }),
         new Unit({
             id: unitType.soldierParty, singular: "soldier", plural: "soldiers", source: unitType.soldier,
-            prereqs: { standard: true, barracks: 1 }, require: { food: 2 },
+            prereqs: { standard: true, barracks: 1 },
+            //require: { food: 2 },
             combatType: combatTypes.infantry, efficiency_base: 0.05,
             get efficiency() { return this.efficiency_base + getPlayerCombatMods(); },
             set efficiency(value) { this.efficiency_base = value; },
@@ -275,7 +276,8 @@ function getUnitData() {
         }),
         new Unit({
             id: unitType.cavalryParty, singular: "cavalry", plural: "cavalry", source: unitType.cavalry,
-            prereqs: { standard: true, stable: 1 }, require: { food: 5 },
+            prereqs: { standard: true, stable: 1 },
+            //require: { food: 5 },
             combatType: combatTypes.cavalry, efficiency_base: 0.08,
             get efficiency() { return this.efficiency_base + getPlayerCombatMods(); },
             set efficiency(value) { this.efficiency_base = value; },
