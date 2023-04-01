@@ -43,7 +43,7 @@
         </div>
     </div>
     <div id="main" class="columns">
-        <div id="leftColumn" class="column left width40">
+        <div id="leftColumn" class="column left width30">
             <div id="basicResourcesContainer" class="civSection">
                 <table id="basicResources" class="resources">
                     <!-- populated by javascript -->
@@ -53,19 +53,19 @@
                 <div id="populationNumbers">
                     <table class="resources">
                         <tbody>
-                            <tr>
-                                <td>
-                                    <img src="images/backup.png" class="icon icon-lg" alt="Population" />
-                                    <label>Population:</label>
-                                </td>
-                                <td class="number"><span data-action="display_pop" data-target="living">...</span></td>
-                                <td class="number maxNumber">
-                                    / max: <span data-action="display_pop" data-target="limit">...</span>
-                                </td>
-                                <td class="note">
-                                    Build more housing to grow your civilization
-                                </td>
-                            </tr>
+                            <!--<tr>
+                        <td>
+                            <img src="images/backup.png" class="icon icon-lg" alt="Population" />
+                            <label>Population:</label>
+                        </td>
+                        <td class="number"><span data-action="display_pop" data-target="living">...</span></td>
+                        <td class="number maxNumber">
+                            / max: <span data-action="display_pop" data-target="limit">...</span>
+                        </td>
+                        <td class="note">
+                            Build more housing to grow your civilization
+                        </td>
+                    </tr>-->
                             <tr id="zombieWorkers">
                                 <td>
                                     <img src="images/shambling-zombie.png" class="icon icon-lg" alt="Zombies" />
@@ -92,9 +92,9 @@
                 <!-- populated by javascript -->
             </div>
         </div>
-        <div id="rightColumn" class="column right width60">
+        <div id="rightColumn" class="column right width70">
             <div id="specialResourcesContainer" class="civSection">
-                <table class="resources">
+                <table class="resources" xborder="1">
                     <tbody>
                         <tr>
                             <td>
@@ -104,9 +104,10 @@
                             <td class="number">
                                 <span class="number" data-action="display" data-target="skins">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxskins">...</span>
                             </td>
-                            <td class="number net">
-                                <span class="number" data-action="displayNet" data-target="skins">0</span><span class="perSecond">/s</span>
+                            <td class="number netWidth">
+                                <span class="number net" data-action="displayNet" data-target="skins">0</span><span class="perSecond">/s</span>
                             </td>
+
                             <td>
                                 <img src="images/leather.png" class="icon icon-lg" alt="Leather" />
                                 <label>Leather:</label>
@@ -115,9 +116,24 @@
                             <td class="number">
                                 <span class="number" data-action="display" data-target="leather">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxleather">...</span>
                             </td>
-                            <td class="number net">
-                                <span class="number" data-action="displayNet" data-target="leather">0</span><span class="perSecond">/s</span>
+                            <td class="number netWidth">
+                                <span class="number net" data-action="displayNet" data-target="leather">0</span><span class="perSecond">/s</span>
                             </td>
+
+                            <td>
+                                <img src="images/backup.png" class="icon icon-lg" alt="Population" />
+                                <label>Population:</label>
+                            </td>
+                            <td xclass="number">
+                                <span data-action="display_pop" data-target="living">...</span>&nbsp;/&nbsp;<span class="maxNumber" data-action="display_pop" data-target="limit">...</span>
+                            </td>
+                            <!--<td class="number maxNumber">
+                        / max: <span data-action="display_pop" data-target="limit">...</span>
+                    </td>-->
+                            <!--<td class="note">
+                        Build more housing to grow your civilization
+                    </td>-->
+
                         </tr>
                         <tr>
                             <td>
@@ -130,6 +146,7 @@
                             <td class="number">
                                 <span class="number net" data-action="displayNet" data-target="herbs">0</span><span class="perSecond">/s</span>
                             </td>
+
                             <td>
                                 <img src="images/potion.png" class="icon icon-lg" alt="Potions" />
                                 <label>Potions:</label>
@@ -141,6 +158,25 @@
                             <td class="number">
                                 <span class="number net" data-action="displayNet" data-target="potions">0</span><span class="perSecond">/s</span>
                             </td>
+
+                            <td>
+                                <span id="morale1"><img src="images/morale1-blissful.png" class="icon icon-lg" alt="Happiness" /></span>
+                                <span id="morale2"><img src="images/morale2-happy.png" class="icon icon-lg" alt="Happiness" /></span>
+                                <span id="morale3"><img src="images/morale3-content.png" class="icon icon-lg" alt="Happiness" /></span>
+                                <span id="morale4"><img src="images/morale4-unhappy.png" class="icon icon-lg" alt="Happiness" /></span>
+                                <span id="morale5"><img src="images/morale5-angry.png" class="icon icon-lg" alt="Happiness" /></span>
+                                <label>Happiness:</label>
+                            </td>
+                            <td xcolspan="2" id="morale">
+                                <ol class="happinessRanks">
+                                    <li>Blissful</li>
+                                    <li>Happy</li>
+                                    <li>Content</li>
+                                    <li>Unhappy</li>
+                                    <li>Angry</li>
+                                </ol>
+                            </td>
+
                         </tr>
                         <tr>
                             <td>
@@ -153,6 +189,7 @@
                             <td class="number">
                                 <span class="number net" data-action="displayNet" data-target="ore">0</span><span class="perSecond">/s</span>
                             </td>
+
                             <td>
                                 <img src="images/metal.png" class="icon icon-lg" alt="Metal" />
                                 <label>Metal:</label>
@@ -164,6 +201,15 @@
                             <td class="number">
                                 <span class="number net" data-action="displayNet" data-target="metal">0</span><span class="perSecond">/s</span>
                             </td>
+
+                            <td>
+                                <img src="images/carrion.png" class="icon icon-lg" alt="Corpses">
+                                <label>Corpses:</label>
+                            </td>
+                            <td xcolspan="2">
+                                <span class="number" data-action="display" data-target="corpses">0</span>&nbsp;/&nbsp;<span data-action="display" data-target="grave">...</span> Empty Graves
+                            </td>
+
                         </tr>
                         <tr>
                             <td>
@@ -184,37 +230,40 @@
                             <td class="number">
                                 <span class="number net" data-action="displayNet" data-target="piety">0</span><span class="perSecond">/s</span>
                             </td>
+
                         </tr>
-                        <tr>
-                            <td>
-                                <span id="morale1"><img src="images/morale1-blissful.png" class="icon icon-lg" alt="Happiness" /></span>
-                                <span id="morale2"><img src="images/morale2-happy.png" class="icon icon-lg" alt="Happiness" /></span>
-                                <span id="morale3"><img src="images/morale3-content.png" class="icon icon-lg" alt="Happiness" /></span>
-                                <span id="morale4"><img src="images/morale4-unhappy.png" class="icon icon-lg" alt="Happiness" /></span>
-                                <span id="morale5"><img src="images/morale5-angry.png" class="icon icon-lg" alt="Happiness" /></span>
-                                <label>Happiness:</label>
-                            </td>
-                            <td colspan="2" id="morale">
-                                <ol class="happinessRanks">
-                                    <li>Blissful</li>
-                                    <li>Happy</li>
-                                    <li>Content</li>
-                                    <li>Unhappy</li>
-                                    <li>Angry</li>
-                                </ol>
-                            </td>
-                            <td>
-                                <img src="images/carrion.png" class="icon icon-lg" alt="Corpses">
-                                <label>Corpses:</label>
-                            </td>
-                            <td colspan="2">
-                                <span class="number" data-action="display" data-target="corpses">0</span>&nbsp;/&nbsp;<span data-action="display" data-target="grave">...</span> Empty Graves
-                            </td>
-                        </tr>
+                        <!--<tr>-->
+                        <!--<td>
+                    <span id="morale1"><img src="images/morale1-blissful.png" class="icon icon-lg" alt="Happiness" /></span>
+                    <span id="morale2"><img src="images/morale2-happy.png" class="icon icon-lg" alt="Happiness" /></span>
+                    <span id="morale3"><img src="images/morale3-content.png" class="icon icon-lg" alt="Happiness" /></span>
+                    <span id="morale4"><img src="images/morale4-unhappy.png" class="icon icon-lg" alt="Happiness" /></span>
+                    <span id="morale5"><img src="images/morale5-angry.png" class="icon icon-lg" alt="Happiness" /></span>
+                    <label>Happiness:</label>
+                </td>
+                <td colspan="2" id="morale">
+                    <ol class="happinessRanks">
+                        <li>Blissful</li>
+                        <li>Happy</li>
+                        <li>Content</li>
+                        <li>Unhappy</li>
+                        <li>Angry</li>
+                    </ol>
+                </td>-->
+                        <!--<td>
+                    <img src="images/carrion.png" class="icon icon-lg" alt="Corpses">
+                    <label>Corpses:</label>
+                </td>
+                <td colspan="2">
+                    <span class="number" data-action="display" data-target="corpses">0</span>&nbsp;/&nbsp;<span data-action="display" data-target="grave">...</span> Empty Graves
+                </td>-->
+                        <!--</tr>-->
                     </tbody>
                 </table>
             </div>
+            
         </div>
+        <br style="clear:both;" />
         <!--
             pane selectors
         -->
@@ -420,7 +469,7 @@
                                             <span class="number net" data-action="displayNet" data-target="lime">0</span><span class="perSecond">/s</span>
                                         </td>
                                     </tr>
-                                    
+
                                 </tbody>
                             </table>
                         </div>
