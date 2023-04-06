@@ -3,6 +3,7 @@
 export * from "./enums/types.js";
 export * from "./settings/globals.js";
 export { civSizes } from "./data/civ-sizes.js";
+export { neighbours } from "./data/neighbours.js";
 export * from "./data/cur-civ.js";
 
 // classes
