@@ -279,7 +279,7 @@ function getUpgradeData() {
         }),
         // piety related
         new Upgrade({
-            id: "theism", name: "Theism", subType: subTypes.upgrade, prereqs: { carpentry: true, masonry: true }, require: { piety: 150 },
+            id: "theism", name: "Theism", subType: subTypes.upgrade, prereqs: { carpentry: true, masonry: true, temple: 1 }, require: { piety: 150 },
             effectText: "Increase cleric piety generation. Increase piety limit"
         }),
         new Upgrade({
