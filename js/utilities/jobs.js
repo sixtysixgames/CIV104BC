@@ -29,7 +29,7 @@ function doFarmers() {
 
     if (civData.skinning.owned && civData.farmer.owned > 0 && civData.skins.owned < civData.skins.limit) { //and sometimes get skins
         let specialChance = civData.food.specialChance + (0.1 * civData.flensing.owned);
-        let skinsChance = specialChance * (civData.food.increment + ((civData.butchering.owned) * civData.farmer.owned / 25.0)) * getWonderBonus(civData.skins);
+        let skinsChance = specialChance * (civData.food.increment + ((civData.butchering.owned) * civData.farmer.owned / 20.0)) * getWonderBonus(civData.skins);
         let skinsEarned = rndRound(skinsChance);
         skinsEarned = Math.min(skinsEarned, civData.skins.limit - civData.skins.owned); // can't make more than we can store
         civData.skins.net += skinsEarned;
@@ -575,10 +575,10 @@ function dismissWorker(unitTypeId, buildingTypeId, limit) {
 
 
 function getMetalOreChance() {
-    // cannot be 1 or greater
-    let chance = 0.001 * (civData.ironOre.owned + civData.coppOre.owned + civData.leadOre.owned + civData.tinOre.owned  + civData.silvOre.owned);
+    // total cannot be 1 or greater
+    let chance = 0.0001 * (civData.ironOre.owned + civData.coppOre.owned + civData.leadOre.owned + civData.tinOre.owned  + civData.silvOre.owned);
     // high grade upgrades
-    chance += 0.01 * (civData.magnetite.owned + civData.malachite.owned + civData.galena.owned + civData.galena.owned + civData.cassiterite.owned + civData.argentite.owned);
+    chance += 0.001 * (civData.magnetite.owned + civData.malachite.owned + civData.galena.owned + civData.galena.owned + civData.cassiterite.owned + civData.argentite.owned);
     return chance;
 }
 
