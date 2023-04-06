@@ -22,7 +22,7 @@ function getUnitData() {
         new Unit({
             id: unitType.woodcutter, singular: "woodcutter", plural: "woodcutters", source: unitType.unemployed,
             //efficiency_base: 0.49,
-            efficiency: 0.49,
+            efficiency: 0.5,
             defence: 0.055, 
             //get efficiency() { return woodcutterMods(this.efficiency_base); },
             //set efficiency(value) { this.efficiency_base = value; },
@@ -31,7 +31,7 @@ function getUnitData() {
         new Unit({
             id: unitType.miner, singular: "miner", plural: "miners", source: unitType.unemployed,
             //efficiency_base: 0.19,
-            efficiency: 0.19,
+            efficiency: 0.25,
             defence: 0.055, 
             //get efficiency() { return minerMods(this.efficiency_base); },
             //set efficiency(value) { this.efficiency_base = value; },
