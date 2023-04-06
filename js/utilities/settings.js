@@ -152,6 +152,7 @@ function load(loadType) {
     tallyWonderCount();
     ui.find("#clicks").innerHTML = prettify(Math.round(curCiv.resourceClicks));
     ui.find("#civName").innerHTML = curCiv.civName;
+    ui.find("#civNameRaid").innerHTML = curCiv.civName;
     ui.find("#rulerName").innerHTML = curCiv.rulerName;
     ui.find("#wonderNameP").innerHTML = curCiv.curWonder.name;
     ui.find("#wonderNameC").innerHTML = curCiv.curWonder.name;
@@ -273,6 +274,7 @@ function renameCiv(newName) {
 
     curCiv.civName = newName;
     ui.find("#civName").innerHTML = curCiv.civName;
+    ui.find("#civNameRaid").innerHTML = curCiv.civName;
 }
 
 function renameRuler(newName) {
@@ -375,6 +377,25 @@ function reset() {
     curCiv.curWonder.stage = 0;
     curCiv.curWonder.rushed = false;
     curCiv.curWonder.progress = 0;
+
+    //curCiv.neighbour.north.targetMax = civSizes[0].id;
+    //curCiv.neighbour.northwest.targetMax = civSizes[0].id;
+    //curCiv.neighbour.northeast.targetMax = civSizes[0].id;
+    //curCiv.neighbour.east.targetMax = civSizes[0].id;
+    //curCiv.neighbour.west.targetMax = civSizes[0].id;
+    //curCiv.neighbour.southeast.targetMax = civSizes[0].id;
+    //curCiv.neighbour.southwest.targetMax = civSizes[0].id;
+    //curCiv.neighbour.south.targetMax = civSizes[0].id;
+    curCiv.neighbours = [
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id }
+    ];
 
     resetTradeAmounts();
 
