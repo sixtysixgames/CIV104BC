@@ -4,7 +4,8 @@ import {
     civData, civObjType, civSizes, curCiv, dataset, deityDomains, wonderSelect, lootable, getBuyButton, setInitTradePrice,
     getCombatants, getCivType, getCurDeityDomain, getCurrentAltarId, getLandTotals, getReqText, getWonderLowItem, homeBuildings, homeUnits,
     idToType, isTraderHere, isUnderAttack, isValid, isWonderLimited, logSearchFn, makeDeitiesTables, meetsPrereqs, onBulkEvent, placeType, population, powerData, prettify,
-    settings, sgn, subTypes, sysLog, unitData, upgradeData, ui, UIComponents, wonderResources, traceLog, updateTradeButton, setReqText
+    settings, sgn, subTypes, sysLog, unitData, upgradeData, ui, UIComponents, wonderResources, traceLog, updateTradeButton, setReqText,
+    neighbours
 } from "../index.js";
 
 // Update functions. Called by other routines in order to update the interface.
@@ -236,7 +237,7 @@ function updateResourceTotals() {
 
         //elem.title = ((val <= 0) ? "" : "+") + val.toFixed(4);
         elem.title = val;
-        elem.innerHTML = ((val <= 0) ? "" : "+") + prettify(val.toFixed(1));
+        elem.innerHTML = ((val <= 0) ? "" : "+") + prettify(val.toFixed(2));
     }
 
     //Update page with building numbers, also stockpile limits.
@@ -265,10 +266,9 @@ function updateResourceTotals() {
     // Cheaters don't get names.
     ui.find("#renameRuler").disabled = (curCiv.rulerName == "Cheater");
 
-    if (!curCiv.neverclickAch.owned) {
-        ui.show("#resourcesSelect .info", curCiv.resourceClicks == 22);// neverclick is a possibility
-        ui.show("#neverclickInfo", curCiv.resourceClicks == 22);// neverclick is a possibility
-    }
+    ui.show("#resourcesSelect .info", (curCiv.resourceClicks == 22) && (!curCiv.neverclickAch.owned));// neverclick is a possibility
+    ui.show("#neverclickInfo", curCiv.resourceClicks == 22 && (!curCiv.neverclickAch.owned));
+
 }
 
 //Update page with numbers
@@ -313,6 +313,7 @@ function updatePopulation(calc) {
     //As population increases, various things change
     // Update our civ type name
     ui.find("#civType").innerHTML = getCivType();
+    ui.find("#civTypeRaid").innerHTML = getCivType();
 
     //Unlocking interface elements as population increases to reduce unnecessary clicking
     //xxx These should be reset in reset()
@@ -670,17 +671,17 @@ function updateTargets() {
     //console.log("updateTargets()");
     let i;
     let raidButtons = document.getElementsByClassName("raid");
-    let raid10Buttons = document.querySelectorAll(".raid-mult.mult-10");
-    let raid100Buttons = document.querySelectorAll(".raid-mult.mult-100");
-    let raidInfButtons = document.querySelectorAll(".raid-mult.mult-inf");
+    //let raid10Buttons = document.querySelectorAll(".raid-mult.mult-10");
+    //let raid100Buttons = document.querySelectorAll(".raid-mult.mult-100");
+    //let raidInfButtons = document.querySelectorAll(".raid-mult.mult-inf");
 
     let haveArmy = false;
 
     ui.show("#victoryGroup", curCiv.raid.victory);
     ui.show("#conquestSelect .alert", curCiv.raid.victory);
 
-    ui.show("#exitRaidLoop", curCiv.raid.left > 0);
-    document.getElementById("raidLoop").innerText = curCiv.raid.left;
+    //ui.show("#exitRaidLoop", curCiv.raid.left > 0);
+    //document.getElementById("raidLoop").innerText = curCiv.raid.left;
 
     // Raid buttons are only visible when not already raiding.
     if (ui.show("#raidGroup", !curCiv.raid.raiding)) {
@@ -690,11 +691,28 @@ function updateTargets() {
         for (i = 0; i < raidButtons.length; ++i) {
             // Disable if we have no standard, no army, or they are too big a target.
             curElem = raidButtons[i];
-            let isDisabled = (!civData.standard.owned || !haveArmy || (civSizes[dataset(curElem, "target")].idx > civSizes[curCiv.raid.targetMax].idx));
-            curElem.disabled = (isDisabled);
-            raid10Buttons[i].disabled = (isDisabled);
-            raid100Buttons[i].disabled = (isDisabled);
-            raidInfButtons[i].disabled = (isDisabled);
+            //let isDisabled = (!civData.standard.owned || !haveArmy || (civSizes[dataset(curElem, "target")].idx > civSizes[curCiv.raid.targetMax].idx));
+            //curElem.disabled = (isDisabled);
+            //raid10Buttons[i].disabled = (isDisabled);
+            //raid100Buttons[i].disabled = (isDisabled);
+            //raidInfButtons[i].disabled = (isDisabled);
+
+            let isDisabled = (!civData.standard.owned || !haveArmy);
+            curElem.disabled = isDisabled;
+
+            let neighbourID = dataset(curElem, "target");
+            //console.log(neighbourID + " = id");
+            let neighbour = neighbours.find(n => n.id === neighbourID);
+            //let idx = neighbours.findIndex(n => n.id === neighbourID);
+            //console.log(neighbourID + " update idx=" + idx);
+            //let neighbour = neighbours[idx];
+            //console.log(neighbour.name);
+            if (neighbour != null) {
+                let civsizeID = neighbourID + "civsize";
+                let spanElem = document.getElementById(civsizeID);
+                //spanElem.innerText = civSizes[curCiv.neighbours[idx].size].name;
+                spanElem.innerText = civSizes[neighbour.size].name;
+            }
         }
     }
 }
@@ -722,6 +740,7 @@ function updateMorale() {
 }
 
 function updateMoraleIcon(morale) {
+    ui.show("#morale0", morale == 0);
     ui.show("#morale1", morale == 1);
     ui.show("#morale2", morale == 2);
     ui.show("#morale3", morale == 3);
