@@ -1,6 +1,6 @@
 ﻿"use strict";
 import {
-    civData, civSizes, curCiv, lootable, population, unitData,
+    civData, civSizes, curCiv, lootable, population, unitData, neighbours,
     alignmentType, buildingType, combatTypes, mobTypeIds, placeType, speciesType,
     adjustMorale, dataset, calculatePopulation, gameLog, raidLog,
     getAltarsOwned, getCurrentAltarId, getLandTotals, getPietyEarnedBonus, getRandomBuilding, getRandomLootableResource, getRandomWorker, getReqText, getResourceTotal,
@@ -23,6 +23,7 @@ function resetRaiding() {
     curCiv.raid.epop = 0;
     curCiv.raid.plunderLoot = {};
     curCiv.raid.last = "";
+    curCiv.raid.neighbour = {};
 
     // Also reset the enemy party units.
     unitData.filter(function (elem) { return ((elem.alignment == alignmentType.enemy) && (elem.place == placeType.party)); })
@@ -118,7 +119,21 @@ function invade(ecivtype) {
     updatePartyButtons();
 }
 
-function onInvade(control) { return invade(dataset(control, "target")); }
+//function onInvade(control) { return invade(dataset(control, "target")); }
+function onInvade(control) { return invadeNeighbour(dataset(control, "target")); }
+function invadeNeighbour(neighbourID) {
+    //console.log("invadeNeighbour() = " + neighbourID);
+    let neighbour = neighbours.find(neighbour => neighbour.id === neighbourID);
+    //console.log("idx = " + idx);
+    //characters.filter(character => character.team === 'Avengers');
+    //let neighbour = curCiv.neighbours[neighbourID];
+    //let neighbour = neighbours[idx];
+    //neighbour.size = curCiv.neighbours[idx].size;  // todo: is this merged somewhere?
+    //neighbour.idx = idx;
+    //console.log("neighbour: " + neighbour.name + ", " + neighbour.size);
+    curCiv.raid.neighbour = neighbour;
+    invade(neighbour.size);
+}
 
 function onInvadeMult(control) {
     let times = dataset(control, "value");
@@ -149,14 +164,21 @@ function breakInvadeLoop() {
 }
 
 function plunder() {
+    //console.log("plunder()");
     let plunderMsg = "";
     let raidNewsElt = ui.find("#raidNews");
 
     // If we fought our largest eligible foe, but not the largest possible, raise the limit.
-    if ((curCiv.raid.targetMax != civSizes[civSizes.length - 1].id) && curCiv.raid.last == curCiv.raid.targetMax) {
-        curCiv.raid.targetMax = civSizes[civSizes[curCiv.raid.targetMax].idx + 1].id;
+    //if ((curCiv.raid.targetMax != civSizes[civSizes.length - 1].id) && curCiv.raid.last == curCiv.raid.targetMax) {
+    //    curCiv.raid.targetMax = civSizes[civSizes[curCiv.raid.targetMax].idx + 1].id;
+    //}
+    //console.log("plunder() size= " + curCiv.raid.neighbour.size);
+    //if ((curCiv.raid.neighbour.size != civSizes[civSizes.length - 1].id) && curCiv.raid.last == curCiv.raid.neighbour.size) {
+    //    curCiv.neighbours[curCiv.raid.neighbour.idx].size = civSizes[civSizes[curCiv.raid.neighbour.size].idx + 1].id;
+    //}
+    if ((curCiv.raid.neighbour.size != civSizes[civSizes.length - 1].id) && curCiv.raid.last == curCiv.raid.neighbour.size) {
+        curCiv.raid.neighbour.size = civSizes[civSizes[curCiv.raid.neighbour.size].idx + 1].id;
     }
-
     // Improve morale based on size of defeated foe.
     adjustMorale((civSizes[curCiv.raid.last].idx + 1) / 100);
 
@@ -173,7 +195,8 @@ function plunder() {
     }
 
     // Create message to notify player
-    plunderMsg = civSizes[curCiv.raid.last].name + " raided! (pop." + prettify(curCiv.raid.epop) + ")<br/>";
+    let where = curCiv.raid.neighbour.name + "ern ";
+    plunderMsg = where + civSizes[curCiv.raid.last].name + " raided! (pop." + prettify(curCiv.raid.epop) + ")<br/>";
     let lootMsg = getReqText(curCiv.raid.plunderLoot);
     if (lootMsg == "") {
         lootMsg = "nothing";
@@ -796,7 +819,7 @@ function doMobs() {
 
             let mobNum = Math.ceil(civLimit / 50 * Math.random());
             let oneDay = 24 * 60 * 60;
-            if (population.current === 0 && curCiv.loopCounter > oneDay) {
+            if (population.current === 0 && curCiv.loopCounter > oneDay && civData.freeLand.owned > 100) {
                 // no population, let's invade!
                 mobType = mobTypeIds.invader; // they do a lot of everything
                 if (civData[mobType].owned > 0) {
