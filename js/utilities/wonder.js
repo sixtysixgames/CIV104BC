@@ -104,7 +104,8 @@ function doLabourers() {
         // labourers use prods more efficiently with mods
         prod += prod * getLabourerMods();
         //increase progress
-        curCiv.curWonder.progress += prod / (1000000 * getWonderCostMultiplier());
+        //curCiv.curWonder.progress += prod / (1000000 * getWonderCostMultiplier());
+        curCiv.curWonder.progress += prod / (500000 * getWonderCostMultiplier());
     }
 }
 
