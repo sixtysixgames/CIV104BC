@@ -5,7 +5,7 @@ import {
     setInitTradeAmount, setDefaultSettings, getPlayingTime, gameLoop, appSettings, paneSelect, lootable, sentenceCase, traceLog,
     save, onToggleAutosave, reset, deleteSave, renameDeity, textSize, onPurchase, onToggleCustomQuantities, onToggleNotes, onToggleIcons, spawn,
     speedWonder, selectDeity, iconoclasmList, breakInvadeLoop, plunder, trade, buy, startWonder, renameWonder, setGameSpeed, updateTradeButtons,
-    setResourcesReqText} from "./index.js";
+    setResourcesReqText, onBulkEvent} from "./index.js";
 
 const setup = {};
 
@@ -110,8 +110,8 @@ setup.events = function () {
     elem = document.getElementById("iconoclasm");
     elem.onmousedown = function (e) { iconoclasmList(); };
 
-    elem = document.getElementById("breakInvadeLoop");
-    elem.onmousedown = function (e) { breakInvadeLoop(); };
+    //elem = document.getElementById("breakInvadeLoop");
+    //elem.onmousedown = function (e) { breakInvadeLoop(); };
 
     elem = document.getElementById("plunder");
     elem.onmousedown = function (e) { plunder(); };
@@ -134,6 +134,10 @@ setup.events = function () {
     elem.onclick = function (e) { setGameSpeed(1000); };
     elem = document.getElementById("gameSpeedFast");
     elem.onclick = function (e) { setGameSpeed(500); };
+
+
+    let group = ui.find("#raidGroup");
+    group.onmousedown = onBulkEvent;
 
 };
 
@@ -172,7 +176,7 @@ setup.game = function () {
     //console.log("setup.game.normalUpgrades: " + normalUpgrades.);
     addUITable(normalUpgrades, "upgrades"); // Place the stubs for most upgrades under the upgrades tab.
     addAchievementRows();
-    addRaidRows();
+    //addRaidRows();
     
     addWonderSelectText();
     makeDeitiesTables();
