@@ -48,28 +48,50 @@ let curCiv = {
     // If the name is populated but the domain is not, the domain has not been selected.
     deities: [{ name: "", domain: "", maxDev: 0 }],  // array of { name, domain, maxDev }
 
-    loopCounter: 0
+    loopCounter: 0,
+
+    // start at north and move clockwise
+    neighbours: [
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id }
+    ]
 
     //xxx We're still accessing many of the properties put here by civData
     //elements without going through the civData accessors.  That should change.
 };
 
 function resetCurCiv() {
-    sysLog("Resetting curCiv")
+    sysLog("Initialising curCiv")
     curCiv.civName = null;
     curCiv.rulerName = null;
     curCiv.zombie = null;
     curCiv.grave = null;
     curCiv.enemySlain = null;
     curCiv.morale = null;
-    curCiv.resourceClicks = null; 
-    curCiv.attackCounter = null; 
+    curCiv.resourceClicks = null;
+    curCiv.attackCounter = null;
     curCiv.trader = null;
     curCiv.raid = null;
     curCiv.curWonder = null;
-    curCiv.wonders = null;
-    curCiv.deities = null;
-    curCiv.loopCounter = null;
+    curCiv.wonders = [];
+    curCiv.deities = [{ name: "", domain: "", maxDev: 0 }];
+    curCiv.loopCounter = 0;
+    curCiv.neighbours = [
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id },
+        { size: civSizes[0].id }
+    ];
 }
 
 export { curCiv, resetCurCiv };
