@@ -384,7 +384,8 @@ button {
 }
 
 #raidGroup button {
-    min-width: 12em;
+    /*min-width: 12em;*/
+    min-width: 4em;
     display: block;
 }
 
@@ -645,12 +646,21 @@ button {
 #logT, #sysLogT {
     width: 7em;
 }
+
+
+#conquestTable {
+    width: 100%;
+}
+
+    #conquestTable td {
+        width: 20%;
+        text-align: center
+    }
 /*
 #graveTotal {
     display: none;
 }
 */
-
 #achievements {
 }
 
