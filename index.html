@@ -107,7 +107,7 @@
                             <td class="number netWidth">
                                 <span class="number net" data-action="displayNet" data-target="skins">0</span><span class="perSecond">/s</span>
                             </td>
-
+                            <td rowspan="4">&nbsp;</td>
                             <td>
                                 <img src="images/leather.png" class="icon icon-lg" alt="Leather" />
                                 <label>Leather:</label>
@@ -119,7 +119,7 @@
                             <td class="number netWidth">
                                 <span class="number net" data-action="displayNet" data-target="leather">0</span><span class="perSecond">/s</span>
                             </td>
-
+                            <td rowspan="4">&nbsp;</td>
                             <td>
                                 <img src="images/backup.png" class="icon icon-lg" alt="Population" />
                                 <label>Population:</label>
@@ -128,11 +128,11 @@
                                 <span data-action="display_pop" data-target="living">...</span>&nbsp;/&nbsp;<span class="maxNumber" data-action="display_pop" data-target="limit">...</span>
                             </td>
                             <!--<td class="number maxNumber">
-                        / max: <span data-action="display_pop" data-target="limit">...</span>
-                    </td>-->
+        / max: <span data-action="display_pop" data-target="limit">...</span>
+    </td>-->
                             <!--<td class="note">
-                        Build more housing to grow your civilization
-                    </td>-->
+        Build more housing to grow your civilization
+    </td>-->
 
                         </tr>
                         <tr>
@@ -160,6 +160,7 @@
                             </td>
 
                             <td>
+                                <span id="morale0"><img src="images/morale0-dead.png" class="icon icon-lg" alt="Happiness" /></span>
                                 <span id="morale1"><img src="images/morale1-blissful.png" class="icon icon-lg" alt="Happiness" /></span>
                                 <span id="morale2"><img src="images/morale2-happy.png" class="icon icon-lg" alt="Happiness" /></span>
                                 <span id="morale3"><img src="images/morale3-content.png" class="icon icon-lg" alt="Happiness" /></span>
@@ -167,7 +168,7 @@
                                 <span id="morale5"><img src="images/morale5-angry.png" class="icon icon-lg" alt="Happiness" /></span>
                                 <label>Happiness:</label>
                             </td>
-                            <td xcolspan="2" id="morale">
+                            <td id="morale">
                                 <ol class="happinessRanks">
                                     <li>Blissful</li>
                                     <li>Happy</li>
@@ -206,10 +207,9 @@
                                 <img src="images/carrion.png" class="icon icon-lg" alt="Corpses">
                                 <label>Corpses:</label>
                             </td>
-                            <td xcolspan="2">
-                                <span class="number" data-action="display" data-target="corpses">0</span>&nbsp;/&nbsp;<span data-action="display" data-target="grave">...</span> Empty Graves
+                            <td>
+                                <span data-action="display" data-target="corpses">0</span>
                             </td>
-
                         </tr>
                         <tr>
                             <td>
@@ -230,34 +230,14 @@
                             <td class="number">
                                 <span class="number net" data-action="displayNet" data-target="piety">0</span><span class="perSecond">/s</span>
                             </td>
-
+                            <td>
+                                <img src="images/graveyard.png" class="icon icon-lg" alt="Graves">
+                                <label>Graves:</label>
+                            </td>
+                            <td>
+                                <span data-action="display" data-target="grave">...</span>
+                            </td>
                         </tr>
-                        <!--<tr>-->
-                        <!--<td>
-                    <span id="morale1"><img src="images/morale1-blissful.png" class="icon icon-lg" alt="Happiness" /></span>
-                    <span id="morale2"><img src="images/morale2-happy.png" class="icon icon-lg" alt="Happiness" /></span>
-                    <span id="morale3"><img src="images/morale3-content.png" class="icon icon-lg" alt="Happiness" /></span>
-                    <span id="morale4"><img src="images/morale4-unhappy.png" class="icon icon-lg" alt="Happiness" /></span>
-                    <span id="morale5"><img src="images/morale5-angry.png" class="icon icon-lg" alt="Happiness" /></span>
-                    <label>Happiness:</label>
-                </td>
-                <td colspan="2" id="morale">
-                    <ol class="happinessRanks">
-                        <li>Blissful</li>
-                        <li>Happy</li>
-                        <li>Content</li>
-                        <li>Unhappy</li>
-                        <li>Angry</li>
-                    </ol>
-                </td>-->
-                        <!--<td>
-                    <img src="images/carrion.png" class="icon icon-lg" alt="Corpses">
-                    <label>Corpses:</label>
-                </td>
-                <td colspan="2">
-                    <span class="number" data-action="display" data-target="corpses">0</span>&nbsp;/&nbsp;<span data-action="display" data-target="grave">...</span> Empty Graves
-                </td>-->
-                        <!--</tr>-->
                     </tbody>
                 </table>
             </div>
@@ -635,13 +615,10 @@
                     </span>
                     <div id="conquest">
                         <h3>Army</h3>
-                        <div id="exitRaidLoop">
-                            Raids left:
-                            <span id="raidLoop">
-                                0
-                            </span>
+                        <!--<div id="exitRaidLoop">
+                            Raids left: <span id="raidLoop">0</span>
                             <button id="breakInvadeLoop">Exit</button>
-                        </div>
+                        </div>-->
                         <p id="customPartyQuantity">
                             Custom Quantity <input id="partyCustomQty" type="number" min="1" step="1" value="1" />
                         </p>
@@ -661,6 +638,70 @@
                                     <p id="gloryGroup">
                                         Glory: <span id="gloryTimer">0</span> seconds remain
                                     </p>
+                                    <table id="conquestTable">
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <span id="northcivsize">Tribe</span><br />
+                                                <button id="raidnorth" class="raid" data-action="raid" data-target="north">Raid</button>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <span id="northwestcivsize">Tribe</span><br />
+                                                <button id="raidnorthwest" class="raid" data-action="raid" data-target="northwest">Raid</button>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <span id="northeastcivsize">Tribe</span><br />
+                                                <button id="raidnortheast" class="raid" data-action="raid" data-target="northeast">Raid</button>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span id="westcivsize">Tribe</span><br />
+                                                <button id="raidwest" class="raid" data-action="raid" data-target="west">Raid</button>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <span id="civTypeRaid">Tribe</span> of<br /> 
+                                                <span id="civNameRaid">Chief</span>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <span id="eastcivsize">Tribe</span><br />
+                                                <button id="raideast" class="raid" data-action="raid" data-target="east">Raid</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <span id="southwestcivsize">Tribe</span><br />
+                                                <button id="raidsouthwest" class="raid" data-action="raid" data-target="southwest">Raid</button>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <span id="southeastcivsize">Tribe</span><br />
+                                                <button id="raidsoutheast" class="raid" data-action="raid" data-target="southeast">Raid</button>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <span id="southcivsize">Tribe</span><br />
+                                                <button id="raidsouth" class="raid" data-action="raid" data-target="south">Raid</button>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    </table>
                                 </div>
                                 <div id="victoryGroup">
                                     <h3>Victory!</h3>
@@ -680,6 +721,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <!--
