@@ -8,7 +8,7 @@ const neighbours = [
             //console.log("north size=" + curCiv.neighbours[0].size)
             return curCiv.neighbours[0].size;
         },
-        set size(value) { curCiv.neighbours[0].size = value; }
+        set size(value) { curCiv.neighbours[0].size = value; },
     },
     {
         name: "Northeast", id: "northeast",
