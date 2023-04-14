@@ -1,5 +1,5 @@
 ﻿
-import { Achievement, curCiv, civData, civSizes, deityDomains, getCurDeityDomain, population  } from "../index.js";
+import { Achievement, curCiv, civData, civSizes, deityDomains, getCurDeityDomain, population, neighbours  } from "../index.js";
 
 function getAchievementData() {
     let data = [
@@ -18,10 +18,51 @@ function getAchievementData() {
         }),
         // If we beat the largest possible opponent, grant bonus achievement.
         new Achievement({
-            id: "dominationAch", name: "Domi&shy;nation",
+            id: "dominationAch", name: "Domin&shy;ation",
             test: function () { return curCiv.raid.victory && (curCiv.raid.last == civSizes[civSizes.length - 1].id); },
-            effectText: "Succesfully conquer all enemies"
+            effectText: "Successfully conquer an empire"
         }),
+        // If we beat all neighbours.
+        new Achievement({
+            id: "conquerorAch", name: "World Conq&shy;ueror",
+            test: function () {
+                let conqd = neighbours.filter(n => n.size === "conquered");
+                return conqd.length === neighbours.length;
+                //return curCiv.raid.victory && (curCiv.raid.last == civSizes[civSizes.length - 1].id) && !neighbours.some(n => n.size === "empire");
+            },
+            effectText: "Successfully conquer all neighbouring empires"
+        }),
+        //new Achievement({
+        //    id: "lnconquerorAch", name: "Large Nation Conqueror",
+        //    test: function () {
+        //        //const result = arrayToCount.filter(i => i === 2).length;
+        //        let conqd = neighbours.filter(n => n.size === "largeNation");
+        //        return conqd.length === neighbours.length;
+        //        //console.log("curCiv.raid.victory=" + curCiv.raid.victory);
+        //        //console.log("(curCiv.raid.last == largeNation)=" + curCiv.raid.last );
+        //        //console.log("!neighbours.some(n => n.size === largeNation=" + !neighbours.some(n => n.size === "largeNation"));
+        //        //return curCiv.raid.victory && (curCiv.raid.last == "largeNation") && !neighbours.some(n => n.size === "largeNation");
+        //    },
+        //    effectText: "Successfully conquer all neighbouring large nations"
+        //}),
+        //new Achievement({
+        //    id: "nconquerorAch", name: "Nation Conqueror",
+        //    test: function () {
+        //        let conqd = neighbours.filter(n => n.size === "nation");
+        //        return conqd.length === neighbours.length;
+        //        //return curCiv.raid.victory && (curCiv.raid.last == "nation") && !neighbours.some(n => n.size === "nation");
+        //    },
+        //    effectText: "Successfully conquer all neighbouring nations"
+        //}),
+        //new Achievement({
+        //    id: "snconquerorAch", name: "Small Nation Conqueror",
+        //    test: function () {
+        //        let conqd = neighbours.filter(n => n.size === "smallnation");
+        //        return conqd.length === neighbours.length;
+        //        //return curCiv.raid.victory && (curCiv.raid.last == "smallnation") && !neighbours.some(n => n.size === "smallnation");
+        //    },
+        //    effectText: "Successfully conquer all neighbouring small nations"
+        //}),
         //Morale
         new Achievement({
             id: "hatedAch", name: "Hated",
