@@ -1,5 +1,5 @@
 "use strict";
-
+// update the value in js/settings/app-settings
 function VersionData(major, minor, sub, mod) {
     this.major = major;
     this.minor = minor;
