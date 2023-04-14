@@ -49,7 +49,7 @@ function load(loadType) {
             sysLog("Loaded saved game from cookie");
             sysLog("Save system switching to localStorage.");
         } else {
-            console.log("load() Unable to find cookie");
+            console.error("load() Unable to find cookie");
             sysLog("Unable to find cookie");
             return false;
         }
@@ -66,7 +66,7 @@ function load(loadType) {
             string2 = localStorage.getItem(appSettings.saveTag2);
 
             if (!string1) {
-                console.log("load() Unable to find variables in localStorage. Attempting to load cookie.");
+                console.warn("load() Unable to find variables in localStorage. Attempting to load cookie.");
                 sysLog("Unable to find variables in localStorage. Attempting to load cookie.");
                 //return load("cookie");
                 return false;
@@ -88,7 +88,7 @@ function load(loadType) {
         if (loadVar2) { loadVar = mergeObj(loadVar, loadVar2); loadVar2 = undefined; }
 
         if (!loadVar) {
-            console.log("load() Unable to parse variables in localStorage. Attempting to load cookie.");
+            console.warn("load() Unable to parse variables in localStorage. Attempting to load cookie.");
             sysLog("Unable to parse variables in localStorage. Attempting to load cookie.");
             return load("cookie");
         }
@@ -105,7 +105,7 @@ function load(loadType) {
     if (saveVersion.toNumber() > appSettings.versionData.toNumber()) {
         // Refuse to load saved games from future versions.
         let alertStr = "Cannot load; saved game version " + saveVersion + " is newer than game version " + appSettings.versionData;
-        console.log("load() " + alertStr);
+        console.warn("load() " + alertStr);
         sysLog(alertStr);
         alert(alertStr);
         return false;
@@ -174,7 +174,7 @@ function importByInput(elt) {
         if (loadVar2) { loadVar = mergeObj(loadVar, loadVar2); loadVar2 = undefined; }
     }
     if (!loadVar) {
-        console.log("importByInput() Unable to parse saved game string.");
+        console.error("importByInput() Unable to parse saved game string.");
         sysLog("Unable to parse saved game string.");
         return false;
     }
@@ -225,18 +225,18 @@ function save(savetype) {
             sysLog("Autosaved");
         } else if (savetype == saveTypes.manual) {
             alert("Game Saved");
-            console.log("save() Manual Save");
+            console.info("save() Manual Save");
             sysLog("Saved game");
         }
     } catch (err) {
         handleStorageError(err);
 
         if (savetype == saveTypes.auto) {
-            console.log("save() Autosave Failed");
+            console.error("save() Autosave Failed");
             sysLog("Autosave Failed");
         } else if (savetype == saveTypes.manual) {
             alert("Manual Save Failed!");
-            console.log("save() Manual Save Failed");
+            console.error("save() Manual Save Failed");
             sysLog("Manual Save Failed");
         }
         return false;
@@ -255,7 +255,7 @@ function deleteSave() {
         localStorage.removeItem(appSettings.saveTag);
         localStorage.removeItem(appSettings.saveTag2);
         localStorage.removeItem(appSettings.saveSettingsTag);
-        console.log("deleteSave() Save Deleted");
+        console.info("deleteSave() Save Deleted");
         if (confirm("Save Deleted. Refresh page to start over?")) {
             window.location.reload();
         }
