@@ -210,7 +210,7 @@ function addUpgradeRows() {
         else { // One of the 'atypical' upgrades not displayed in the main upgrade list.
             let stubElem = document.getElementById(elem.id + "Row");
             if (!stubElem) {
-                console.log("Missing UI element for " + elem.id);
+                console.warn("Missing UI element for " + elem.id);
                 sysLog("Missing UI element for " + elem.id);
                 return;
             }
