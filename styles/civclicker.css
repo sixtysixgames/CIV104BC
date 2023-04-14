@@ -386,7 +386,7 @@ button {
 #raidGroup button {
     /*min-width: 12em;*/
     min-width: 4em;
-    display: block;
+    display: inline-block;
 }
 
 #tradeUpgradeContainer button {
@@ -673,26 +673,21 @@ button {
 .achievement {
     display: block;
     float: left;
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     background-color: #737373;
     background-image: url('../images/achLocked.jpg');
     background-position: center center;
     background-repeat: no-repeat;
-    margin: 0.5em;
+    margin: 5px;
     font-family: 'Suez One', serif;
 }
-
-.break {
-    display: block;
-    width: 20px;
-}
-
+/*above width+(margin*2) needs to equal below width*/
 .unlockedAch {
     box-sizing: border-box;
     border: 5px ridge #FBDA20;
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     padding: 0.8em 0.2em 0.2em;
     margin: -5px 0 0 -5px;
     font-size: 0.9em;
@@ -706,6 +701,10 @@ button {
     background-position: center;
 }
 
+.break {
+    display: block;
+    width: 20px;
+}
 .stats {
     display: block;
     clear: both;
@@ -1204,14 +1203,14 @@ footer {
         }
 }
 
-.raid {
+/*.raid {
     display: inline !important;
 }
 
 .raid-mult {
     display: inline !important;
     min-width: unset !important;
-}
+}*/
 /*1050*/
 
 /*span {
