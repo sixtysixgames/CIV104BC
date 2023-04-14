@@ -1,5 +1,6 @@
 ﻿"use strict";
 import { civData, isValid, typeToId, deleteSave } from "../index.js";
+// update the value in js/settings/app-settings
 
 // Migrate an old savegame to the current format.
 // settingsVarReturn is assumed to be a struct containing a property 'val',
@@ -522,6 +523,14 @@ function migrateGameData(loadVar, settingsVarReturn) {
     if (!isValid(loadVar.curCiv.quarrying) && isValid(loadVar.curCiv.mining.owned)) {
         loadVar.curCiv.quarrying = { owned: loadVar.curCiv.mining.owned };
     }
+
+    //
+    // CIV 104 BC
+    //
+    // hack to remove
+    if (isValid(loadVar.lnconquerorAch)) { delete loadVar.lnconquerorAch; } // no longer used.
+    if (isValid(loadVar.nconquerorAch)) { delete loadVar.nconquerorAch; } // no longer used.
+    if (isValid(loadVar.snconquerorAch)) { delete loadVar.snconquerorAch; } // no longer used.
 
 }
 
