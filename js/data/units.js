@@ -147,7 +147,7 @@ function getUnitData() {
         }),
         new Unit({
             id: unitType.cavalry, singular: "cavalry", plural: "cavalry", source: unitType.unemployed,
-            prereqs: { stable: 1 }, require: { food: 20, leather: 20, metal: 4 },
+            prereqs: { stable: 1 }, require: { leather: 20, metal: 4 },
             combatType: combatTypes.cavalry, efficiency_base: 0.08,
             get efficiency() { return this.efficiency_base + getPlayerCombatMods(); },
             set efficiency(value) { this.efficiency_base = value; },
