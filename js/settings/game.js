@@ -3,7 +3,7 @@ import {
     doMiners, doBlacksmiths, doApothecaries, doTanners, doClerics, doStarve, doHomeless, checkResourceLimits, doMobs, doPestControl,
     tickGlory, doShades, doEsiege, doRaid, placeType, alignmentType, doRaidCheck, doGraveyards, doHealers, doPlague, doCorpses, doThrone,
     tickGrace, tickWalk, doLabourers, tickTraders, updateResourceTotals, testAchievements, updateAll,
-    doIronsmiths, doCharcoalBurners, doCoppersmiths, doLeadsmiths, doTinsmiths, doSilversmiths, doLimeBurners, } from "../index.js";
+    doIronsmiths, doCharcoalBurners, doCoppersmiths, doLeadsmiths, doTinsmiths, doSilversmiths, doLimeBurners } from "../index.js";
 
 // Create a cat
 function spawnCat() {
@@ -37,9 +37,9 @@ function gameLoop() {
     doLimeBurners();
     doIronsmiths();
     doCoppersmiths();
-    doLeadsmiths()
-    doTinsmiths()
-    doSilversmiths()
+    doLeadsmiths();
+    doTinsmiths();
+    doSilversmiths();
 
     doClerics();
 
