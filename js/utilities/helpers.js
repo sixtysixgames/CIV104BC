@@ -157,7 +157,7 @@ function canPurchase(purchaseObj, qty) {
 function doPurchase(objId, num) {
     let purchaseObj = civData[objId];
     if (!purchaseObj) {
-        console.log("Unknown purchase: " + objId);
+        console.warn("Unknown purchase: " + objId);
         sysLog("Unknown purchase: " + objId);
         return 0;
     }
@@ -243,6 +243,7 @@ function getResourceTotal() {
 }
 
 function testAchievements() {
+    //console.log("testAchievements()");
     achData.forEach(function (achObj) {
         if (civData[achObj.id].owned) { return true; }
         if (isValid(achObj.test) && !achObj.test()) { return false; }
