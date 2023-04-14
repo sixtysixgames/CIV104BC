@@ -6,7 +6,7 @@ const appSettings = {
     // TODO: Update the version numbering internally
     version: 1, // This is an ordinal used to trigger reloads. 66g No it doesn't 
     //66g Always increment versionData if adding/modifying element to civData
-    versionData: new VersionData(0, 2, 0, "alpha"), // this is not accurate.  
+    versionData: new VersionData(0, 2, 1, "alpha"), // this is not accurate.  
 
     saveTag: "bc104",
     saveTag2: function () { return this.saveTag + "2"; }, // For old saves.
