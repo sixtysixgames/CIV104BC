@@ -33,7 +33,7 @@ function updateWonderList() {
         try {
             wonderhtml += "<tr><td>" + curCiv.wonders[i].name + "</td><td>" + curCiv.wonders[i].resourceId + "</td></tr>";
         } catch (err) {
-            console.log("updateWonderList() Could not build wonder row " + i);
+            console.warn("updateWonderList() Could not build wonder row " + i);
             sysLog("Could not build wonder row " + i);
         }
     }
@@ -204,13 +204,11 @@ function updateResourceTotals() {
         //if (!isValid(val)) { continue; }
         if (!isValid(val) || typeof val != "number") {
             // hack to fix NaN stored
-            console.log("updates.updateResourceTotals() id = " + dataset(elem, "target"));
+            console.warn("updates.updateResourceTotals() id = " + dataset(elem, "target"));
             console.warn("updates.updateResourceTotals() owned not number. = " + val);
             curCiv[dataset(elem, "target")].owned = 0;
             val = curCiv[dataset(elem, "target")].owned;
-            //console.log("updates.updateResourceTotals() Val is now:" + val + ". owned=" + curCiv[dataset(elem, "target")].owned);
         }
-
         elem.innerHTML = prettify(Math.floor(val));
     }
 
@@ -223,7 +221,7 @@ function updateResourceTotals() {
         //if (!isValid(val)) { continue; }
         if (!isValid(val) || typeof val != "number") {
             // hack to fix NaN stored
-            console.log("updates.updateResourceTotals() id = " + dataset(elem, "target"));
+            console.warn("updates.updateResourceTotals() id = " + dataset(elem, "target"));
             console.warn("updates.updateResourceTotals() net not number. = " + val);
 
             civData[dataset(elem, "target")].net = 0;
@@ -701,17 +699,20 @@ function updateTargets() {
             curElem.disabled = isDisabled;
 
             let neighbourID = dataset(curElem, "target");
-            //console.log(neighbourID + " = id");
             let neighbour = neighbours.find(n => n.id === neighbourID);
-            //let idx = neighbours.findIndex(n => n.id === neighbourID);
-            //console.log(neighbourID + " update idx=" + idx);
-            //let neighbour = neighbours[idx];
-            //console.log(neighbour.name);
+
             if (neighbour != null) {
                 let civsizeID = neighbourID + "civsize";
                 let spanElem = document.getElementById(civsizeID);
                 //spanElem.innerText = civSizes[curCiv.neighbours[idx].size].name;
-                spanElem.innerText = civSizes[neighbour.size].name;
+                if (neighbour.size != "conquered") {
+                    spanElem.innerText = civSizes[neighbour.size].name;
+                }
+                else {
+                    spanElem.innerText = "Conquered";
+                    curElem.disabled = true;
+                    ui.show(curElem, false);
+                }
             }
         }
     }
