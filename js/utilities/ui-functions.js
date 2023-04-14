@@ -11,7 +11,7 @@ function paneSelect(e) {
     let newTarget = dataset(control, "target");
     let selectors = ui.find("#selectors");
     if (!selectors) {
-        console.log("paneSelect() No selectors found");
+        console.warn("paneSelect() No selectors found");
         sysLog("No selectors found");
         return null;
     }
@@ -33,7 +33,7 @@ function paneSelect(e) {
 }
 
 function versionAlert() {
-    console.log("versionAlert() New Version Available");
+    console.info("versionAlert() New Version Available");
     ui.find("#versionAlert").style.display = "inline";
 }
 
@@ -272,7 +272,7 @@ function sysLog(message) {
 
     appSettings.sysLogRepeat = logMessage("#syslogTable", curTime, message, appSettings.sysLogRepeat); 
 
-    console.log("sysLog() " + message);
+    console.info("sysLog() " + message);
 }
 function tradeLog(message) {
     let curTime = getPlayingTimeShort();
