@@ -66,7 +66,7 @@
 			let displayVal;
 			let tagName;
 
-			if (!elt) { return undefined; }
+            if (!elt) { return undefined; }
 
 			// If the visibility is unspecified, toggle it.
 			if (visible === undefined) { 
