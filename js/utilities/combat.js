@@ -91,16 +91,16 @@ function invade(ecivtype) {
     // increase enemy efficiency depending on invasion target
     civData.esoldier.efficiency = civData.esoldier.efficiency_base + civSizes[ecivtype].efficiency;
 
-    // 66g todo: should we should take into account size of raiding party
-    let baseLoot = Math.min(civData.soldierParty.owned + civData.cavalryParty.owned, curCiv.raid.epop);
+    // 66g todo: should we should take into account size of raiding party, also number of lootable buildings = approx 0.1 of population
+    let baseLoot = Math.min(civData.soldierParty.owned + civData.cavalryParty.owned, curCiv.raid.epop / 10);
     // Glory redoubles rewards
     baseLoot = baseLoot * (1 + (civData.glory.timer <= 0 ? 0 : 1));
 
     // Set rewards of land and other random plunder
-    // land between 25 and 50% because it can be doubled with administration and we don't want to gain too much
-    let baseLand = (baseLoot / 3) * (1 + (civData.administration.owned));
+    // land between 10 and 25% because it can be doubled with administration and we don't want to gain too much so we force raids
+    let baseLand = (baseLoot / 4) * (1 + (civData.administration.owned));
     curCiv.raid.plunderLoot = {
-        freeLand: Math.floor((baseLand * 0.25) + Math.round(Math.random() * (baseLand * 0.25)))
+        freeLand: Math.floor((baseLand * 0.1) + Math.round(Math.random() * (baseLand * 0.15)))
     };
 
     baseLoot -= Math.round(curCiv.raid.plunderLoot.freeLand * Math.random());
@@ -108,11 +108,19 @@ function invade(ecivtype) {
     let counter = 0;
     lootable.forEach(function (elem) {
         counter++;
-        curCiv.raid.plunderLoot[elem.id] = Math.round(baseLoot * Math.random());
-        baseLoot -= counter + Math.round(curCiv.raid.plunderLoot[elem.id] * Math.random());
+        if (baseLoot > 0) {
+            curCiv.raid.plunderLoot[elem.id] = Math.round(baseLoot * Math.random());
+            //baseLoot -= counter + Math.round(curCiv.raid.plunderLoot[elem.id] * Math.random());
+            baseLoot -= counter + Math.round(curCiv.raid.plunderLoot[elem.id]);
+        }
         if (baseLoot < 0) { baseLoot = 0; }
     });
 
+    let msg = civSizes[ecivtype].name + " raises an army of " + prettify(civData.esoldier.owned);
+    if (civData.efort.owned > 0) {
+        msg += " with " + prettify(civData.efort.owned) + " fortifications";
+    }
+    raidLog(msg);
     ui.hide("#raidNews");
     ui.hide("#raidEventsContainer");
     updateTargets(); //Hides raid buttons until the raid is finished
@@ -124,13 +132,7 @@ function onInvade(control) { return invadeNeighbour(dataset(control, "target"));
 function invadeNeighbour(neighbourID) {
     //console.log("invadeNeighbour() = " + neighbourID);
     let neighbour = neighbours.find(neighbour => neighbour.id === neighbourID);
-    //console.log("idx = " + idx);
-    //characters.filter(character => character.team === 'Avengers');
-    //let neighbour = curCiv.neighbours[neighbourID];
-    //let neighbour = neighbours[idx];
-    //neighbour.size = curCiv.neighbours[idx].size;  // todo: is this merged somewhere?
-    //neighbour.idx = idx;
-    //console.log("neighbour: " + neighbour.name + ", " + neighbour.size);
+
     curCiv.raid.neighbour = neighbour;
     invade(neighbour.size);
 }
@@ -179,6 +181,9 @@ function plunder() {
     if ((curCiv.raid.neighbour.size != civSizes[civSizes.length - 1].id) && curCiv.raid.last == curCiv.raid.neighbour.size) {
         curCiv.raid.neighbour.size = civSizes[civSizes[curCiv.raid.neighbour.size].idx + 1].id;
     }
+    else if(curCiv.raid.neighbour.size == civSizes[civSizes.length - 1].id) {
+        curCiv.raid.neighbour.size = "conquered";
+    }
     // Improve morale based on size of defeated foe.
     adjustMorale((civSizes[curCiv.raid.last].idx + 1) / 100);
 
@@ -196,7 +201,7 @@ function plunder() {
 
     // Create message to notify player
     let where = curCiv.raid.neighbour.name + "ern ";
-    plunderMsg = where + civSizes[curCiv.raid.last].name + " raided! (pop." + prettify(curCiv.raid.epop) + ")<br/>";
+    plunderMsg = where + civSizes[curCiv.raid.last].name + " raided! (pop. " + prettify(curCiv.raid.epop) + ")<br/>";
     let lootMsg = getReqText(curCiv.raid.plunderLoot);
     if (lootMsg == "") {
         lootMsg = "nothing";
@@ -217,17 +222,6 @@ function plunder() {
 function getCombatants(place, alignment) {
     //console.log("getCombatants() place=" + place + ". align=" + alignment);
     return unitData.filter(function (elem) {
-        /*
-        if (place=="home" && alignment=="enemy") {
-            if (elem.combatType == "infantry" || elem.combatType == "cavalry" || elem.combatType == "animal") {
-                console.log("getCombatants() id=" + elem.id);
-                console.log("getCombatants() alignment=" + elem.alignment);
-                console.log("getCombatants() place=" + elem.place);
-                console.log("getCombatants() combattype=" + elem.combatType);
-                console.log("getCombatants() owned=" + elem.owned);
-            }
-        }
-        */
         return ((elem.alignment == alignment) && (elem.place == place)
             && (elem.combatType) && (elem.owned > 0));
     });
@@ -756,6 +750,7 @@ function doRaid(place, attackAlignment, defendAlignment) {
 
 function doRaidCheck(place, attackAlignment, defendAlignment) {
     if (curCiv.raid.raiding && curCiv.raid.victory) {
+        console.log("doRaidCheck raid left = " + curCiv.raid.left);
         let attackers = getCombatants(place, attackAlignment);
         if (curCiv.raid.left > 0) {
             plunder(); // plunder resources before new raid
