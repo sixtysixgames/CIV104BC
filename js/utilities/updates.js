@@ -5,7 +5,7 @@ import {
     getCombatants, getCivType, getCurDeityDomain, getCurrentAltarId, getLandTotals, getReqText, getWonderLowItem, homeBuildings, homeUnits,
     idToType, isTraderHere, isUnderAttack, isValid, isWonderLimited, logSearchFn, makeDeitiesTables, meetsPrereqs, onBulkEvent, placeType, population, powerData, prettify,
     settings, sgn, subTypes, sysLog, unitData, upgradeData, ui, UIComponents, wonderResources, traceLog, updateTradeButton, setReqText,
-    neighbours
+    neighbours, prettifyLargeNumber, resourceType
 } from "../index.js";
 
 // Update functions. Called by other routines in order to update the interface.
@@ -187,15 +187,14 @@ function updatePartyButtons() {
 //xxx Maybe add a function here to look in various locations for vars, so it
 //doesn't need multiple action types?
 function updateResourceTotals() {
-    traceLog("updates.updateResourceTotals");
-    let i, displayElems, elem, val;
+    traceLog("updates.updateResourceTotals()");
+    let i, displayElems, elem, val, obj;
     let landTotals = getLandTotals();
 
     // Scan the HTML document for elements with a "data-action" element of
     // "display".  The "data-target" of such elements (or their ancestors) 
     // is presumed to contain the global variable name to be displayed as the element's content.
-    //xxx Note that this is now also updating nearly all updatable values,
-    // including population
+    //xxx Note that this is now also updating nearly all updatable values, including population
     displayElems = document.querySelectorAll("[data-action='display']");
     for (i = 0; i < displayElems.length; ++i) {
         elem = displayElems[i];
@@ -209,7 +208,14 @@ function updateResourceTotals() {
             curCiv[dataset(elem, "target")].owned = 0;
             val = curCiv[dataset(elem, "target")].owned;
         }
-        elem.innerHTML = prettify(Math.floor(val));
+        elem.title = prettify(val);
+        obj = civData[dataset(elem, "target")];
+        if (isValid(obj) && obj.type === civObjType.resource && obj.id !== resourceType.corpses) {
+            elem.innerHTML = prettifyLargeNumber(Math.floor(val));
+        }
+        else {
+             elem.innerHTML = prettify(Math.floor(val));
+        }
     }
 
     // Update net production values for primary resources.  Same as the above,
@@ -223,7 +229,6 @@ function updateResourceTotals() {
             // hack to fix NaN stored
             console.warn("updates.updateResourceTotals() id = " + dataset(elem, "target"));
             console.warn("updates.updateResourceTotals() net not number. = " + val);
-
             civData[dataset(elem, "target")].net = 0;
             val = civData[dataset(elem, "target")].net;
         }
@@ -234,19 +239,22 @@ function updateResourceTotals() {
         else { elem.style.color = "#000"; }
 
         //elem.title = ((val <= 0) ? "" : "+") + val.toFixed(4);
-        elem.title = val;
-        elem.innerHTML = ((val <= 0) ? "" : "+") + prettify(val.toFixed(2));
+        elem.title = prettify(val);
+        //elem.innerHTML = ((val <= 0) ? "" : "+") + prettify(val.toFixed(2));
+        elem.innerHTML = ((val <= 0) ? "" : "+") + prettifyLargeNumber(val);
     }
 
     //Update page with building numbers, also stockpile limits.
     let resID = "";
     lootable.forEach(function (resElem) {
         resID = "#max" + resElem.id;
-        ui.find(resID).innerHTML = prettify(civData[resElem.id].limit);
+        //ui.find(resID).innerHTML = prettify(civData[resElem.id].limit);
+        ui.find(resID).title = prettify(civData[resElem.id].limit);
+        ui.find(resID).innerHTML = prettifyLargeNumber(civData[resElem.id].limit);
     });
 
-
-    ui.find("#maxpiety").innerHTML = prettify(civData.piety.limit);
+    //ui.find("#maxpiety").innerHTML = prettify(civData.piety.limit);
+    ui.find("#maxpiety").innerHTML = prettifyLargeNumber(civData.piety.limit);
     ui.find("#totalBuildings").innerHTML = prettify(landTotals.buildings);
     ui.find("#totalLand").innerHTML = prettify(landTotals.lands);
 
@@ -528,7 +536,11 @@ function updateUpgrades() {
     ui.show("#battleUpgrades", (getCurDeityDomain() == deityDomains.battle));
     ui.show("#fieldsUpgrades", (getCurDeityDomain() == deityDomains.fields));
     ui.show("#underworldUpgrades", (getCurDeityDomain() == deityDomains.underworld));
-    ui.show("#zombieWorkers", (curCiv.zombie.owned > 0));
+   // ui.show("#zombieWorkers", (curCiv.zombie.owned > 0));
+    ui.findAll("#civInfoTable .zombieWorkers").forEach(function (elem) {
+        ui.show(elem, (curCiv.zombie.owned > 0));
+    });
+
     ui.show("#catsUpgrades", (getCurDeityDomain() == deityDomains.cats));
 
     ui.show("#deityDomains", canSelectDomain);
