@@ -1,5 +1,8 @@
 ﻿"use strict";
-import { appSettings, dataset, gameLoop, getLandTotals, getPlayingTimeShort, getReqText, isValid, population, settings, ui, updateResourceTotals } from "../index.js";
+import {
+    appSettings, dataset, gameLoop, getLandTotals, getPlayingTimeShort, getReqText, isValid, population, settings, ui,
+    updateResourceTotals, abs
+} from "../index.js";
 
 // Called when user switches between the various panes on the left hand side of the interface
 // Returns the target pane element.
@@ -40,6 +43,22 @@ function versionAlert() {
 function prettify(input) {
     //xxx TODO: Add appropriate format options
     return (settings.delimiters) ? Number(input).toLocaleString() : input.toString();
+}
+function prettifyLargeNumber(value) {
+    let s = "";
+    let m = 1000000;
+    let k = 1000;
+    if (abs(value) > m) {
+        value = value / m;
+        s = prettify(value.toFixed(2)) + "m";
+        return s;
+    }
+    else if (abs(value) > k) {
+        value = value / k;
+        s = prettify(value.toFixed(2)) + "k";
+        return s;
+    }
+    return prettify(value.toFixed(2));
 }
 
 function setAutosave(value) {
@@ -287,7 +306,7 @@ function achLog(message) {
     appSettings.achLogRepeat = logMessage("#achLogTable", curTime, message, appSettings.achLogRepeat); 
 }
 function traceLog(message) {
-    // 66g todo: maybe a switch needed on the url
+    // 66g todo: maybe a switch needed on the url - use ruler name
     // simple switch to turn on and off so we don't have to trawl through code
     if (false) {
         sysLog(message);
@@ -325,5 +344,6 @@ function sentenceCase(message) {
 
 export {
     paneSelect, versionAlert, prettify, setAutosave, onToggleAutosave, setCustomQuantities, onToggleCustomQuantities, setNotes, onToggleNotes, textSize, 
-    setIcons, onToggleIcons, getCostNote, gameLog, sysLog, getCustomNumber, sentenceCase, setGameSpeed, tradeLog, raidLog, achLog, traceLog, setReqText
+    setIcons, onToggleIcons, getCostNote, gameLog, sysLog, getCustomNumber, sentenceCase, setGameSpeed, tradeLog, raidLog, achLog, traceLog, setReqText,
+    prettifyLargeNumber
 };
