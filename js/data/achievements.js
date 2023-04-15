@@ -24,7 +24,7 @@ function getAchievementData() {
         }),
         // If we beat all neighbours.
         new Achievement({
-            id: "conquerorAch", name: "World Conq&shy;ueror",
+            id: "conquerorAch", name: "World Con&shy;queror",
             test: function () {
                 let conqd = neighbours.filter(n => n.size === "conquered");
                 return conqd.length === neighbours.length;
