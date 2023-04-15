@@ -43,42 +43,284 @@
         </div>
     </div>
     <div id="main" class="columns">
-        <div id="leftColumn" class="column left width30">
+        <div id="populationContainer" class="civSection">
+            <div id="populationNumbers">
+                <table id="civInfoTable" class="resources" xborder="1">
+                    <tr>
+                        <td>
+                            <img src="images/backup.png" class="icon icon-lg" alt="Population" />
+                            <label>Population:&nbsp;</label>
+                            <span data-action="display_pop" data-target="living">...</span>&nbsp;/&nbsp;<span class="maxNumber" data-action="display_pop" data-target="limit">...</span>
+                        </td>
+                        <!--<td xclass="number">
+                            <span data-action="display_pop" data-target="living">...</span>&nbsp;/&nbsp;<span class="maxNumber" data-action="display_pop" data-target="limit">...</span>
+                        </td>-->
+                        <td id="morale"  style="width:15%">
+                            <span id="morale0"><img src="images/morale0-dead.png" class="icon icon-lg" alt="Happiness" /></span>
+                            <span id="morale1"><img src="images/morale1-blissful.png" class="icon icon-lg" alt="Happiness" /></span>
+                            <span id="morale2"><img src="images/morale2-happy.png" class="icon icon-lg" alt="Happiness" /></span>
+                            <span id="morale3"><img src="images/morale3-content.png" class="icon icon-lg" alt="Happiness" /></span>
+                            <span id="morale4"><img src="images/morale4-unhappy.png" class="icon icon-lg" alt="Happiness" /></span>
+                            <span id="morale5"><img src="images/morale5-angry.png" class="icon icon-lg" alt="Happiness" /></span>
+                            <label>Happiness:&nbsp;</label>
+                            <ol class="happinessRanks">
+                                <li>Blissful</li>
+                                <li>Happy</li>
+                                <li>Content</li>
+                                <li>Unhappy</li>
+                                <li>Angry</li>
+                            </ol>
+                        </td>
+                        <!--<td id="morale">
+                            <ol class="happinessRanks">
+                                <li>Blissful</li>
+                                <li>Happy</li>
+                                <li>Content</li>
+                                <li>Unhappy</li>
+                                <li>Angry</li>
+                            </ol>
+                        </td>-->
+                        <td style="width:15%">
+                            <img src="images/gold.png" class="icon icon-lg" alt="Gold" />
+                            <label>Gold:&nbsp;</label>
+                            <span data-action="display" data-target="gold">0</span>
+                        </td>
+                        <!--<td>
+                            <span data-action="display" data-target="gold">0</span>
+                        </td>-->
+                        <td style="width:15%">
+                            <img src="images/graveyard.png" class="icon icon-lg" alt="Graves">
+                            <label>Graves:&nbsp;</label>
+                            <span data-action="display" data-target="grave">...</span>
+                        </td>
+                        <!--<td>
+                            <span data-action="display" data-target="grave">...</span>
+                        </td>-->
+                        <td style="width:15%">
+                            <img src="images/carrion.png" class="icon icon-lg" alt="Corpses">
+                            <label>Corpses:&nbsp;</label>
+                            <span data-action="display" data-target="corpses">0</span>
+                        </td>
+                        <!--<td>
+                            <span data-action="display" data-target="corpses">0</span>
+                        </td>-->
+                        <td class="zombieWorkers" style="width:15%">
+                            <img src="images/shambling-zombie.png" class="icon icon-lg" alt="Zombies" />
+                            <label>Zombies:&nbsp;</label>
+                            <span data-action="display" data-target="zombie">...</span>
+                        </td>
+                        <!--<td class="zombieWorkers"><span data-action="display" data-target="zombie">...</span></td>-->
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="leftColumn" class="column left width25">
             <div id="basicResourcesContainer" class="civSection">
                 <table id="basicResources" class="resources">
                     <!-- populated by javascript -->
                 </table>
             </div>
-            <div id="populationContainer" class="civSection">
-                <div id="populationNumbers">
-                    <table class="resources">
-                        <tbody>
-                            <!--<tr>
-                        <td>
-                            <img src="images/backup.png" class="icon icon-lg" alt="Population" />
-                            <label>Population:</label>
-                        </td>
-                        <td class="number"><span data-action="display_pop" data-target="living">...</span></td>
-                        <td class="number maxNumber">
-                            / max: <span data-action="display_pop" data-target="limit">...</span>
-                        </td>
-                        <td class="note">
-                            Build more housing to grow your civilization
-                        </td>
-                    </tr>-->
-                            <tr id="zombieWorkers">
-                                <td>
-                                    <img src="images/shambling-zombie.png" class="icon icon-lg" alt="Zombies" />
-                                    <label>Zombies:</label>
-                                </td>
-                                <td class="number"><span data-action="display" data-target="zombie">...</span></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+            <!--<div id="populationContainer" class="civSection">
+                <div id="populationNumbers">-->
+                    <!--<table class="resources">
+                <tbody>
+                    <tr id="zombieWorkers">-->
+                    <!--<td>
+                    <img src="images/shambling-zombie.png" class="icon icon-lg" alt="Zombies" />
+                    <label>Zombies:</label>
+                </td>
+                <td class="number"><span data-action="display" data-target="zombie">...</span></td>-->
+                    <!--<td></td>
+                            <td></td>
+                        </tr>
 
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>-->
+                <!--</div>
+            </div>-->
+            
+        </div>
+        <div id="rightColumn" class="column right width75">
+            <div id="specialResourcesContainer" class="civSection">
+                <table class="resources" xborder="1">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img src="images/skins.png" class="icon icon-sm" alt="Skins" />
+                                <label>Skins:</label>
+                            </td>
+                            <td class="number totalMaxWidth">
+                                <span class="number" data-action="display" data-target="skins">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxskins">...</span>
+                            </td>
+                            <td class="number netWidth">
+                                <span class="number net" data-action="displayNet" data-target="skins">0</span><span class="perSecond">/s</span>
+                            </td>
+                            <td rowspan="4">&nbsp;</td>
+                            <td>
+                                <img src="images/leather.png" class="icon icon-sm" alt="Leather" />
+                                <label>Leather:</label>
+                                <span id='leatherReq' class='rescost'>skins</span>
+                            </td>
+                            <td class="number totalMaxWidth">
+                                <span class="number" data-action="display" data-target="leather">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxleather">...</span>
+                            </td>
+                            <td class="number netWidth">
+                                <span class="number net" data-action="displayNet" data-target="leather">0</span><span class="perSecond">/s</span>
+                            </td>
+                            <td rowspan="4">&nbsp;</td>
+                            <td>
+                                <img src="images/charcoal.png" class="icon icon-sm" alt="Charcoal" />
+                                <label>Charcoal:</label>
+                                <span id='charcoalReq' class='rescost'>charcoal</span>
+                            </td>
+                            <td class="number totalMaxWidth">
+                                <span class="number" data-action="display" data-target="charcoal">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxcharcoal">...</span>
+                            </td>
+                            <td class="number netWidth">
+                                <span class="number net" data-action="displayNet" data-target="charcoal">0</span><span class="perSecond">/s</span>
+                            </td>
+                            <!--<td>
+                        <img src="images/backup.png" class="icon icon-lg" alt="Population" />
+                        <label>Population:</label>
+                    </td>
+                    <td xclass="number">
+                        <span data-action="display_pop" data-target="living">...</span>&nbsp;/&nbsp;<span class="maxNumber" data-action="display_pop" data-target="limit">...</span>
+                    </td>-->
+                            <!--<td class="number maxNumber">
+                        / max: <span data-action="display_pop" data-target="limit">...</span>
+                    </td>-->
+                            <!--<td class="note">
+                        Build more housing to grow your civilization
+                    </td>-->
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="images/herbs.png" class="icon icon-sm" alt="Herbs" />
+                                <label>Herbs:</label>
+                            </td>
+                            <td class="number">
+                                <span class="number" data-action="display" data-target="herbs">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxherbs">...</span>
+                            </td>
+                            <td class="number">
+                                <span class="number net" data-action="displayNet" data-target="herbs">0</span><span class="perSecond">/s</span>
+                            </td>
+
+                            <td>
+                                <img src="images/potion.png" class="icon icon-sm" alt="Potions" />
+                                <label>Potions:</label>
+                                <span id='potionsReq' class='rescost'>herbs</span>
+                            </td>
+                            <td class="number">
+                                <span class="number" data-action="display" data-target="potions">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxpotions">...</span>
+                            </td>
+                            <td class="number">
+                                <span class="number net" data-action="displayNet" data-target="potions">0</span><span class="perSecond">/s</span>
+                            </td>
+
+                            <td>
+                                <img src="images/lime.png" class="icon icon-sm" alt="Lime" />
+                                <label>Lime:</label>
+                                <span id='limeReq' class='rescost'>lime</span>
+                            </td>
+                            <td class="number">
+                                <span class="number" data-action="display" data-target="lime">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxlime">...</span>
+                            </td>
+                            <td class="number">
+                                <span class="number net" data-action="displayNet" data-target="lime">0</span><span class="perSecond">/s</span>
+                            </td>
+                            <!--<td>
+                        <span id="morale0"><img src="images/morale0-dead.png" class="icon icon-lg" alt="Happiness" /></span>
+                        <span id="morale1"><img src="images/morale1-blissful.png" class="icon icon-lg" alt="Happiness" /></span>
+                        <span id="morale2"><img src="images/morale2-happy.png" class="icon icon-lg" alt="Happiness" /></span>
+                        <span id="morale3"><img src="images/morale3-content.png" class="icon icon-lg" alt="Happiness" /></span>
+                        <span id="morale4"><img src="images/morale4-unhappy.png" class="icon icon-lg" alt="Happiness" /></span>
+                        <span id="morale5"><img src="images/morale5-angry.png" class="icon icon-lg" alt="Happiness" /></span>
+                        <label>Happiness:</label>
+                    </td>
+                    <td id="morale">
+                        <ol class="happinessRanks">
+                            <li>Blissful</li>
+                            <li>Happy</li>
+                            <li>Content</li>
+                            <li>Unhappy</li>
+                            <li>Angry</li>
+                        </ol>
+                    </td>-->
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="images/ore.png" class="icon icon-sm" alt="Ore" />
+                                <label>Ore:</label>
+                            </td>
+                            <td class="number">
+                                <span class="number" data-action="display" data-target="ore">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxore">...</span>
+                            </td>
+                            <td class="number">
+                                <span class="number net" data-action="displayNet" data-target="ore">0</span><span class="perSecond">/s</span>
+                            </td>
+
+                            <td>
+                                <img src="images/metal.png" class="icon icon-sm" alt="Metal" />
+                                <label>Metal:</label>
+                                <span id='metalReq' class='rescost'>ore</span>
+                            </td>
+                            <td class="number">
+                                <span class="number" data-action="display" data-target="metal">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxmetal">...</span>
+                            </td>
+                            <td class="number">
+                                <span class="number net" data-action="displayNet" data-target="metal">0</span><span class="perSecond">/s</span>
+                            </td>
+
+                            <td>
+                                <img src="images/piety.png" class="icon icon-sm" alt="Piety" />
+                                <label>Piety:</label>
+                            </td>
+                            <td class="number">
+                                <span class="number" data-action="display" data-target="piety">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxpiety">...</span>
+                            </td>
+                            <td class="number">
+                                <span class="number net" data-action="displayNet" data-target="piety">0</span><span class="perSecond">/s</span>
+                            </td>
+                            <!--<td>
+        <img src="images/carrion.png" class="icon icon-lg" alt="Corpses">
+        <label>Corpses:</label>
+    </td>
+    <td>
+        <span data-action="display" data-target="corpses">0</span>
+    </td>-->
+                        </tr>
+                        <!--<tr>-->
+                            <!--<td>
+                        <img src="images/gold.png" class="icon icon-lg" alt="Gold" />
+                        <label>Gold:</label>
+                    </td>
+                    <td>
+                        <span class="number" data-action="display" data-target="gold">0</span>
+                    </td>-->
+                            <!--<td colspan="3">&nbsp;</td>
+                            <td>
+                                <img src="images/piety.png" class="icon icon-lg" alt="Piety" />
+                                <label>Piety:</label>
+                            </td>
+                            <td class="number">
+                                <span class="number" data-action="display" data-target="piety">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxpiety">...</span>
+                            </td>
+                            <td class="number">
+                                <span class="number net" data-action="displayNet" data-target="piety">0</span><span class="perSecond">/s</span>
+                            </td>-->
+                            <!--<td>
+                        <img src="images/graveyard.png" class="icon icon-lg" alt="Graves">
+                        <label>Graves:</label>
+                    </td>
+                    <td>
+                        <span data-action="display" data-target="grave">...</span>
+                    </td>-->
+                        <!--</tr>-->
+                    </tbody>
+                </table>
             </div>
             <div class="landCols cols">
                 <div class="col">
@@ -92,161 +334,10 @@
                 <!-- populated by javascript -->
             </div>
         </div>
-        <div id="rightColumn" class="column right width70">
-            <div id="specialResourcesContainer" class="civSection">
-                <table class="resources" xborder="1">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <img src="images/skins.png" class="icon icon-lg" alt="Skins" />
-                                <label>Skins:</label>
-                            </td>
-                            <td class="number">
-                                <span class="number" data-action="display" data-target="skins">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxskins">...</span>
-                            </td>
-                            <td class="number netWidth">
-                                <span class="number net" data-action="displayNet" data-target="skins">0</span><span class="perSecond">/s</span>
-                            </td>
-                            <td rowspan="4">&nbsp;</td>
-                            <td>
-                                <img src="images/leather.png" class="icon icon-lg" alt="Leather" />
-                                <label>Leather:</label>
-                                <span id='leatherReq' class='cost'>2 skins</span>
-                            </td>
-                            <td class="number">
-                                <span class="number" data-action="display" data-target="leather">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxleather">...</span>
-                            </td>
-                            <td class="number netWidth">
-                                <span class="number net" data-action="displayNet" data-target="leather">0</span><span class="perSecond">/s</span>
-                            </td>
-                            <td rowspan="4">&nbsp;</td>
-                            <td>
-                                <img src="images/backup.png" class="icon icon-lg" alt="Population" />
-                                <label>Population:</label>
-                            </td>
-                            <td xclass="number">
-                                <span data-action="display_pop" data-target="living">...</span>&nbsp;/&nbsp;<span class="maxNumber" data-action="display_pop" data-target="limit">...</span>
-                            </td>
-                            <!--<td class="number maxNumber">
-        / max: <span data-action="display_pop" data-target="limit">...</span>
-    </td>-->
-                            <!--<td class="note">
-        Build more housing to grow your civilization
-    </td>-->
-
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="images/herbs.png" class="icon icon-lg" alt="Herbs" />
-                                <label>Herbs:</label>
-                            </td>
-                            <td class="number">
-                                <span class="number" data-action="display" data-target="herbs">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxherbs">...</span>
-                            </td>
-                            <td class="number">
-                                <span class="number net" data-action="displayNet" data-target="herbs">0</span><span class="perSecond">/s</span>
-                            </td>
-
-                            <td>
-                                <img src="images/potion.png" class="icon icon-lg" alt="Potions" />
-                                <label>Potions:</label>
-                                <span id='potionsReq' class='cost'>2 herbs</span>
-                            </td>
-                            <td class="number">
-                                <span class="number" data-action="display" data-target="potions">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxpotions">...</span>
-                            </td>
-                            <td class="number">
-                                <span class="number net" data-action="displayNet" data-target="potions">0</span><span class="perSecond">/s</span>
-                            </td>
-
-                            <td>
-                                <span id="morale0"><img src="images/morale0-dead.png" class="icon icon-lg" alt="Happiness" /></span>
-                                <span id="morale1"><img src="images/morale1-blissful.png" class="icon icon-lg" alt="Happiness" /></span>
-                                <span id="morale2"><img src="images/morale2-happy.png" class="icon icon-lg" alt="Happiness" /></span>
-                                <span id="morale3"><img src="images/morale3-content.png" class="icon icon-lg" alt="Happiness" /></span>
-                                <span id="morale4"><img src="images/morale4-unhappy.png" class="icon icon-lg" alt="Happiness" /></span>
-                                <span id="morale5"><img src="images/morale5-angry.png" class="icon icon-lg" alt="Happiness" /></span>
-                                <label>Happiness:</label>
-                            </td>
-                            <td id="morale">
-                                <ol class="happinessRanks">
-                                    <li>Blissful</li>
-                                    <li>Happy</li>
-                                    <li>Content</li>
-                                    <li>Unhappy</li>
-                                    <li>Angry</li>
-                                </ol>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="images/ore.png" class="icon icon-lg" alt="Ore" />
-                                <label>Ore:</label>
-                            </td>
-                            <td class="number">
-                                <span class="number" data-action="display" data-target="ore">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxore">...</span>
-                            </td>
-                            <td class="number">
-                                <span class="number net" data-action="displayNet" data-target="ore">0</span><span class="perSecond">/s</span>
-                            </td>
-
-                            <td>
-                                <img src="images/metal.png" class="icon icon-lg" alt="Metal" />
-                                <label>Metal:</label>
-                                <span id='metalReq' class='cost'>2 ore</span>
-                            </td>
-                            <td class="number">
-                                <span class="number" data-action="display" data-target="metal">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxmetal">...</span>
-                            </td>
-                            <td class="number">
-                                <span class="number net" data-action="displayNet" data-target="metal">0</span><span class="perSecond">/s</span>
-                            </td>
-
-                            <td>
-                                <img src="images/carrion.png" class="icon icon-lg" alt="Corpses">
-                                <label>Corpses:</label>
-                            </td>
-                            <td>
-                                <span data-action="display" data-target="corpses">0</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="images/gold.png" class="icon icon-lg" alt="Gold" />
-                                <label>Gold:</label>
-                            </td>
-                            <td>
-                                <span class="number" data-action="display" data-target="gold">0</span>
-                            </td>
-                            <td>&nbsp;</td>
-                            <td>
-                                <img src="images/piety.png" class="icon icon-lg" alt="Piety" />
-                                <label>Piety:</label>
-                            </td>
-                            <td class="number">
-                                <span class="number" data-action="display" data-target="piety">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxpiety">...</span>
-                            </td>
-                            <td class="number">
-                                <span class="number net" data-action="displayNet" data-target="piety">0</span><span class="perSecond">/s</span>
-                            </td>
-                            <td>
-                                <img src="images/graveyard.png" class="icon icon-lg" alt="Graves">
-                                <label>Graves:</label>
-                            </td>
-                            <td>
-                                <span data-action="display" data-target="grave">...</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-        </div>
         <br style="clear:both;" />
         <!--
-            pane selectors
-        -->
+        pane selectors
+    -->
         <div id="leftColumn75" class="column left width75">
             <div id="panesSelectors" class="civSection">
                 <div id="selectors" class="panesTabs">
@@ -296,8 +387,8 @@
                     </div>
                 </div>
                 <!--
-                    populationPane
-                -->
+                populationPane
+            -->
                 <div id="populationPane" class="selectPane selected">
                     <div id="jobsContainer" class="civSection">
                         <div id="populationBar" class="bar" title="Population">
@@ -337,8 +428,8 @@
                     </div>
                 </div>
                 <!--
-                    buildingsPane
-                -->
+                buildingsPane
+            -->
                 <div id="buildingsPane" class="selectPane">
                     <p id="customBuildQuantity">
                         Custom Quantity <input id="buildingCustomQty" type="number" min="1" step="1" value="1" />
@@ -348,8 +439,8 @@
                     </table>
                 </div>
                 <!--
-                    resourcesPane
-                -->
+                resourcesPane
+            -->
                 <div id="resourcesPane" class="selectPane">
                     <div class="stats">
                         Resource clicks: <span id="clicks">0</span>
@@ -359,7 +450,7 @@
                         <div class="column left">
                             <table class="resources">
                                 <tbody>
-                                    <tr>
+                                    <!--<tr>
                                         <td>
                                             <label>Charcoal:</label>
                                             <span id='charcoalReq' class='cost'>charcoal</span>
@@ -370,11 +461,11 @@
                                         <td class="number">
                                             <span class="number net" data-action="displayNet" data-target="charcoal">0</span><span class="perSecond">/s</span>
                                         </td>
-                                    </tr>
+                                    </tr>-->
                                     <tr>
                                         <td>
                                             <label>Iron:</label>
-                                            <span id='ironReq' class='cost'>iron</span>
+                                            <span id='ironReq' class='rescost'>iron</span>
                                         </td>
                                         <td class="number">
                                             <span class="number" data-action="display" data-target="iron">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxiron">...</span>
@@ -386,7 +477,7 @@
                                     <tr>
                                         <td>
                                             <label>Copper:</label>
-                                            <span id='copperReq' class='cost'>copper</span>
+                                            <span id='copperReq' class='rescost'>copper</span>
                                         </td>
                                         <td class="number">
                                             <span class="number" data-action="display" data-target="copper">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxcopper">...</span>
@@ -398,7 +489,7 @@
                                     <tr>
                                         <td>
                                             <label>Lead:</label>
-                                            <span id='leadReq' class='cost'>lead</span>
+                                            <span id='leadReq' class='rescost'>lead</span>
                                         </td>
                                         <td class="number">
                                             <span class="number" data-action="display" data-target="lead">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxlead">...</span>
@@ -410,7 +501,7 @@
                                     <tr>
                                         <td>
                                             <label>Tin:</label>
-                                            <span id='tinReq' class='cost'>tin</span>
+                                            <span id='tinReq' class='rescost'>tin</span>
                                         </td>
                                         <td class="number">
                                             <span class="number" data-action="display" data-target="tin">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxtin">...</span>
@@ -422,7 +513,7 @@
                                     <tr>
                                         <td>
                                             <label>Silver:</label>
-                                            <span id='silverReq' class='cost'>silver</span>
+                                            <span id='silverReq' class='rescost'>silver</span>
                                         </td>
                                         <td class="number">
                                             <span class="number" data-action="display" data-target="silver">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxsilver">...</span>
@@ -437,7 +528,7 @@
                         <div class="column right">
                             <table class="resources">
                                 <tbody>
-                                    <tr>
+                                    <!--<tr>
                                         <td>
                                             <label>Lime:</label>
                                             <span id='limeReq' class='cost'>lime</span>
@@ -448,7 +539,7 @@
                                         <td class="number">
                                             <span class="number net" data-action="displayNet" data-target="lime">0</span><span class="perSecond">/s</span>
                                         </td>
-                                    </tr>
+                                    </tr>-->
 
                                 </tbody>
                             </table>
@@ -456,8 +547,8 @@
                     </div>
                 </div>
                 <!--
-                    upgradesPane
-                -->
+                upgradesPane
+            -->
                 <div id="upgradesPane" class="selectPane">
                     <div class="columns">
                         <div class="column left">
@@ -492,8 +583,8 @@
                     </div>
                 </div>
                 <!--
-                    deityPane
-                -->
+                deityPane
+            -->
                 <div id="deityPane" class="selectPane">
                     <div class="notYet">
                         Your civilization does not yet worship a deity.
@@ -603,8 +694,8 @@
                     </div>
                 </div>
                 <!--
-                    conquestPane
-                -->
+                conquestPane
+            -->
                 <div id="conquestPane" class="selectPane">
                     <div class="notYet">
                         You cannot command an army yet because you don't own a battle standard.
@@ -616,9 +707,9 @@
                     <div id="conquest">
                         <h3>Army</h3>
                         <!--<div id="exitRaidLoop">
-                            Raids left: <span id="raidLoop">0</span>
-                            <button id="breakInvadeLoop">Exit</button>
-                        </div>-->
+                        Raids left: <span id="raidLoop">0</span>
+                        <button id="breakInvadeLoop">Exit</button>
+                    </div>-->
                         <p id="customPartyQuantity">
                             Custom Quantity <input id="partyCustomQty" type="number" min="1" step="1" value="1" />
                         </p>
@@ -669,7 +760,7 @@
                                             </td>
                                             <td>&nbsp;</td>
                                             <td>
-                                                <span id="civTypeRaid">Tribe</span> of<br /> 
+                                                <span id="civTypeRaid">Tribe</span> of<br />
                                                 <span id="civNameRaid">Chief</span>
                                             </td>
                                             <td>&nbsp;</td>
@@ -721,12 +812,12 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <!--
-                    tradePane
-                -->
+                tradePane
+            -->
 
                 <div id="tradePane" class="selectPane">
                     <div class="notYet">
@@ -766,8 +857,8 @@
                     </div>
                 </div>
                 <!--
-                    achievementsPane
-                -->
+                achievementsPane
+            -->
                 <div id="achievementsPane" class="selectPane">
                     <div id="achievements">
                         <!-- populated by javascript -->
@@ -780,8 +871,8 @@
                     </div>
                 </div>
                 <!--
-                    settingsPane
-                -->
+                settingsPane
+            -->
                 <div id="settingsPane" class="selectPane">
                     <div class="columns">
                         <div class="column left width33">
@@ -842,12 +933,12 @@
         </div>
     </div>
 
-    <footer>
-        <span class="title">CIV 104 BC</span>
-        <!--<span class="version">v1.4</span>-->
-        <a href="faq.html" target="_blank">FAQ &amp; Instructions</a>
-        <!--<a href="updates.html" target="_blank">Game Updates Log</a>-->
-        <!--<span id="versionAlert"> - <span id="newVersionText" onclick="location.reload()">New Version Available</span></span>-->
-    </footer>
+            <footer>
+                <span class="title">CIV 104 BC</span>
+                <!--<span class="version">v1.4</span>-->
+                <a href="faq.html" target="_blank">FAQ &amp; Instructions</a>
+                <!--<a href="updates.html" target="_blank">Game Updates Log</a>-->
+                <!--<span id="versionAlert"> - <span id="newVersionText" onclick="location.reload()">New Version Available</span></span>-->
+            </footer>
 </body>
 </html>
