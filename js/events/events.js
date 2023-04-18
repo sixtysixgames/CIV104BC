@@ -1,4 +1,4 @@
-import { dataset, onInvade, onInvadeMult, increment, doPurchase } from "../index.js";
+import { dataset, onInvade, increment, doPurchase } from "../index.js";
 
 // For efficiency, we set up a single bulk listener for all of the buttons, rather
 // than putting a separate listener on each button.
@@ -7,7 +7,7 @@ function onBulkEvent(e) {
         case "increment": return onIncrement(e.target);
         case "purchase": return onPurchase(e.target);
         case "raid": return onInvade(e.target);
-        case "raid-mult": return onInvadeMult(e.target);
+        //case "raid-mult": return onInvadeMult(e.target);
     }
     return false;
 }
