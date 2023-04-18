@@ -68,17 +68,57 @@ let curCiv = {
 
 function resetCurCiv() {
     sysLog("Initialising curCiv")
-    curCiv.civName = null;
-    curCiv.rulerName = null;
-    curCiv.zombie = null;
-    curCiv.grave = null;
-    curCiv.enemySlain = null;
-    curCiv.morale = null;
-    curCiv.resourceClicks = null;
-    curCiv.attackCounter = null;
-    curCiv.trader = null;
-    curCiv.raid = null;
-    curCiv.curWonder = null;
+    curCiv.civName = "Tribe";
+    curCiv.rulerName = "Chief";
+    //curCiv.zombie = null;
+    curCiv.zombie = { owned: 0 };
+
+
+    //curCiv.grave = null;
+    curCiv.grave = { owned: 0 };
+    //curCiv.enemySlain = null;
+    curCiv.enemySlain = { owned: 0 };
+
+
+
+    //curCiv.morale = null;
+    curCiv.morale = {
+        mod: 1.0,
+        efficiency: 1.0
+    };
+
+
+
+    curCiv.resourceClicks = 0;
+    curCiv.attackCounter = 0;
+    //curCiv.trader = null;
+    curCiv.trader = {
+        materialId: "",
+        requested: 0,
+        timer: 0,
+        counter: 0,
+        userTraded: false
+    };
+
+
+
+    //curCiv.raid = null;
+    curCiv.raid = {
+        raiding: false,
+        victory: false,
+        left: 0,
+        invadeciv: null,
+        epop: 0,
+        plunderLoot: {},
+        last: "",
+        targetMax: civSizes[0].id
+    };
+
+
+    curCiv.curWonder = { name: "", stage: 0, progress: 0, rushed: false };
+
+
+
     curCiv.wonders = [];
     curCiv.deities = [{ name: "", domain: "", maxDev: 0 }];
     curCiv.loopCounter = 0;
