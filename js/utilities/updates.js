@@ -118,7 +118,6 @@ function updateTrader() {
 function updateRequirements(buildingObj) {
     let displayNode = document.getElementById(buildingObj.id + "Cost");
     if (displayNode) {
-        //console.log("updateRequirements() " + buildingObj.id);
         displayNode.innerHTML = getReqText(buildingObj.require);
     }
 }
@@ -131,7 +130,6 @@ function updatePurchaseRow(purchaseObj) {
 
     // If the item's cost is variable, update its requirements.
     if (purchaseObj.hasVariableCost()) {
-        //console.log("updatePurchaseRow() variable " + purchaseObj.id);
         updateRequirements(purchaseObj);
     }
 
@@ -200,7 +198,7 @@ function updateResourceTotals() {
         elem = displayElems[i];
         //xxx Have to use curCiv here because of zombies and other non-civData displays.
         val = curCiv[dataset(elem, "target")].owned;
-        //if (!isValid(val)) { continue; }
+
         if (!isValid(val) || typeof val != "number") {
             // hack to fix NaN stored
             console.warn("updates.updateResourceTotals() id = " + dataset(elem, "target"));
@@ -224,7 +222,7 @@ function updateResourceTotals() {
     for (i = 0; i < displayElems.length; ++i) {
         elem = displayElems[i];
         val = civData[dataset(elem, "target")].net;
-        //if (!isValid(val)) { continue; }
+
         if (!isValid(val) || typeof val != "number") {
             // hack to fix NaN stored
             console.warn("updates.updateResourceTotals() id = " + dataset(elem, "target"));
@@ -238,9 +236,7 @@ function updateResourceTotals() {
         else if (val > 0) { elem.style.color = "#0b0"; }
         else { elem.style.color = "#000"; }
 
-        //elem.title = ((val <= 0) ? "" : "+") + val.toFixed(4);
         elem.title = prettify(val);
-        //elem.innerHTML = ((val <= 0) ? "" : "+") + prettify(val.toFixed(2));
         elem.innerHTML = ((val <= 0) ? "" : "+") + prettifyLargeNumber(val);
     }
 
@@ -248,12 +244,10 @@ function updateResourceTotals() {
     let resID = "";
     lootable.forEach(function (resElem) {
         resID = "#max" + resElem.id;
-        //ui.find(resID).innerHTML = prettify(civData[resElem.id].limit);
         ui.find(resID).title = prettify(civData[resElem.id].limit);
         ui.find(resID).innerHTML = prettifyLargeNumber(civData[resElem.id].limit);
     });
 
-    //ui.find("#maxpiety").innerHTML = prettify(civData.piety.limit);
     ui.find("#maxpiety").innerHTML = prettifyLargeNumber(civData.piety.limit);
     ui.find("#totalBuildings").innerHTML = prettify(landTotals.buildings);
     ui.find("#totalLand").innerHTML = prettify(landTotals.lands);
@@ -536,7 +530,6 @@ function updateUpgrades() {
     ui.show("#battleUpgrades", (getCurDeityDomain() == deityDomains.battle));
     ui.show("#fieldsUpgrades", (getCurDeityDomain() == deityDomains.fields));
     ui.show("#underworldUpgrades", (getCurDeityDomain() == deityDomains.underworld));
-   // ui.show("#zombieWorkers", (curCiv.zombie.owned > 0));
     ui.findAll("#civInfoTable .zombieWorkers").forEach(function (elem) {
         ui.show(elem, (curCiv.zombie.owned > 0));
     });
@@ -576,7 +569,6 @@ function updateDeity() {
     ui.show("#oldDeities", (hasDeity || curCiv.deities.length > 1));
     ui.show("#pantheonContainer", (hasDeity || curCiv.deities.length > 1));
     ui.show("#iconoclasmGroup", (curCiv.deities.length > 1));
-    
 }
 
 function updateAltars() {
@@ -656,14 +648,13 @@ function addRaidRows() {
 
 // Dynamically add the buttons for the various resources.
 function addBuyButtons() {
-    traceLog("updates.addBuyButtons");
+    traceLog("updates.addBuyButtons()");
     let s = '<table><tr><td valign=\"top\">';
-    //let half = Math.ceil(lootable.length / 2);
+
     let counter = 0;
     lootable.forEach(function (elem) {
         s += getBuyButton(elem);
         counter++;
-        //&& counter != (lootable.length - 1)
         if (counter == 9 ) {
             s += "</td><td valign=\"top\">"
         }
@@ -681,17 +672,11 @@ function updateTargets() {
     //console.log("updateTargets()");
     let i;
     let raidButtons = document.getElementsByClassName("raid");
-    //let raid10Buttons = document.querySelectorAll(".raid-mult.mult-10");
-    //let raid100Buttons = document.querySelectorAll(".raid-mult.mult-100");
-    //let raidInfButtons = document.querySelectorAll(".raid-mult.mult-inf");
 
     let haveArmy = false;
 
     ui.show("#victoryGroup", curCiv.raid.victory);
     ui.show("#conquestSelect .alert", curCiv.raid.victory);
-
-    //ui.show("#exitRaidLoop", curCiv.raid.left > 0);
-    //document.getElementById("raidLoop").innerText = curCiv.raid.left;
 
     // Raid buttons are only visible when not already raiding.
     if (ui.show("#raidGroup", !curCiv.raid.raiding)) {
@@ -701,11 +686,6 @@ function updateTargets() {
         for (i = 0; i < raidButtons.length; ++i) {
             // Disable if we have no standard, no army, or they are too big a target.
             curElem = raidButtons[i];
-            //let isDisabled = (!civData.standard.owned || !haveArmy || (civSizes[dataset(curElem, "target")].idx > civSizes[curCiv.raid.targetMax].idx));
-            //curElem.disabled = (isDisabled);
-            //raid10Buttons[i].disabled = (isDisabled);
-            //raid100Buttons[i].disabled = (isDisabled);
-            //raidInfButtons[i].disabled = (isDisabled);
 
             let isDisabled = (!civData.standard.owned || !haveArmy);
             curElem.disabled = isDisabled;
@@ -763,7 +743,6 @@ function updateMoraleIcon(morale) {
 
 function setResourcesReqText() {
     lootable.forEach(function (resElem) {
-        //console.log("updates.setResourcesReqText()" + resElem.id);
         setReqText(resElem);
     });
 }
@@ -772,7 +751,6 @@ function addWonderSelectText() {
     let wcElem = ui.find("#wonderCompleted");
     if (!wcElem) {
         console.error("addWonderSelectText() Error: No wonderCompleted element found.");
-        //sysLog("Error: No wonderCompleted element found.");
         return;
     }
     let s = wcElem.innerHTML;
@@ -795,8 +773,6 @@ function addWonderSelectText() {
 
 //updates the display of wonders and wonder building
 function updateWonder() {
-    //let haveTech = (civData.architecture.owned && civData.monotheism.owned);
-    //let haveTech = (civData.engineering.owned && civData.polytheism.owned);
     let haveTech = (civData.construction.owned && civData.theism.owned);
     let isLimited = isWonderLimited();
     let lowItem = getWonderLowItem();
