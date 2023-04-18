@@ -127,7 +127,6 @@ function invade(ecivtype) {
     updatePartyButtons();
 }
 
-//function onInvade(control) { return invade(dataset(control, "target")); }
 function onInvade(control) { return invadeNeighbour(dataset(control, "target")); }
 function invadeNeighbour(neighbourID) {
     //console.log("invadeNeighbour() = " + neighbourID);
@@ -137,47 +136,12 @@ function invadeNeighbour(neighbourID) {
     invade(neighbour.size);
 }
 
-function onInvadeMult(control) {
-    let times = dataset(control, "value");
-
-    curCiv.raid.invadeciv = dataset(control, "target");
-    switch (times.toString()) {
-        case '10': {
-            curCiv.raid.left = 10;
-            invade(dataset(control, "target"));
-            break;
-        }
-        case '100': {
-            curCiv.raid.left = 100;
-            invade(dataset(control, "target"));
-            break;
-        }
-        case 'inf': {
-            curCiv.raid.left = Infinity;
-            invade(dataset(control, "target"));
-            break;
-        }
-    }
-}
-
-function breakInvadeLoop() {
-    curCiv.raid.left = 0;
-    curCiv.raid.invadeciv = null;
-}
-
 function plunder() {
     //console.log("plunder()");
     let plunderMsg = "";
     let raidNewsElt = ui.find("#raidNews");
 
     // If we fought our largest eligible foe, but not the largest possible, raise the limit.
-    //if ((curCiv.raid.targetMax != civSizes[civSizes.length - 1].id) && curCiv.raid.last == curCiv.raid.targetMax) {
-    //    curCiv.raid.targetMax = civSizes[civSizes[curCiv.raid.targetMax].idx + 1].id;
-    //}
-    //console.log("plunder() size= " + curCiv.raid.neighbour.size);
-    //if ((curCiv.raid.neighbour.size != civSizes[civSizes.length - 1].id) && curCiv.raid.last == curCiv.raid.neighbour.size) {
-    //    curCiv.neighbours[curCiv.raid.neighbour.idx].size = civSizes[civSizes[curCiv.raid.neighbour.size].idx + 1].id;
-    //}
     if ((curCiv.raid.neighbour.size != civSizes[civSizes.length - 1].id) && curCiv.raid.last == curCiv.raid.neighbour.size) {
         curCiv.raid.neighbour.size = civSizes[civSizes[curCiv.raid.neighbour.size].idx + 1].id;
     }
@@ -236,31 +200,9 @@ function getCasualtyMod(attacker, defender) {
 
     return 1.0; // Otherwise no modifier
 }
-/*
- * doFight()
-combat.js:225 attacker.owned=4028 defender.owned=160000
-combat.js:233 fortMod=1.24
-combat.js:241 defenceMod=0.035
-combat.js:242 defender.efficiency=0.24
-combat.js:243 attacker.efficiency=0.19
-combat.js:250 attackerCas=4028
-combat.js:251 defenderCas=0
 
-doFight()
-combat.js:234 attacker.owned=12782defender.owned=160000
-combat.js:242 fortMod=1.24
-combat.js:250 defenceMod=0.035
-combat.js:251 defender.efficiency=0.24
-combat.js:252 attacker.efficiency=0.11
-jsutils.js:140 rndRound() num=38400. base=38400
-jsutils.js:140 rndRound() num=0. base=0
-combat.js:259 attackerCas=12782
-combat.js:260 defenderCas=0
-
- * */
 function doFight(attacker, defender) {
     //console.log("doFight()");
-    //console.log("attacker.owned=" + attacker.owned + ". defender.owned=" + defender.owned);
     if ((attacker.owned <= 0) || (defender.owned <= 0)) { return; }
 
     // Defenses vary depending on whether the player is attacking or defending.
@@ -268,11 +210,9 @@ function doFight(attacker, defender) {
                     (civData.fortification.owned * civData.fortification.efficiency)
                     : (civData.efort.owned * civData.efort.efficiency));
 
-    //console.log("fortMod=" + fortMod);
     // 66g HACK! if fortmod is 1 or greater, there will be no defense casualties.  This happens if over 100 fortification are owned because fort efficiency is 0.01
     if (fortMod >= 1.0) {
         fortMod = 0.99;
-        //console.log("doFight() fortMod changed=" + fortMod);
     }
     
 
@@ -282,17 +222,11 @@ function doFight(attacker, defender) {
         defenceMod += civData.palisade.owned ? civData.palisade.efficiency : 0;
         defenceMod += civData.battlement.owned ? civData.battlement.efficiency : 0;
     }
-    //console.log("defenceMod=" + defenceMod);
-    //console.log("defender.efficiency=" + defender.efficiency);
-    //console.log("attacker.efficiency=" + attacker.efficiency);
 
     // Determine casualties on each side.  Round fractional casualties
     // probabilistically, and don't inflict more than 100% casualties.
     let attackerCas = Math.ceil(Math.min(attacker.owned, rndRound(getCasualtyMod(defender, attacker) * defender.owned * defender.efficiency)));
     let defenderCas = Math.ceil(Math.min(defender.owned, rndRound(getCasualtyMod(attacker, defender) * attacker.owned * (attacker.efficiency - defenceMod) * Math.max(1 - fortMod, 0))));
-
-    //console.log("attackerCas=" + attackerCas);
-    //console.log("defenderCas=" + defenderCas);
 
     attacker.owned -= attackerCas;
     defender.owned -= defenderCas;
@@ -653,13 +587,9 @@ function doShades() {
 // Deals with potentially capturing enemy siege engines.
 function doEsiege(siegeObj, targetObj) {
     //console.log("doEsiege() siegeObj=" + siegeObj.id + ". targetObj=" + targetObj.id);
-    //console.log("doEsiege() siegeObj.owned=" + siegeObj.owned);
     if (siegeObj.owned <= 0) { return; }
 
     //First check there are enemies there defending them
-    //console.log("doEsiege() siegeObj.length=" + getCombatants(siegeObj.place, siegeObj.alignment).length);
-    //console.log("doEsiege() targetObj.length=" + getCombatants(targetObj.place, targetObj.alignment).length);
-
     if (!getCombatants(siegeObj.place, siegeObj.alignment).length &&
         getCombatants(targetObj.place, targetObj.alignment).length) {
         //the siege engines are undefended; maybe capture them.
@@ -690,7 +620,6 @@ function doSiege(siegeObj, targetObj) {
     //console.log("doSiege() firing=" + firing);
     for (let i = 0; i < firing; ++i) {
         hit = Math.random();
-        //console.log("hit=" + hit + ". effic=" + siegeObj.efficiency);
         if (hit > 0.95) { --siegeObj.owned; } // misfire; destroys itself
         if (hit >= siegeObj.efficiency) { continue; } // miss
         ++hits; // hit
@@ -724,7 +653,7 @@ function doRaid(place, attackAlignment, defendAlignment) {
     }
 
     if (!attackers.length && defenders.length) { // Loss check.
-        curCiv.raid.left = 0;
+        //curCiv.raid.left = 0;
         curCiv.raid.invadeciv = null;
         // Slaughter any losing noncombatant units.
         //xxx Should give throne and corpses for any human ones?
@@ -750,18 +679,18 @@ function doRaid(place, attackAlignment, defendAlignment) {
 
 function doRaidCheck(place, attackAlignment, defendAlignment) {
     if (curCiv.raid.raiding && curCiv.raid.victory) {
-        console.log("doRaidCheck raid left = " + curCiv.raid.left);
+        //console.log("doRaidCheck raid left = " + curCiv.raid.left);
         let attackers = getCombatants(place, attackAlignment);
-        if (curCiv.raid.left > 0) {
-            plunder(); // plunder resources before new raid
-            let troopsCount = attackers.reduce((acc, val) => acc + val.owned, 0);
-            if (troopsCount > 0) { // attack
-                curCiv.raid.left -= 1;
-                invade(curCiv.raid.invadeciv);
-            }
-        } else {
+        //if (curCiv.raid.left > 0) {
+        //    plunder(); // plunder resources before new raid
+        //    let troopsCount = attackers.reduce((acc, val) => acc + val.owned, 0);
+        //    if (troopsCount > 0) { // attack
+        //        curCiv.raid.left -= 1;
+        //        invade(curCiv.raid.invadeciv);
+        //    }
+        //} else {
             curCiv.raid.invadeciv = null;
-        }
+        //}
     }
 }
 
@@ -833,7 +762,6 @@ function doMobs() {
     ui.show("#mobBar", isUnderAttack());
 
     //Handling mob attacks
-    //console.log("doMobs() combatants.length=" + getCombatants(placeType.home, alignmentType.enemy).length);
     // do siege engines first
     if (civData.esiege.owned > 0) {
         doEsiege(civData.esiege, civData.fortification);
@@ -934,5 +862,5 @@ function getMobType(civLimit) {
 }
 
 export {
-    isUnderAttack, resetRaiding, getPlayerCombatMods, spawnMob, invade, onInvade, onInvadeMult, breakInvadeLoop, plunder, getCombatants, getCasualtyMod,
+    isUnderAttack, resetRaiding, getPlayerCombatMods, spawnMob, invade, onInvade, plunder, getCombatants, getCasualtyMod,
 doFight, doWolves, doBandits, doBarbarians, doInvaders, doShades, doEsiege, doSiege, doRaid, doRaidCheck, doMobs};
