@@ -55,7 +55,7 @@ function gameLoop() {
     doPestControl();
     tickGlory();
     doShades();
-    //doEsiege(civData.esiege, civData.fortification); - 66g moved to doMobs
+
     doRaid(placeType.party, alignmentType.player, alignmentType.enemy);
     doRaidCheck(placeType.party, alignmentType.player, alignmentType.enemy);
 
