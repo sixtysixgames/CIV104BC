@@ -96,9 +96,7 @@ function doWoodcutters() {
         civData.herbs.owned += herbsEarned;
     }
 }
-//function woodcutterMods(efficiency_base) {
-//    return efficiency_base + (0.1 * (civData.astronomy.owned + civData.wheel.owned));
-//}
+
 function woodcutterMods() {
     return (civData.astronomy.owned + civData.wheel.owned + civData.carpentry.owned + civData.coppicing.owned);
 }
@@ -123,9 +121,6 @@ function doMiners() {
     }
 }
 
-//function minerMods(efficiency_base) {
-//    return efficiency_base + (0.1 * (civData.mathematics.owned + civData.wheel.owned));
-//}
 function minerMods() {
     return (civData.mathematics.owned + civData.wheel.owned + civData.mining.owned);
 }
@@ -281,61 +276,6 @@ function doLimeBurners() {
         civData[resourceId].owned += earned;
     }
 }
-
-//function doIronsmiths() {
-//    if (civData.ironsmith.owned <= 0) { return; }
-//    // we don't want to use up resources if we aren't producing
-//    if (civData.iron.owned < civData.iron.limit) {
-//        let efficiency = civData.ironsmith.efficiency + (0.1 * civData.ironsmith.efficiency * (civData.ironOre.owned + civData.magnetite.owned));
-//        efficiency = efficiency * curCiv.morale.efficiency;
-//        let oreUsed = Math.min(civData.ore.owned, civData.ironsmith.owned * efficiency * civData.iron.require.ore);
-//        let charUsed = Math.min(civData.charcoal.owned, civData.ironsmith.owned * efficiency * civData.iron.require.charcoal);
-
-//        //oreUsed = Math.min(oreUsed, civData.iron.limit - civData.iron.owned); // can't use more than we have
-//        civData.ore.net -= oreUsed;
-//        civData.ore.owned -= oreUsed;
-//        //charUsed = Math.min(charUsed, civData.iron.limit - civData.iron.owned); // can't make more than we can store
-//        civData.charcoal.net -= charUsed;
-//        civData.charcoal.owned -= charUsed;
-
-//        //let ironEarned = (oreUsed + woodUsed) * getWonderBonus(civData.iron);
-//        oreUsed = oreUsed / civData.iron.require.ore;
-//        charUsed = charUsed / civData.iron.require.charcoal;
-//        let ironEarned = (((oreUsed + charUsed) / 2) * getWonderBonus(civData.iron));
-
-//        ironEarned = Math.min(ironEarned, civData.iron.limit - civData.iron.owned); // can't make more than we can store
-//        civData.iron.net += ironEarned;
-//        civData.iron.owned += ironEarned;
-//    }
-//}
-
-//function doCoppersmiths() {
-//    let jobId = unitType.coppSmith;
-//    let resourceId = resourceType.copper;
-//    let upgrade1Id = "coppOre";
-//    let upgrade2Id = "malachite";
-//    if (civData[jobId].owned <= 0) { return; }
-//    // we don't want to use up resources if we aren't producing
-//    if (civData[resourceId].owned < civData.copper.limit) {
-//        let efficiency = civData[jobId].efficiency + (0.1 * civData[jobId].efficiency * (civData[upgrade1Id].owned + civData[upgrade2Id].owned));
-//        efficiency = efficiency * curCiv.morale.efficiency;
-//        let oreUsed = Math.min(civData.ore.owned, civData[jobId].owned * efficiency * civData[resourceId].require.ore);
-//        let charUsed = Math.min(civData.charcoal.owned, civData[jobId].owned * efficiency * civData[resourceId].require.charcoal);
-
-//        civData.ore.net -= oreUsed;
-//        civData.ore.owned -= oreUsed;
-//        civData.charcoal.net -= charUsed;
-//        civData.charcoal.owned -= charUsed;
-
-//        oreUsed = oreUsed / civData[resourceId].require.ore;
-//        charUsed = charUsed / civData[resourceId].require.charcoal;
-//        let earned = (((oreUsed + charUsed) / 2) * getWonderBonus(civData[resourceId]));
-
-//        earned = Math.min(earned, civData[resourceId].limit - civData[resourceId].owned); // can't make more than we can store
-//        civData[resourceId].net += earned;
-//        civData[resourceId].owned += earned;
-//    }
-//}
 
 function doMetalsmiths(jobId, resourceId, upgrade1Id, upgrade2Id) {
     
@@ -571,8 +511,6 @@ function dismissWorker(unitTypeId, buildingTypeId, limit) {
         civData.unemployed.owned += diff;
     }
 }
-
-
 
 function getMetalOreChance() {
     // total cannot be 1 or greater
