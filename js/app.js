@@ -4,7 +4,7 @@ import {
     armyUnits, addUpgradeRows, normalUpgrades, addAchievementRows, addRaidRows, addWonderSelectText, makeDeitiesTables, load, renameCiv, renameRuler,
     setInitTradeAmount, setDefaultSettings, getPlayingTime, gameLoop, appSettings, paneSelect, lootable, sentenceCase, traceLog,
     save, onToggleAutosave, reset, deleteSave, renameDeity, textSize, onPurchase, onToggleCustomQuantities, onToggleNotes, onToggleIcons, spawn,
-    speedWonder, selectDeity, iconoclasmList, breakInvadeLoop, plunder, trade, buy, startWonder, renameWonder, setGameSpeed, updateTradeButtons,
+    speedWonder, selectDeity, iconoclasmList, plunder, trade, buy, startWonder, renameWonder, setGameSpeed, updateTradeButtons,
     setResourcesReqText, onBulkEvent} from "./index.js";
 
 const setup = {};
@@ -109,9 +109,6 @@ setup.events = function () {
 
     elem = document.getElementById("iconoclasm");
     elem.onmousedown = function (e) { iconoclasmList(); };
-
-    //elem = document.getElementById("breakInvadeLoop");
-    //elem.onmousedown = function (e) { breakInvadeLoop(); };
 
     elem = document.getElementById("plunder");
     elem.onmousedown = function (e) { plunder(); };
