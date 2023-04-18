@@ -3,7 +3,6 @@ import { calculatePopulation, civData, curCiv, gameLog, isValid, ui, updateWonde
 
 // Tallies the number of each wonder from the wonders array.
 function tallyWonderCount() {
-    //wonderCount = {};
     curCiv.wonders.forEach(function (elem) {
         var resourceId = elem.resourceId;
         if (!isValid(wonderCount[resourceId])) { wonderCount[resourceId] = 0; }
@@ -96,7 +95,6 @@ function doLabourers() {
 
         //remove resources
         wonderResources.forEach(function (resource) {
-            //console.log("resource=" + resource.id + ". prod=" + prod);
             resource.owned -= prod;
             resource.net -= prod;
         });
@@ -104,7 +102,6 @@ function doLabourers() {
         // labourers use prods more efficiently with mods
         prod += prod * getLabourerMods();
         //increase progress
-        //curCiv.curWonder.progress += prod / (1000000 * getWonderCostMultiplier());
         curCiv.curWonder.progress += prod / (500000 * getWonderCostMultiplier());
     }
 }
