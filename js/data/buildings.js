@@ -26,7 +26,7 @@ function getBuildingData() {
         }),
         new Building({
             id: buildingType.cottage, singular: "cottage", plural: "cottages",
-            prereqs: { carpentry: true, masonry: true }, require: { wood: 10, stone: 30 },
+            prereqs: { carpentry: true, masonry: true, civSize: "thorp" }, require: { wood: 10, stone: 30 },
             effectText: "+6 citizens", limit: 6
         }),
         new Building({
@@ -90,7 +90,7 @@ function getBuildingData() {
             // If purchase was a temple and aesthetics has been activated, increase morale
             // If population is large, temples have less effect.
             onGain: function (num) {
-                if (civData.aesthetics && civData.aesthetics.owned && num) {
+                if (civData.aesthetics && civData.aesthetics.owned && num && population.living > 1) {
                     adjustMorale(num * 25 / population.living);
                 }
             }
