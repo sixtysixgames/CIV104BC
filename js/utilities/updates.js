@@ -206,9 +206,10 @@ function updateResourceTotals() {
             curCiv[dataset(elem, "target")].owned = 0;
             val = curCiv[dataset(elem, "target")].owned;
         }
-        elem.title = prettify(val);
+        elem.title = prettify(Math.floor(val));
         obj = civData[dataset(elem, "target")];
-        if (isValid(obj) && obj.type === civObjType.resource && obj.id !== resourceType.corpses) {
+        if (isValid(obj) && obj.type === civObjType.resource && obj.id !== resourceType.corpses && obj.id !== resourceType.gold) {
+            // we don't pretify population related resources on the top row
             elem.innerHTML = prettifyLargeNumber(Math.floor(val));
         }
         else {
@@ -236,7 +237,7 @@ function updateResourceTotals() {
         else if (val > 0) { elem.style.color = "#0b0"; }
         else { elem.style.color = "#000"; }
 
-        elem.title = prettify(val);
+        elem.title = prettify(Math.floor(val));
         elem.innerHTML = ((val <= 0) ? "" : "+") + prettifyLargeNumber(val);
     }
 
