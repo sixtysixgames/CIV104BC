@@ -52,6 +52,8 @@ function meetsPrereqs(prereqObj) {
             if (getCurDeityDomain() != prereqObj[i]) { return false; }
         } else if (i === "wonderStage") { //xxx Hack to check if we're currently building a wonder.
             if (curCiv.curWonder.stage !== prereqObj[i]) { return false; }
+        } else if (i === "civSize") {
+            return (population.living >= civSizes[prereqObj[i]].min_pop); 
         } else if (isValid(civData[i]) && isValid(civData[i].owned)) { // Resource/Building/Upgrade
             if (civData[i].owned < prereqObj[i]) { return false; }
         }
@@ -336,8 +338,8 @@ function getRandomTradeableResource() {
 
     let selected = tradeable[Math.floor(Math.random() * tradeable.length)];
     return selected;
-
 }
+
 //xxx Eventually, we should have events like deaths affect morale (scaled by %age of total pop)
 function adjustMorale(delta) {
     //Changes and updates morale given a delta value
@@ -345,7 +347,7 @@ function adjustMorale(delta) {
         //console.warn("Cannot adjust morale by so much", delta);
         return;
     }
-    if (population.current > 0) { //dividing by zero is bad for hive
+    if (population.current > 0) {
         //calculates zombie proportion (zombies do not become happy or sad)
         let fraction = population.living / population.current;
         let max = 1 + (0.5 * fraction);
@@ -649,7 +651,8 @@ function killUnit(unit) {
 
     if (population.living > 1) {
         // the greater the population, the less the drop in morale
-        adjustMorale(-0.0025 / population.living);
+        //adjustMorale(-0.0025 / population.living); // is this too small?
+        adjustMorale(-1 / population.living);
     }
 
     calculatePopulation();
