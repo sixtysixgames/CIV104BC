@@ -8,7 +8,7 @@ function getUpgradeData() {
             effectText: "Unlock more upgrades"
         }),
         new Upgrade({
-            id: "skinning", name: "Skinning", subType: subTypes.upgrade, prereqs: { domestication: true }, require: { skins: 10 },
+            id: "skinning", name: "Skinning", subType: subTypes.upgrade, prereqs: { domestication: true, civSize: "thorp" }, require: { skins: 10 },
             effectText: "Farmers can collect skins"
         }),
         new Upgrade({
@@ -16,7 +16,7 @@ function getUpgradeData() {
             effectText: "Increase farmer food output.  Unlock more upgrades"
         }),
         new Upgrade({
-            id: "agriculture", name: "Agriculture", subType: subTypes.upgrade, prereqs: { farming: true }, require: { food: 1000, skins: 100 },
+            id: "agriculture", name: "Agriculture", subType: subTypes.upgrade, prereqs: { farming: true, civSize: "hamlet" }, require: { food: 1000, skins: 100 },
             effectText: "Increase farmer food output.  Unlock more upgrades"
         }),
         new Upgrade({
