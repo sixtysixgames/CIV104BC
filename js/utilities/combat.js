@@ -98,7 +98,7 @@ function invade(ecivtype) {
 
     // Set rewards of land and other random plunder
     // land between 10 and 25% because it can be doubled with administration and we don't want to gain too much so we force raids
-    let baseLand = (baseLoot / 4) * (1 + (civData.administration.owned));
+    let baseLand = (baseLoot / 2) * (1 + (civData.administration.owned));
     curCiv.raid.plunderLoot = {
         freeLand: Math.floor((baseLand * 0.1) + Math.round(Math.random() * (baseLand * 0.15)))
     };
@@ -214,7 +214,6 @@ function doFight(attacker, defender) {
     if (fortMod >= 1.0) {
         fortMod = 0.99;
     }
-    
 
     let defenceMod = 0;
     if (defender.alignment == alignmentType.player) {
@@ -249,8 +248,9 @@ function doFight(attacker, defender) {
 
     // increase morale for enemy kills.  This is the opposite of losing morale for citizens dying
     // see doStarve and killUnit
-    if (playerCredit > 0) {
-        adjustMorale(0.0025 / playerCredit);
+    if (playerCredit > 0 && population.living > 1) {
+        //adjustMorale(0.0025 / playerCredit); // is this too small?
+        adjustMorale(playerCredit / population.living);
     }
     //Updates population figures (including total population)
     calculatePopulation();
@@ -415,6 +415,10 @@ function doLoot(attacker) {
         stolenQty = Math.min(stolenQty, Math.floor(target.owned));
         if (stolenQty > 0) {
             target.owned -= stolenQty;
+            // 66g lose morale
+            if (population.living > 1) {
+                adjustMorale(-stolenQty / population.living);
+            }
             if (Math.random() < attacker.lootStop) { attacker.owned -= looters; } // Attackers might leave after stealing something.
             gameLog(target.getQtyName(stolenQty) + " stolen by " + attacker.getQtyName(2)); // always plural
         }
@@ -442,6 +446,10 @@ function doSack(attacker) {
         --target.owned;
         ++civData.freeLand.owned;
 
+        // 66g lose morale
+        if (population.living > 1) {
+            adjustMorale(-1 / population.living);
+        }
         if (Math.random() < attacker.sackStop) { --attacker.owned; } // Attackers might leave after sacking something.
         updateRequirements(target);
         updateResourceTotals();
@@ -482,6 +490,10 @@ function doSackMulti(attacker) {
         }
     }
     if (sacks > 0) {
+        // 66g lose morale
+        if (population.living > 1) {
+            adjustMorale(-sacks / population.living);
+        }
         let destroyVerb = (Math.random() < 0.01) ? " burned by " : " destroyed by ";
         let destroyNote = (sacks == 1) ? lastTarget + destroyVerb : "buildings " + destroyVerb;
         gameLog(destroyNote + attacker.getQtyName(2)); // always use plural attacker
@@ -505,7 +517,11 @@ function doConquer(attacker) {
         land = Math.min(civData.freeLand.owned, land);
         if (land > 0) {
             civData.freeLand.owned -= land;
-            // 66g: barbariand 'lay waste' to land
+            // 66g lose morale for bad thins
+            if (population.living > 1) {
+                adjustMorale(-land / population.living);
+            }
+            // 66g: barbarians 'lay waste' to land
             gameLog("land occupied by " + attacker.getQtyName(2)); // always plural
             // Attackers might leave after conquering land.
             if (Math.random() < attacker.conquerStop) { attacker.owned -= land; }
@@ -551,6 +567,10 @@ function doDesecrate(attacker) {
             }
             civData.freeLand.owned += sacked;
             gameLog(target + " desecrated by " + attacker.getQtyName(2)); // always plural
+            // 66g lose morale
+            if (population.living > 1) {
+                adjustMorale(-sacked / population.living);
+            }
             // Attackers might leave after conquering land.
             if (Math.random() < attacker.sackStop) { attacker.owned -= sacked; }
         }
@@ -633,9 +653,10 @@ function doSiege(siegeObj, targetObj) {
 function doRaid(place, attackAlignment, defendAlignment) {
     //console.log("doRaid()");
     if (!curCiv.raid.raiding) {
+        // We're not raiding right now.
         ui.show("#raidBar", false);
         return;
-    } // We're not raiding right now.
+    } 
 
     let attackers = getCombatants(place, attackAlignment);
     let defenders = getCombatants(place, defendAlignment);
@@ -660,7 +681,7 @@ function doRaid(place, attackAlignment, defendAlignment) {
         unitData.filter(function (elem) { return ((elem.alignment == attackAlignment) && (elem.place == place)); })
             .forEach(function (elem) { elem.owned = 0; });
 
-        gameLog("Raid defeated");  // Notify player
+        gameLog("Raid defeated by " + defenders.length + " defenders");  // Notify player
         resetRaiding();
         return;
     }
@@ -680,7 +701,7 @@ function doRaid(place, attackAlignment, defendAlignment) {
 function doRaidCheck(place, attackAlignment, defendAlignment) {
     if (curCiv.raid.raiding && curCiv.raid.victory) {
         //console.log("doRaidCheck raid left = " + curCiv.raid.left);
-        let attackers = getCombatants(place, attackAlignment);
+        //let attackers = getCombatants(place, attackAlignment);
         //if (curCiv.raid.left > 0) {
         //    plunder(); // plunder resources before new raid
         //    let troopsCount = attackers.reduce((acc, val) => acc + val.owned, 0);
