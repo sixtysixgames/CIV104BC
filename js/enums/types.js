@@ -162,4 +162,7 @@ const deityTypes = {
     Cats: "Cats"
 };
 
-export { civObjType, resourceType, buildingType, unitType, mobTypeIds, subTypes, alignmentType, speciesType, placeType, combatTypes, saveTypes, deityDomains, deityTypes };
+export {
+    civObjType, resourceType, buildingType, unitType, mobTypeIds, subTypes, alignmentType, speciesType, placeType, combatTypes, saveTypes,
+    deityDomains, deityTypes
+};
