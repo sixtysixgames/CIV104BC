@@ -50,12 +50,12 @@ function prettifyLargeNumber(value) {
     let k = 1000;
     if (abs(value) > m) {
         value = value / m;
-        s = prettify(value.toFixed(2)) + "m";
+        s = prettify(value.toFixed(1)) + "m";
         return s;
     }
     else if (abs(value) > k) {
         value = value / k;
-        s = prettify(value.toFixed(2)) + "k";
+        s = prettify(value.toFixed(1)) + "k";
         return s;
     }
     return prettify(value.toFixed(2));
