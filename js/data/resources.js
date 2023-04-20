@@ -17,8 +17,8 @@ function getResourceData() {
         new Resource({
             id: resourceType.wood, name: "wood", increment: 1, specialChance: 0.1, subType: subTypes.basic,
             specialMaterial: resourceType.herbs, verb: "cut", activity: "woodcutting",
-            initTradeAmount: 5000, // how much to offer on Trade for 1 gold
-            baseTradeAmount: 1000, // the least on offer
+            initTradeAmount: 5000, 
+            baseTradeAmount: 1000,
             get limit() {
                 let bonus = getWarehouseBonus();
                 return 200 + (civData.woodstock.owned * bonus);
