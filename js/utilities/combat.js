@@ -85,8 +85,8 @@ function invade(ecivtype) {
 
     if (civData.glory.timer > 0) { curCiv.raid.epop *= 2; } //doubles soldiers fought
 
-    // 5-25% of enemy population is soldiers.
-    civData.esoldier.owned += Math.ceil((curCiv.raid.epop / 20) + Math.floor(Math.random() * (curCiv.raid.epop / 5)));
+    // Research show 1-5% of population could be soldiers, so we'll be generous with between 2 and 12
+    civData.esoldier.owned += Math.ceil((curCiv.raid.epop / 50) + Math.floor(Math.random() * (curCiv.raid.epop / 10)));
     civData.efort.owned += Math.floor(Math.random() * (curCiv.raid.epop / 5000));
     // increase enemy efficiency depending on invasion target
     civData.esoldier.efficiency = civData.esoldier.efficiency_base + civSizes[ecivtype].efficiency;
@@ -98,20 +98,21 @@ function invade(ecivtype) {
 
     // Set rewards of land and other random plunder
     // land between 10 and 25% because it can be doubled with administration and we don't want to gain too much so we force raids
-    let baseLand = (baseLoot / 2) * (1 + (civData.administration.owned));
+    let baseLand = baseLoot * (1 + (civData.administration.owned));
     curCiv.raid.plunderLoot = {
         freeLand: Math.floor((baseLand * 0.1) + Math.round(Math.random() * (baseLand * 0.15)))
     };
 
-    baseLoot -= Math.round(curCiv.raid.plunderLoot.freeLand * Math.random());
-    //66g we don't want rare resources plundered from low population, so decrease baseLoot quicker
+    //baseLoot -= Math.round(curCiv.raid.plunderLoot.freeLand * Math.random());
+    
     let counter = 0;
     lootable.forEach(function (elem) {
         counter++;
         if (baseLoot > 0) {
-            curCiv.raid.plunderLoot[elem.id] = Math.round(baseLoot * Math.random());
-            //baseLoot -= counter + Math.round(curCiv.raid.plunderLoot[elem.id] * Math.random());
-            baseLoot -= counter + Math.round(curCiv.raid.plunderLoot[elem.id]);
+            //curCiv.raid.plunderLoot[elem.id] = Math.round(baseLoot * Math.random());
+            curCiv.raid.plunderLoot[elem.id] = Math.floor(baseLoot * Math.random());
+            //66g we don't want rare resources plundered from low population, so decrease baseLoot quicker
+            baseLoot -= curCiv.raid.plunderLoot[elem.id];
         }
         if (baseLoot < 0) { baseLoot = 0; }
     });
@@ -145,7 +146,7 @@ function plunder() {
     if ((curCiv.raid.neighbour.size != civSizes[civSizes.length - 1].id) && curCiv.raid.last == curCiv.raid.neighbour.size) {
         curCiv.raid.neighbour.size = civSizes[civSizes[curCiv.raid.neighbour.size].idx + 1].id;
     }
-    else if(curCiv.raid.neighbour.size == civSizes[civSizes.length - 1].id) {
+    else if (curCiv.raid.neighbour.size == civSizes[civSizes.length - 1].id) {
         curCiv.raid.neighbour.size = "conquered";
     }
     // Improve morale based on size of defeated foe.
@@ -207,8 +208,8 @@ function doFight(attacker, defender) {
 
     // Defenses vary depending on whether the player is attacking or defending.
     let fortMod = (defender.alignment == alignmentType.player ?
-                    (civData.fortification.owned * civData.fortification.efficiency)
-                    : (civData.efort.owned * civData.efort.efficiency));
+        (civData.fortification.owned * civData.fortification.efficiency)
+        : (civData.efort.owned * civData.efort.efficiency));
 
     // 66g HACK! if fortmod is 1 or greater, there will be no defense casualties.  This happens if over 100 fortification are owned because fort efficiency is 0.01
     if (fortMod >= 1.0) {
@@ -239,6 +240,7 @@ function doFight(attacker, defender) {
 
     // Give player credit for kills.
     let playerCredit = ((attacker.alignment == alignmentType.player) ? defenderCas : (defender.alignment == alignmentType.player) ? attackerCas : 0);
+    let playerDiscredit = ((attacker.alignment == alignmentType.player) ? attackerCas : (defender.alignment == alignmentType.player) ? defenderCas : 0);
 
     //Increments enemies slain, corpses, and piety
     curCiv.enemySlain.owned += playerCredit;
@@ -250,7 +252,12 @@ function doFight(attacker, defender) {
     // see doStarve and killUnit
     if (playerCredit > 0 && population.living > 1) {
         //adjustMorale(0.0025 / playerCredit); // is this too small?
-        adjustMorale(playerCredit / population.living);
+        //adjustMorale(playerCredit / population.living);
+        adjustMorale(1);
+    }
+    if (playerDiscredit > 0 && population.living > 1) {
+        //adjustMorale(-playerDiscredit / population.living);
+        adjustMorale(-1);
     }
     //Updates population figures (including total population)
     calculatePopulation();
@@ -314,6 +321,7 @@ function doInvaders(attacker) {
 function doSlaughter(attacker) {
     let target = getRandomWorker(); //Choose random worker
     let targetUnit = civData[target];
+    let targetName = "";
     if (isValid(targetUnit) && targetUnit.owned > 0) {
         if ((Math.random() * targetUnit.defence) <= (Math.random() * attacker.efficiency)) {
             let killVerb = (attacker.species == speciesType.animal) ? "eaten" : "killed";
@@ -324,15 +332,24 @@ function doSlaughter(attacker) {
             // 66g attempt to control zombie pop // population.living <= 0 &&
             if (curCiv.zombie.owned > 0) {
                 curCiv.zombie.owned -= 1;
+                targetName = "Zombie";
+            }
+            else {
+                targetName = targetUnit.getQtyName(1)
             }
             // Animals will eat the corpse
             if (attacker.species == speciesType.animal) {
                 civData.corpses.owned -= 1;
             }
-            gameLog(targetUnit.getQtyName(1) + " " + killVerb + " by " + attacker.getQtyName(2)); // always use plural
+            gameLog(targetName + " " + killVerb + " by " + attacker.getQtyName(2)); // always use plural
         }
         else {
             --attacker.owned;
+            // 66g gain morale
+            if (population.living > 1) {
+                //adjustMorale(1 / population.living);
+                adjustMorale(1);
+            }
         }
     }
     else if (curCiv.zombie.owned > 0) {
@@ -379,6 +396,11 @@ function doSlaughterMulti(attacker) {
                 }
                 else {
                     --attacker.owned;
+                    // 66g gain morale
+                    if (population.living > 1) {
+                        //adjustMorale(1 / population.living);
+                        adjustMorale(1);
+                    }
                 }
             }
         }
@@ -417,7 +439,8 @@ function doLoot(attacker) {
             target.owned -= stolenQty;
             // 66g lose morale
             if (population.living > 1) {
-                adjustMorale(-stolenQty / population.living);
+                //adjustMorale(-looters / population.living);
+                adjustMorale(-1);
             }
             if (Math.random() < attacker.lootStop) { attacker.owned -= looters; } // Attackers might leave after stealing something.
             gameLog(target.getQtyName(stolenQty) + " stolen by " + attacker.getQtyName(2)); // always plural
@@ -448,7 +471,8 @@ function doSack(attacker) {
 
         // 66g lose morale
         if (population.living > 1) {
-            adjustMorale(-1 / population.living);
+            //adjustMorale(-1 / population.living);
+            adjustMorale(-1);
         }
         if (Math.random() < attacker.sackStop) { --attacker.owned; } // Attackers might leave after sacking something.
         updateRequirements(target);
@@ -492,7 +516,8 @@ function doSackMulti(attacker) {
     if (sacks > 0) {
         // 66g lose morale
         if (population.living > 1) {
-            adjustMorale(-sacks / population.living);
+            //adjustMorale(-sacks / population.living);
+            adjustMorale(-1);
         }
         let destroyVerb = (Math.random() < 0.01) ? " burned by " : " destroyed by ";
         let destroyNote = (sacks == 1) ? lastTarget + destroyVerb : "buildings " + destroyVerb;
@@ -517,9 +542,10 @@ function doConquer(attacker) {
         land = Math.min(civData.freeLand.owned, land);
         if (land > 0) {
             civData.freeLand.owned -= land;
-            // 66g lose morale for bad thins
+            // 66g lose morale for bad things
             if (population.living > 1) {
-                adjustMorale(-land / population.living);
+                //adjustMorale(-land / population.living);
+                adjustMorale(-1);
             }
             // 66g: barbarians 'lay waste' to land
             gameLog("land occupied by " + attacker.getQtyName(2)); // always plural
@@ -569,7 +595,8 @@ function doDesecrate(attacker) {
             gameLog(target + " desecrated by " + attacker.getQtyName(2)); // always plural
             // 66g lose morale
             if (population.living > 1) {
-                adjustMorale(-sacked / population.living);
+                //adjustMorale(-sacked / population.living);
+                adjustMorale(-1);
             }
             // Attackers might leave after conquering land.
             if (Math.random() < attacker.sackStop) { attacker.owned -= sacked; }
@@ -656,7 +683,7 @@ function doRaid(place, attackAlignment, defendAlignment) {
         // We're not raiding right now.
         ui.show("#raidBar", false);
         return;
-    } 
+    }
 
     let attackers = getCombatants(place, attackAlignment);
     let defenders = getCombatants(place, defendAlignment);
@@ -682,6 +709,9 @@ function doRaid(place, attackAlignment, defendAlignment) {
             .forEach(function (elem) { elem.owned = 0; });
 
         gameLog("Raid defeated by " + defenders.length + " defenders");  // Notify player
+        // exact opposite of victory
+        //adjustMorale(-(civSizes[curCiv.raid.last].idx + 1) / 100);
+        adjustMorale(-1);
         resetRaiding();
         return;
     }
@@ -710,7 +740,7 @@ function doRaidCheck(place, attackAlignment, defendAlignment) {
         //        invade(curCiv.raid.invadeciv);
         //    }
         //} else {
-            curCiv.raid.invadeciv = null;
+        curCiv.raid.invadeciv = null;
         //}
     }
 }
@@ -792,7 +822,7 @@ function doMobs() {
         if (attacker.owned <= 0) { ui.show("#mobBar", false); return; } // In case the last one was killed in an earlier iteration.
 
         let defenders = getCombatants(attacker.place, alignmentType.player);
-        
+
         if (!defenders.length) { ui.show("#mobBar", false); attacker.onWin(); return; } // Undefended 
 
         defenders.forEach(function (defender) {
@@ -884,4 +914,5 @@ function getMobType(civLimit) {
 
 export {
     isUnderAttack, resetRaiding, getPlayerCombatMods, spawnMob, invade, onInvade, plunder, getCombatants, getCasualtyMod,
-doFight, doWolves, doBandits, doBarbarians, doInvaders, doShades, doEsiege, doSiege, doRaid, doRaidCheck, doMobs};
+    doFight, doWolves, doBandits, doBarbarians, doInvaders, doShades, doEsiege, doSiege, doRaid, doRaidCheck, doMobs
+};
