@@ -47,13 +47,13 @@
             <div id="populationNumbers">
                 <table id="civInfoTable" class="resources" xborder="1">
                     <tr>
-                        <td  style="width:25%">
+                        <td style="width:25%">
                             <img src="images/backup.png" class="icon icon-lg" alt="Population" />
                             <label>Population:&nbsp;</label>
                             <span data-action="display_pop" data-target="living">...</span>&nbsp;/&nbsp;<span class="maxNumber" data-action="display_pop" data-target="limit">...</span>
                         </td>
 
-                        <td id="morale"  style="width:15%">
+                        <td id="morale" style="width:15%">
                             <span id="morale0"><img src="images/morale0-dead.png" class="icon icon-lg" alt="Happiness" /></span>
                             <span id="morale1"><img src="images/morale1-blissful.png" class="icon icon-lg" alt="Happiness" /></span>
                             <span id="morale2"><img src="images/morale2-happy.png" class="icon icon-lg" alt="Happiness" /></span>
@@ -73,7 +73,7 @@
                         <td style="width:15%">
                             <img src="images/coins.png" class="icon icon-lg" alt="Coins" />
                             <label>Coins:&nbsp;</label>
-                            <span data-action="display" data-target="gold">0</span>
+                            <span data-action="display" data-target="coins">0</span>
                         </td>
 
                         <td style="width:15%">
@@ -90,9 +90,9 @@
 
                         <td style="width:15%">
                             <div class="zombieWorkers">
-                            <img src="images/shambling-zombie.png" class="icon icon-lg" alt="Zombies" />
-                            <label>Zombies:&nbsp;</label>
-                            <span data-action="display" data-target="zombie">...</span>
+                                <img src="images/shambling-zombie.png" class="icon icon-lg" alt="Zombies" />
+                                <label>Zombies:&nbsp;</label>
+                                <span data-action="display" data-target="zombie">...</span>
                             </div>
                         </td>
                     </tr>
@@ -234,8 +234,8 @@
         </div>
         <br style="clear:both;" />
         <!--
-        pane selectors
-    -->
+            pane selectors
+        -->
         <div id="leftColumn75" class="column left width75">
             <div id="panesSelectors" class="civSection">
                 <div id="selectors" class="panesTabs">
@@ -285,8 +285,8 @@
                     </div>
                 </div>
                 <!--
-                populationPane
-            -->
+                    populationPane
+                -->
                 <div id="populationPane" class="selectPane selected">
                     <div id="jobsContainer" class="civSection">
                         <div id="populationBar" class="bar" title="Population">
@@ -326,8 +326,8 @@
                     </div>
                 </div>
                 <!--
-                buildingsPane
-            -->
+                    buildingsPane
+                -->
                 <div id="buildingsPane" class="selectPane">
                     <p id="customBuildQuantity">
                         Custom Quantity <input id="buildingCustomQty" type="number" min="1" step="1" value="1" />
@@ -337,8 +337,8 @@
                     </table>
                 </div>
                 <!--
-                resourcesPane
-            -->
+                    resourcesPane
+                -->
                 <div id="resourcesPane" class="selectPane">
                     <div class="stats">
                         Resource clicks: <span id="clicks">0</span>
@@ -408,6 +408,30 @@
                                             <span class="number net" data-action="displayNet" data-target="silver">0</span><span class="perSecond">/s</span>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Mercury:</label>
+                                            <span id='mercuryReq' class='rescost'>mercury</span>
+                                        </td>
+                                        <td class="number">
+                                            <span class="number" data-action="display" data-target="mercury">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxmercury">...</span>
+                                        </td>
+                                        <td class="number">
+                                            <span class="number net" data-action="displayNet" data-target="mercury">0</span><span class="perSecond">/s</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label>Gold:</label>
+                                            <span id='goldReq' class='rescost'>gold</span>
+                                        </td>
+                                        <td class="number">
+                                            <span class="number" data-action="display" data-target="gold">0</span>&nbsp;/&nbsp;<span class="maxNumber" id="maxgold">...</span>
+                                        </td>
+                                        <td class="number">
+                                            <span class="number net" data-action="displayNet" data-target="gold">0</span><span class="perSecond">/s</span>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -433,11 +457,12 @@
                     </div>
                 </div>
                 <!--
-                upgradesPane
-            -->
+                    upgradesPane
+                -->
                 <div id="upgradesPane" class="selectPane">
                     <div class="columns">
                         <div class="column left">
+                            <span class='cost'>Increase your population to unlock more upgrades</span>
                             <table id="upgrades"></table>
                             <div id="pupgradesContainer">
                                 <h3>Purchased Upgrades</h3>
@@ -457,7 +482,7 @@
                                     <div id="lowResources">Limited<span id="limited"> by low resources</span></div>
                                     <div id="speedWonderGroup">
                                         <br /><button id="speedWonder">Speed Wonder</button>
-                                        <span id="speedWonderCost" class="cost">100 gold</span><span class="note">: Increase wonder progress</span>
+                                        <span id="speedWonderCost" class="cost">10000 coins</span><span class="note">: Increase wonder progress</span>
                                     </div>
                                 </div>
                                 <div id="wonderCompleted">
@@ -469,8 +494,8 @@
                     </div>
                 </div>
                 <!--
-                deityPane
-            -->
+                    deityPane
+                -->
                 <div id="deityPane" class="selectPane">
                     <div class="notYet">
                         Your civilization does not yet worship a deity.
@@ -571,7 +596,7 @@
                     <div id="iconoclasmGroup">
                         <button id="iconoclasm">Iconoclasm</button>
                         <span id="iconoclasmCost" class="cost">1,000 piety</span>
-                        <span id="iconoclasmNote" class="note">: Remove an old deity to gain gold</span><br />
+                        <span id="iconoclasmNote" class="note">: Remove an old deity to gain coins</span><br />
                         <div id="iconoclasmList"></div>
                     </div>
                     <div id="pantheonUpgrades">
@@ -580,8 +605,8 @@
                     </div>
                 </div>
                 <!--
-                conquestPane
-            -->
+                    conquestPane
+                -->
                 <div id="conquestPane" class="selectPane">
                     <div class="notYet">
                         You cannot command an army yet because you don't own a battle standard.
@@ -616,8 +641,9 @@
                                             <td>&nbsp;</td>
                                             <td>&nbsp;</td>
                                             <td>
+                                                <img src="images/north.png" class="icon icon-sm" alt="north" /><br />
                                                 <span id="northcivsize">Tribe</span><br />
-                                                <button id="raidnorth" class="raid" data-action="raid" data-target="north">Raid</button>
+                                                <button id="raidnorth" class="raid" data-action="raid" data-target="north">Conquer</button>
                                             </td>
                                             <td>&nbsp;</td>
                                             <td>&nbsp;</td>
@@ -625,42 +651,49 @@
                                         <tr>
                                             <td>&nbsp;</td>
                                             <td>
+                                                <img src="images/northwest.png" class="icon icon-sm" alt="northwest" /><br />
                                                 <span id="northwestcivsize">Tribe</span><br />
-                                                <button id="raidnorthwest" class="raid" data-action="raid" data-target="northwest">Raid</button>
+                                                <button id="raidnorthwest" class="raid" data-action="raid" data-target="northwest">Conquer</button>
                                             </td>
                                             <td>&nbsp;</td>
                                             <td>
+                                                <img src="images/northeast.png" class="icon icon-sm" alt="northeast" /><br />
                                                 <span id="northeastcivsize">Tribe</span><br />
-                                                <button id="raidnortheast" class="raid" data-action="raid" data-target="northeast">Raid</button>
+                                                <button id="raidnortheast" class="raid" data-action="raid" data-target="northeast">Conquer</button>
                                             </td>
                                             <td>&nbsp;</td>
                                         </tr>
                                         <tr>
                                             <td>
+                                                <img src="images/west.png" class="icon icon-sm" alt="west" /><br />
                                                 <span id="westcivsize">Tribe</span><br />
-                                                <button id="raidwest" class="raid" data-action="raid" data-target="west">Raid</button>
+                                                <button id="raidwest" class="raid" data-action="raid" data-target="west">Conquer</button>
                                             </td>
                                             <td>&nbsp;</td>
                                             <td>
+                                                <img src="images/battlestandard.png" class="icon icon-lg" alt="Battle Standard" /><br />
                                                 <span id="civTypeRaid">Tribe</span> of<br />
                                                 <span id="civNameRaid">Chief</span>
                                             </td>
                                             <td>&nbsp;</td>
                                             <td>
+                                                <img src="images/east.png" class="icon icon-sm" alt="east" /><br />
                                                 <span id="eastcivsize">Tribe</span><br />
-                                                <button id="raideast" class="raid" data-action="raid" data-target="east">Raid</button>
+                                                <button id="raideast" class="raid" data-action="raid" data-target="east">Conquer</button>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>&nbsp;</td>
                                             <td>
+                                                <img src="images/southwest.png" class="icon icon-sm" alt="southwest" /><br />
                                                 <span id="southwestcivsize">Tribe</span><br />
-                                                <button id="raidsouthwest" class="raid" data-action="raid" data-target="southwest">Raid</button>
+                                                <button id="raidsouthwest" class="raid" data-action="raid" data-target="southwest">Conquer</button>
                                             </td>
                                             <td>&nbsp;</td>
                                             <td>
+                                                <img src="images/southeast.png" class="icon icon-sm" alt="southeast" /><br />
                                                 <span id="southeastcivsize">Tribe</span><br />
-                                                <button id="raidsoutheast" class="raid" data-action="raid" data-target="southeast">Raid</button>
+                                                <button id="raidsoutheast" class="raid" data-action="raid" data-target="southeast">Conquer</button>
                                             </td>
                                             <td>&nbsp;</td>
                                         </tr>
@@ -668,8 +701,9 @@
                                             <td>&nbsp;</td>
                                             <td>&nbsp;</td>
                                             <td>
+                                                <img src="images/south.png" class="icon icon-sm" alt="south" /><br />
                                                 <span id="southcivsize">Tribe</span><br />
-                                                <button id="raidsouth" class="raid" data-action="raid" data-target="south">Raid</button>
+                                                <button id="raidsouth" class="raid" data-action="raid" data-target="south">Conquer</button>
                                             </td>
                                             <td>&nbsp;</td>
                                             <td>&nbsp;</td>
@@ -687,7 +721,7 @@
                                     Total Enemies Slain: <span data-action="display" data-target="enemySlain">...</span>
                                 </div>
                                 <div id="raidEventsContainer" class="civSection">
-                                    <h2>Raid Events</h2>
+                                    <h2>Conquest Events</h2>
                                     <table id="raidLogTable">
                                         <tr><td></td><td></td><td></td></tr>
                                     </table>
@@ -698,8 +732,8 @@
                     </div>
                 </div>
                 <!--
-                tradePane
-            -->
+                    tradePane
+                -->
 
                 <div id="tradePane" class="selectPane">
                     <div class="notYet">
@@ -708,7 +742,7 @@
                     <div class="columns">
                         <div class="column left width40">
                             <div id="tradeContainer">
-                                Trader offers 1 gold for <span id="tradeRequested">...</span> <span id="tradeType">...</span>
+                                Trader offers 100 coins for <span id="tradeRequested">...</span> <span id="tradeType">...</span>
                                 for the next <span id="traderTimer">...</span>.
                                 <br />
                                 <button id="tradeButton">Trade</button>
@@ -732,15 +766,15 @@
                                 <span id="commerceRow"></span>
                                 <span id="cornexchangeRow"></span>
 
-                                <h4>Buy Resources (1 gold)</h4>
+                                <h4>Buy Resources (100 coins)</h4>
                                 <div id="buyButtonGroup"><!-- populated through script --></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!--
-                achievementsPane
-            -->
+                    achievementsPane
+                -->
                 <div id="achievementsPane" class="selectPane">
                     <div id="achievements">
                         <!-- populated by javascript -->
@@ -753,8 +787,8 @@
                     </div>
                 </div>
                 <!--
-                settingsPane
-            -->
+                    settingsPane
+                -->
                 <div id="settingsPane" class="selectPane">
                     <div class="columns">
                         <div class="column left width33">
@@ -815,12 +849,12 @@
         </div>
     </div>
 
-            <footer>
-                <span class="title">CIV 104 BC</span>
-                <!--<span class="version">v1.4</span>-->
-                <a href="faq.html" target="_blank">FAQ &amp; Instructions</a>
-                <!--<a href="updates.html" target="_blank">Game Updates Log</a>-->
-                <!--<span id="versionAlert"> - <span id="newVersionText" onclick="location.reload()">New Version Available</span></span>-->
-            </footer>
+    <footer>
+        <span class="title">CIV 104 BC</span>
+        <!--<span class="version">v1.4</span>-->
+        <a href="faq.html" target="_blank">FAQ &amp; Instructions</a>
+        <!--<a href="updates.html" target="_blank">Game Updates Log</a>-->
+        <!--<span id="versionAlert"> - <span id="newVersionText" onclick="location.reload()">New Version Available</span></span>-->
+    </footer>
 </body>
 </html>
