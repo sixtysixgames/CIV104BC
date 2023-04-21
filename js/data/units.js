@@ -130,6 +130,22 @@ function getUnitData() {
             effectText: "Use ore and charcoal to make silver"
         }),
         new Unit({
+            id: unitType.mercsmith, singular: "mercurysmith", plural: "mercurysmiths", source: unitType.unemployed,
+            efficiency: 0.01, defence: 0.03, 
+            prereqs: { mercWorks: 1 }, require: { ore: 200, charcoal: 100 },
+            get limit() { return civData.mercWorks.owned; },
+            set limit(value) { return this.limit; }, 
+            effectText: "Use ore and charcoal to make mercury"
+        }),
+        new Unit({
+            id: unitType.goldsmith, singular: "goldsmith", plural: "goldsmiths", source: unitType.unemployed,
+            efficiency: 0.01, defence: 0.03, 
+            prereqs: { goldWorks: 1 }, require: { ore: 100, mercury: 10 },
+            get limit() { return civData.goldWorks.owned; },
+            set limit(value) { return this.limit; }, 
+            effectText: "Use ore and mercury to make gold"
+        }),
+        new Unit({
             id: unitType.labourer, singular: "labourer", plural: "labourers", source: unitType.unemployed,
             prereqs: { wonderStage: 1 }, //xxx This is a hack
             efficiency: 1.0, defence: 0.025, 
