@@ -206,9 +206,10 @@ function updateResourceTotals() {
             curCiv[dataset(elem, "target")].owned = 0;
             val = curCiv[dataset(elem, "target")].owned;
         }
-        elem.title = prettify(Math.floor(val));
+        //elem.title = prettify(Math.floor(val));
+        elem.title = val;
         obj = civData[dataset(elem, "target")];
-        if (isValid(obj) && obj.type === civObjType.resource && obj.id !== resourceType.corpses && obj.id !== resourceType.gold) {
+        if (isValid(obj) && obj.type === civObjType.resource && obj.id !== resourceType.corpses && obj.id !== resourceType.coins) {
             // we don't pretify population related resources on the top row
             elem.innerHTML = prettifyLargeNumber(Math.floor(val));
         }
@@ -237,7 +238,8 @@ function updateResourceTotals() {
         else if (val > 0) { elem.style.color = "#0b0"; }
         else { elem.style.color = "#000"; }
 
-        elem.title = prettify(Math.floor(val));
+        //elem.title = prettify(Math.floor(val));
+        elem.title = val;
         elem.innerHTML = ((val <= 0) ? "" : "+") + prettifyLargeNumber(val);
     }
 
@@ -254,11 +256,11 @@ function updateResourceTotals() {
     ui.find("#totalLand").innerHTML = prettify(landTotals.lands);
 
     // Unlock advanced control tabs as they become enabled (they never disable)
-    // Temples unlock Deity, barracks unlock Conquest, having gold unlocks Trade.
+    // Temples unlock Deity, barracks unlock Conquest, having coins unlocks Trade.
     // Deity is also unlocked if there are any prior deities present.
     if ((civData.temple.owned > 0) || (curCiv.deities.length > 1)) { ui.show("#deitySelect", true); }
     if (civData.barracks.owned > 0) { ui.show("#conquestSelect", true); }
-    if (civData.gold.owned > 0) { ui.show("#tradeSelect", true); }
+    if (civData.coins.owned > 0) { ui.show("#tradeSelect", true); }
 
     // Need to have enough resources to trade
     ui.find("#tradeButton").disabled = !curCiv.trader || !curCiv.trader.timer ||
@@ -800,7 +802,7 @@ function updateWonder() {
     ui.show("#labourerRow", (curCiv.curWonder.stage === 1));
     ui.show("#wonderInProgress", (curCiv.curWonder.stage === 1));
     ui.show("#speedWonderGroup", (curCiv.curWonder.stage === 1));
-    ui.find("#speedWonder").disabled = (curCiv.curWonder.stage !== 1 || !canAfford({ gold: 100 }));
+    ui.find("#speedWonder").disabled = (curCiv.curWonder.stage !== 1 || !canAfford({ coins: 10000 }));
     if (curCiv.curWonder.stage === 1) {
         if (typeof curCiv.curWonder.progress != "number") {
             console.warn("updates.updateWonder() curCiv.curWonder.progress not a number");
