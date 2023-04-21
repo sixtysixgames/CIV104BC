@@ -259,10 +259,10 @@ function iconoclasm(index) {
         return;
     }
 
-    //give gold
-    let gold = Math.floor(Math.pow(curCiv.deities[index].maxDev, 1 / 1.25));
-    civData.gold.owned += gold;
-    gameLog("You gain " + gold + " gold");
+    //give coins
+    let coins = Math.floor(Math.pow(curCiv.deities[index].maxDev, 1 / 1.25)) * 100;
+    civData.coins.owned += coins;
+    gameLog("You gain " + coins + " coins");
     //remove the deity
     curCiv.deities.splice(index, 1);
 
