@@ -2,7 +2,7 @@
 import {
     civData, curCiv, population, buildingType, unitType, resourceType,
     calculatePopulation, getNextPatient, getPietyEarnedBonus, getRandomPatient, getTotalByJob, getWonderBonus, healByJob, spreadPlague,
-    updatePopulation,
+    updatePopulation, adjustMorale,
     gameLog, isValid, killUnit, rndRound
 } from "../index.js";
 
@@ -308,21 +308,26 @@ function doMetalsmiths(jobId, resourceId, upgrade1Id, upgrade2Id) {
     }
 }
 function doIronsmiths() {
-    doMetalsmiths(unitType.ironsmith, resourceType.iron, "ironOre", "magnetite");
+    doMetalsmiths(unitType.ironsmith, resourceType.iron, "ironOre", "ironOre2");
 }
 function doCoppersmiths() {
-    doMetalsmiths(unitType.coppsmith, resourceType.copper, "coppOre", "malachite");
+    doMetalsmiths(unitType.coppsmith, resourceType.copper, "coppOre", "coppOre2");
 }
 function doLeadsmiths() {
-    doMetalsmiths(unitType.leadsmith, resourceType.lead, "leadOre", "galena");
+    doMetalsmiths(unitType.leadsmith, resourceType.lead, "leadOre", "leadOre2");
 }
 function doTinsmiths() {
-    doMetalsmiths(unitType.tinsmith, resourceType.tin, "tinOre", "cassiterite");
+    doMetalsmiths(unitType.tinsmith, resourceType.tin, "tinOre", "tinOre2");
 }
 function doSilversmiths() {
-    doMetalsmiths(unitType.silvsmith, resourceType.silver, "silvOre", "argentite");
+    doMetalsmiths(unitType.silvsmith, resourceType.silver, "silvOre", "silvOre2");
 }
-
+function doMercurysmiths() {
+    doMetalsmiths(unitType.mercsmith, resourceType.mercury, "mercOre", "mercOre2");
+}
+function doGoldsmiths() {
+    doMetalsmiths(unitType.goldsmith, resourceType.gold, "goldOre", "goldOre2");
+}
 //https://www.bbc.co.uk/bitesize/guides/z7r7hyc/revision/3
 /*
  * An estimated 30% to 60% of the population of Europe died from the plague. This is often referred to as the 'mortality rate'.
@@ -357,7 +362,7 @@ function doPlague() {
             gameLog("A sick " + lastVictim + " died of the plague");
         }
         else if (died > 1) {
-            gameLog("plague victims died");
+            gameLog(died + " plague victims died");
         }
         calculatePopulation();
         return true;
@@ -378,10 +383,14 @@ function doPlague() {
             }
         }
         if (survived == 1) {
-            gameLog("sick " + lastJob + " recovered");
+            gameLog("A sick " + lastJob + " recovered");
         }
         else if (survived > 1) {
-            gameLog("sick citizens recovered");
+            gameLog(survived + " sick citizens recovered");
+        }
+        if (population.living > 1 && survived > 0) {
+            //adjustMorale((survived / 100) / population.living);
+            adjustMorale(1);
         }
         calculatePopulation();
         return true;
@@ -392,10 +401,14 @@ function doPlague() {
         if (infected <= 0) { return false; }
         let num = spreadPlague(infected);
         if (num == 1) {
-            gameLog("The plague spreads to a new citizen");
+            gameLog("The plague spreads to another citizen");
         }
         else {
-            gameLog("The plague infects new citizens");
+            gameLog("The plague infects another " + num + " citizens");
+        }
+        if (population.living > 1 && num > 0) {
+            //adjustMorale((-num / 100) / population.living);
+            adjustMorale(-1);
         }
         return true;
     }
@@ -445,9 +458,13 @@ function doCorpses() {
             calculatePopulation();
             //notify player
             if (infected == 1) {
-                gameLog("citizen caught the plague");
+                gameLog("A citizen caught the plague");
             } else {
-                gameLog("citizens caught the plague");
+                gameLog(infected + " citizens caught the plague");
+            }
+            if (population.living > 1 && infected > 0) {
+                //adjustMorale((-infected / 100) / population.living);
+                adjustMorale(-1);
             }
         }
     }
@@ -456,16 +473,26 @@ function doCorpses() {
     if (Math.random() < 1 / 100) {
         let gone = 1 + Math.floor((Math.random() * civData.corpses.owned / 100));
         civData.corpses.owned -= gone;
-        let what = ((gone > 1) ? "corpses" : "corpse");
+        let what = ((gone > 1) ? gone + " unburied corpses" : "An unburied corpse");
+        let verb = ((gone > 1) ? " were" : " was");
         let action = " rotted away";
         if (Math.random() < 0.33) {
-            action = " eaten by vermin";
+            action = verb + " eaten by vermin";
         } else if (Math.random() < 0.66) {
-            action = " devoured by scavengers";
+            action = verb + " devoured by scavengers";
         }
         gameLog(what + action);
     }
-    if (civData.corpses.owned < 0) { civData.corpses.owned = 0; }
+    if (civData.corpses.owned < 0) {
+        civData.corpses.owned = 0;
+    }
+    else {
+        // it's not good for morale to have unburied corpses around
+        if (population.living > 1 && civData.corpses.owned > 0) {
+            //adjustMorale((-civData.corpses.owned / 100) / population.living);
+            adjustMorale(-1);
+        }
+    }
 }
 
 function canSpreadPlague() {
@@ -493,6 +520,8 @@ function dismissWorkers() {
     dismissWorker(unitType.leadsmith, buildingType.leadWorks, 1);
     dismissWorker(unitType.tinsmith, buildingType.tinWorks, 1);
     dismissWorker(unitType.silvsmith, buildingType.silvWorks, 1);
+    dismissWorker(unitType.mercsmith, buildingType.mercWorks, 1);
+    dismissWorker(unitType.goldsmith, buildingType.goldWorks, 1);
 
     // these buildings have 10 units
     dismissWorker(unitType.soldier, buildingType.barracks, 10);
@@ -514,13 +543,16 @@ function dismissWorker(unitTypeId, buildingTypeId, limit) {
 
 function getMetalOreChance() {
     // total cannot be 1 or greater
-    let chance = 0.0001 * (civData.ironOre.owned + civData.coppOre.owned + civData.leadOre.owned + civData.tinOre.owned  + civData.silvOre.owned);
+    let chance = 0.0001 * (civData.ironOre.owned + civData.coppOre.owned + civData.leadOre.owned + civData.tinOre.owned + civData.silvOre.owned
+        + civData.mercOre.owned  + civData.goldOre.owned);
     // high grade upgrades
-    chance += 0.001 * (civData.magnetite.owned + civData.malachite.owned + civData.galena.owned + civData.galena.owned + civData.cassiterite.owned + civData.argentite.owned);
+    chance += 0.001 * (civData.ironOre2.owned + civData.coppOre2.owned + civData.leadOre2.owned + civData.tinOre2.owned + civData.silvOre2.owned
+        + civData.mercOre2.owned + civData.goldOre2.owned);
     return chance;
 }
 
 export {
     doFarmers, doWoodcutters, doMiners, doBlacksmiths, doTanners, doApothecaries, doClerics, doHealers, doPlague, doGraveyards, doCorpses, canSpreadPlague,
-    dismissWorkers, farmerMods, woodcutterMods, minerMods, doLimeBurners, doCharcoalBurners, doIronsmiths, doCoppersmiths, doLeadsmiths, doTinsmiths, doSilversmiths
+    dismissWorkers, farmerMods, woodcutterMods, minerMods, doLimeBurners, doCharcoalBurners, doIronsmiths, doCoppersmiths, doLeadsmiths, doTinsmiths, doSilversmiths,
+    doMercurysmiths, doGoldsmiths
 };
