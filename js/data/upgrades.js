@@ -8,7 +8,7 @@ function getUpgradeData() {
             effectText: "Unlock more upgrades"
         }),
         new Upgrade({
-            id: "skinning", name: "Skinning", subType: subTypes.upgrade, prereqs: { domestication: true, civSize: "thorp" }, require: { skins: 10 },
+            id: "skinning", name: "Skinning", subType: subTypes.upgrade, prereqs: { domestication: true }, require: { skins: 10 },
             effectText: "Farmers can collect skins"
         }),
         new Upgrade({
@@ -16,7 +16,7 @@ function getUpgradeData() {
             effectText: "Increase farmer food output.  Unlock more upgrades"
         }),
         new Upgrade({
-            id: "agriculture", name: "Agriculture", subType: subTypes.upgrade, prereqs: { farming: true, civSize: "hamlet" }, require: { food: 1000, skins: 100 },
+            id: "agriculture", name: "Agriculture", subType: subTypes.upgrade, prereqs: { farming: true }, require: { food: 1000, skins: 100 },
             effectText: "Increase farmer food output.  Unlock more upgrades"
         }),
         new Upgrade({
@@ -84,61 +84,65 @@ function getUpgradeData() {
             effectText: "Improve soldiers"
         }),
         new Upgrade({
-            id: "smelting", name: "Smelting", subType: subTypes.upgrade, prereqs: { metalwork: true }, require: { wood: 1000, stone: 500, ore: 100 },
+            id: "smelting", name: "Smelting", subType: subTypes.upgrade, prereqs: { metalwork: true, civSize: "smallVillage" }, require: { wood: 1000, stone: 500, ore: 100 },
             effectText: "Unlock more buildings and upgrades"
         }),
 
-        new Upgrade({
-            id: "coppicing", name: "Coppicing", subType: subTypes.upgrade, prereqs: { smelting: true }, require: { wood: 1000 },
-            effectText: "Increase wood and charcoal production"
-        }),
         new Upgrade({
             id: "masonry", name: "Masonry", subType: subTypes.upgrade, prereqs: { quarrying: true }, require: { wood: 200, stone: 200 },
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
-            id: "butchering", name: "Butchering", subType: subTypes.upgrade, prereqs: { skinning: true, carpentry: true, masonry: true }, require: { leather: 40 },
+            id: "buildings", name: "Buildings", subType: subTypes.upgrade,
+            prereqs: { carpentry: true, masonry: true, civSize: "thorp" }, require: { wood: 500, stone: 500 },
+            effectText: "Unlock more buildings and upgrades"
+        }),
+        new Upgrade({
+            id: "coppicing", name: "Coppicing", subType: subTypes.upgrade, prereqs: { felling: true, buildings: true }, require: { wood: 1000, charcoal: 500 },
+            effectText: "Increase wood and charcoal production"
+        }),
+        new Upgrade({
+            id: "butchering", name: "Butchering", subType: subTypes.upgrade, prereqs: { skinning: true, buildings: true }, require: { leather: 40 },
             effectText: "Farmers collect more skins"
         }),
         new Upgrade({
-            id: "flensing", name: "Flensing", subType: subTypes.upgrade, prereqs: { butchering: true }, require: { food: 1200, leather: 300 },
-            effectText: "Collect skins more frequently"
-        }),
-        new Upgrade({
-            id: "gardening", name: "Gardening", subType: subTypes.upgrade, prereqs: { harvesting: true, carpentry: true, masonry: true }, require: { potions: 40 },
+            id: "gardening", name: "Gardening", subType: subTypes.upgrade, prereqs: { harvesting: true, buildings: true }, require: { potions: 40 },
             effectText: "Woodcutters collect more herbs"
         }),
         new Upgrade({
-            id: "reaping", name: "Reaping", subType: subTypes.upgrade, prereqs: { gardening: true }, require: { wood: 1200, potions: 300 },
-            effectText: "Collect herbs more frequently"
-        }),
-        new Upgrade({
-            id: "extraction", name: "Extraction", subType: subTypes.upgrade, prereqs: { prospecting: true, carpentry: true, masonry: true }, require: { metal: 40 },
+            id: "extraction", name: "Extraction", subType: subTypes.upgrade, prereqs: { prospecting: true, buildings: true }, require: { metal: 40 },
             effectText: "Miners collect more ore"
-        }),
-        new Upgrade({
-            id: "macerating", name: "Macerating", subType: subTypes.upgrade, prereqs: { extraction: true }, require: {  stone: 1200, metal: 300 },
-            effectText: "Collect ore more frequently"
         }),
         new Upgrade({
             id: "irrigation", name: "Irrigation", subType: subTypes.upgrade, prereqs: { farming: true, masonry: true }, require: { wood: 500, stone: 250 },
             effectText: "Increase farmer food output"
         }),
         new Upgrade({
-            id: "horseback", name: "Horseback Riding", subType: subTypes.upgrade, prereqs: { domestication: true, carpentry: true, masonry: true }, require: { food: 500, wood: 500 },
+            id: "horseback", name: "Horseback Riding", subType: subTypes.upgrade, prereqs: { domestication: true, buildings: true }, require: { food: 500, wood: 500 },
             effectText: "Build stables for cavalry"
         }),
-
         // construction
         new Upgrade({
-            id: "construction", name: "Construction", subType: subTypes.upgrade, prereqs: { masonry: true, carpentry: true }, require: { wood: 1000, stone: 1000 },
+            id: "construction", name: "Construction", subType: subTypes.upgrade, prereqs: { buildings: true, civSize: "smallVillage" }, require: { wood: 1000, stone: 1000 },
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
-            id: "tenements", name: "Tenements", subType: subTypes.upgrade, prereqs: { construction: true }, require: { food: 250, wood: 500, stone: 500 },
-            effectText: "Houses support +2 workers",
-            onGain: function () { updatePopulation(); }
+            id: "flensing", name: "Flensing", subType: subTypes.upgrade, prereqs: { butchering: true, construction: true, civSize: "smallVillage" }, require: { food: 1200, leather: 300 },
+            effectText: "Collect skins more frequently"
         }),
+        new Upgrade({
+            id: "reaping", name: "Reaping", subType: subTypes.upgrade, prereqs: { gardening: true, construction: true, civSize: "smallVillage" }, require: { wood: 1200, potions: 300 },
+            effectText: "Collect herbs more frequently"
+        }),
+        new Upgrade({
+            id: "macerating", name: "Macerating", subType: subTypes.upgrade, prereqs: { extraction: true, construction: true, civSize: "smallVillage" }, require: {  stone: 1200, metal: 300 },
+            effectText: "Collect ore more frequently"
+        }),
+        //new Upgrade({
+        //    id: "tenements", name: "Tenements", subType: subTypes.upgrade, prereqs: { construction: true }, require: { food: 250, wood: 500, stone: 500 },
+        //    effectText: "Houses support +2 workers",
+        //    onGain: function () { updatePopulation(); }
+        //}),
         new Upgrade({
             id: "rampart", name: "Ramparts", subType: subTypes.upgrade, prereqs: { construction: true }, require: { wood: 500, stone: 1000 },
             efficiency: 0.005, // Subtracted from attacker efficiency
@@ -169,15 +173,14 @@ function getUpgradeData() {
             onGain: function () { updateResourceTotals(); }
         }),
         
-
         // engineering
         new Upgrade({
-            id: "engineering", name: "Engineering", subType: subTypes.upgrade, prereqs: { construction: true }, require: { wood: 5000, stone: 5000 },
+            id: "engineering", name: "Engineering", subType: subTypes.upgrade, prereqs: { construction: true, civSize: "smallTown" }, require: { wood: 5000, stone: 5000 },
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
             id: "slums", name: "Slums", subType: subTypes.upgrade, prereqs: { engineering: true }, require: { food: 500, wood: 1000, stone: 1000 },
-            effectText: "Houses support +2 workers",
+            effectText: "Tenements support +4 workers",
             onGain: function () { updatePopulation(); }
         }),
         new Upgrade({
@@ -202,7 +205,7 @@ function getUpgradeData() {
         }),
 
         new Upgrade({
-            id: "architecture", name: "Architecture", subType: subTypes.upgrade, prereqs: { engineering: true }, require: { wood: 10000, stone: 10000 },
+            id: "architecture", name: "Architecture", subType: subTypes.upgrade, prereqs: { engineering: true, civSize: "city" }, require: { wood: 10000, stone: 10000 },
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
@@ -228,70 +231,133 @@ function getUpgradeData() {
 
         // metals and ores
         new Upgrade({
-            id: "ironOre", name: "Iron Ore", subType: subTypes.upgrade, prereqs: { smelting: true, engineering: true },
+            id: "ironAlloy", name: "Iron Alloy", subType: subTypes.upgrade, prereqs: { construction: true },
+            require: { ore: 1000 },
+            effectText: "Smelt iron from alloys"
+        }),
+        new Upgrade({
+            id: "ironOre", name: "Iron Ore", subType: subTypes.upgrade, prereqs: { ironAlloy: true, engineering: true },
             require: { ore: 500, charcoal: 250, iron: 65 },
             effectText: "Low grade ore. Increase ore and iron production"
         }),
         new Upgrade({
-            id: "magnetite", name: "Magnetite", subType: subTypes.upgrade, prereqs: { ironOre: true, architecture: true },
+            id: "ironOre2", name: "Magnetite", subType: subTypes.upgrade, prereqs: { ironOre: true, architecture: true },
             require: { ore: 5000, charcoal: 2500, iron: 650 },
             effectText: "High grade iron ore. Increase ore and iron production"
         }),
         new Upgrade({
-            id: "coppOre", name: "Copper Ore", subType: subTypes.upgrade, prereqs: { smelting: true, engineering: true },
+            id: "coppAlloy", name: "Copper Alloy", subType: subTypes.upgrade, prereqs: { construction: true },
+            require: { ore: 2000 },
+            effectText: "Smelt copper from alloys"
+        }),
+        new Upgrade({
+            id: "coppOre", name: "Copper Ore", subType: subTypes.upgrade, prereqs: { coppAlloy: true, engineering: true },
             require: { ore: 1000, charcoal: 500, copper: 55 },
             effectText: "Low grade ore. Increase ore and copper production"
         }),
         new Upgrade({
-            id: "malachite", name: "Malachite", subType: subTypes.upgrade, prereqs: { coppOre: true, architecture: true },
+            id: "coppOre2", name: "Malachite", subType: subTypes.upgrade, prereqs: { coppOre: true, architecture: true },
             require: { ore: 10000, charcoal: 5000, copper: 550 },
             effectText: "High grade copper ore. Increase ore and copper production"
         }),
         new Upgrade({
-            id: "leadOre", name: "Lead Ore", subType: subTypes.upgrade, prereqs: { smelting: true, engineering: true },
+            id: "leadAlloy", name: "Lead Alloy", subType: subTypes.upgrade, prereqs: { construction: true },
+            require: { ore: 3200 },
+            effectText: "Smelt lead from alloys"
+        }),
+        new Upgrade({
+            id: "leadOre", name: "Lead Ore", subType: subTypes.upgrade, prereqs: { leadAlloy: true, engineering: true },
             require: { ore: 1600, charcoal: 800, lead: 45 },
             effectText: "Low grade ore. Increase ore and lead production"
         }),
         new Upgrade({
-            id: "galena", name: "Galena", subType: subTypes.upgrade, prereqs: { leadOre: true, architecture: true },
+            id: "leadOre2", name: "Galena", subType: subTypes.upgrade, prereqs: { leadOre: true, architecture: true },
             require: { ore: 16000, charcoal: 8000, lead: 450 },
             effectText: "High grade lead ore. Increase ore and lead production"
         }),
         new Upgrade({
-            id: "tinOre", name: "Tin Ore", subType: subTypes.upgrade, prereqs: { smelting: true, engineering: true },
+            id: "tinAlloy", name: "Tin Alloy", subType: subTypes.upgrade, prereqs: { construction: true },
+            require: { ore: 4000 },
+            effectText: "Smelt tin from alloys"
+        }),
+        new Upgrade({
+            id: "tinOre", name: "Tin Ore", subType: subTypes.upgrade, prereqs: { tinAlloy: true, engineering: true },
             require: { ore: 2000, charcoal: 1000, tin: 35 },
             effectText: "Low grade ore. Increase ore and tin production"
         }),
         new Upgrade({
-            id: "cassiterite", name: "Cassiterite", subType: subTypes.upgrade, prereqs: { tinOre: true, architecture: true },
+            id: "tinOre2", name: "Cassiterite", subType: subTypes.upgrade, prereqs: { tinOre: true, architecture: true },
             require: { ore: 24000, charcoal: 12000, tin: 350 },
             effectText: "High grade tin ore. Increase ore and tin production"
         }),
         new Upgrade({
-            id: "silvOre", name: "Silver Ore", subType: subTypes.upgrade, prereqs: { smelting: true, engineering: true },
+            id: "silvAlloy", name: "Silver Alloy", subType: subTypes.upgrade, prereqs: { construction: true },
+            require: { ore: 8000 },
+            effectText: "Smelt tin from alloys"
+        }),
+        new Upgrade({
+            id: "silvOre", name: "Silver Ore", subType: subTypes.upgrade, prereqs: { silvAlloy: true, engineering: true },
             require: { ore: 4000, charcoal: 2000, silver: 25 },
             effectText: "Low grade ore. Increase ore and silver production"
         }),
         new Upgrade({
-            id: "argentite", name: "Argentite", subType: subTypes.upgrade, prereqs: { silvOre: true, architecture: true },
+            id: "silvOre2", name: "Argentite", subType: subTypes.upgrade, prereqs: { silvOre: true, architecture: true },
             require: { ore: 60000, charcoal: 30000, silver: 250 },
             effectText: "High grade silver ore. Increase ore and silver production"
         }),
+        new Upgrade({
+            id: "mercAlloy", name: "Mercury Alloy", subType: subTypes.upgrade, prereqs: { construction: true },
+            require: { ore: 16000 },
+            effectText: "Smelt mercury from alloys"
+        }),
+        new Upgrade({
+            id: "mercOre", name: "Mercury Ore", subType: subTypes.upgrade, prereqs: { mercAlloy: true, engineering: true },
+            require: { ore: 8000, charcoal: 4000, mercury: 15 },
+            effectText: "Low grade ore. Increase ore and mercury production"
+        }),
+        new Upgrade({
+            id: "mercOre2", name: "Cinnabar", subType: subTypes.upgrade, prereqs: { mercOre: true, engineering: true },
+            require: { ore: 120000, charcoal: 60000, mercury: 150 },
+            effectText: "High grade mercury ore. Increase ore and mercury production"
+        }),
+        new Upgrade({
+            id: "goldAlloy", name: "Gold Alloy", subType: subTypes.upgrade, prereqs: { construction: true },
+            require: { ore: 30000 },
+            effectText: "Extract gold from alloys"
+        }),
+        new Upgrade({
+            id: "goldOre", name: "Gold Ore", subType: subTypes.upgrade, prereqs: { goldAlloy: true, engineering: true },
+            require: { ore: 15000, charcoal: 10000, gold: 5 },
+            effectText: "Low grade ore. Increase ore and mercury production"
+        }),
+        new Upgrade({
+            id: "goldOre2", name: "Electrum", subType: subTypes.upgrade, prereqs: { goldOre: true, engineering: true },
+            require: { ore: 240000, charcoal: 120000, gold: 50 },
+            effectText: "High grade gold alloy. Increase ore and gold production"
+        }),
         // piety related
         new Upgrade({
-            id: "theism", name: "Theism", subType: subTypes.upgrade, prereqs: { carpentry: true, masonry: true, temple: 1 }, require: { piety: 150 },
+            id: "theism", name: "Theism", subType: subTypes.upgrade, prereqs: { buildings: true, temple: 1 }, require: { piety: 150 },
             effectText: "Increase cleric piety generation. Increase piety limit"
         }),
         new Upgrade({
-            id: "polytheism", name: "Polytheism", subType: subTypes.upgrade, prereqs: { theism: true }, require: { piety: 800 },
+            id: "polytheism", name: "Polytheism", subType: subTypes.upgrade, prereqs: { theism: true, civSize: "smallTown" }, require: { piety: 800 },
             effectText: "Increase cleric piety generation. Increase piety limit"
         }),
         new Upgrade({
-            id: "monotheism", name: "Monotheism", subType: subTypes.upgrade, prereqs: { polytheism: true }, require: { piety: 2000 },
+            id: "monotheism", name: "Monotheism", subType: subTypes.upgrade, prereqs: { polytheism: true, civSize: "smallCity" }, require: { piety: 2000 },
             effectText: "Increase cleric piety generation. Increase piety limit"
         }),
         new Upgrade({
-            id: "writing", name: "Writing", subType: subTypes.upgrade, prereqs: { theism: true }, require: { skins: 1000, piety: 2000 },
+            id: "feudalism", name: "Feudalism", subType: subTypes.upgrade, prereqs: { polytheism: true }, require: { piety: 5000 },
+            effectText: "Further increase basic resources from clicking.  Increase labourer efficiency"
+        }),
+        new Upgrade({
+            id: "serfs", name: "Serfs", subType: subTypes.upgrade, prereqs: { polytheism: true }, require: { piety: 5000 },
+            effectText: "Idle workers increase resources from clicking.  Increase labourer efficiency"
+        }),
+        new Upgrade({
+            id: "writing", name: "Writing", subType: subTypes.upgrade, prereqs: { polytheism: true }, require: { skins: 1000, piety: 2000 },
             effectText: "Increase cleric piety generation. Unlock more upgrades"
         }),
         new Upgrade({
@@ -307,11 +373,11 @@ function getUpgradeData() {
             effectText: "Increase potion production"
         }),
         new Upgrade({
-            id: "administration", name: "Administration", subType: subTypes.upgrade, prereqs: { writing: true }, require: { stone: 2500, herbs: 2500 },
+            id: "administration", name: "Administration", subType: subTypes.upgrade, prereqs: { writing: true, civSize: "cityState" }, require: { stone: 2500, herbs: 2500 },
             effectText: "Increase land gained from raiding"
         }),
         new Upgrade({
-            id: "codeoflaws", name: "Code of Laws", subType: subTypes.upgrade, prereqs: { writing: true }, require: { wood: 2500, ore: 2500 },
+            id: "codeoflaws", name: "Code of Laws", subType: subTypes.upgrade, prereqs: { administration: true }, require: { wood: 2500, ore: 2500 },
             effectText: "Reduce unhappiness caused by overcrowding. Unlock upgrades"
         }),
         new Upgrade({
@@ -326,16 +392,9 @@ function getUpgradeData() {
             id: "guilds", name: "Guilds", subType: subTypes.upgrade, prereqs: { astronomy: true, mathematics: true, medicine: true }, require: { piety: 8000 },
             effectText: "Increase special resources from clicking.  Increase labourer efficiency. Unlock upgrades"
         }),
+        
         new Upgrade({
-            id: "feudalism", name: "Feudalism", subType: subTypes.upgrade, prereqs: { guilds: true }, require: { piety: 15000 },
-            effectText: "Further increase basic resources from clicking.  Increase labourer efficiency"
-        }),
-        new Upgrade({
-            id: "serfs", name: "Serfs", subType: subTypes.upgrade, prereqs: { guilds: true }, require: { piety: 15000 },
-            effectText: "Idle workers increase resources from clicking.  Increase labourer efficiency"
-        }),
-        new Upgrade({
-            id: "nationalism", name: "Nationalism", subType: subTypes.upgrade, prereqs: { civilservice: true }, require: { piety: 30000 },
+            id: "nationalism", name: "Nationalism", subType: subTypes.upgrade, prereqs: { civilservice: true, civSize: "smallNation" }, require: { piety: 30000 },
             effectText: "Soldiers increase basic resources from clicking.  Increase labourer efficiency"
         }),
         // deity
@@ -417,19 +476,19 @@ function getUpgradeData() {
             effectText: "Lets you build an army (requires barracks)"
         }),
         new Upgrade({
-            id: "trade", name: "Trade", subType: subTypes.trade, prereqs: { gold: 1 }, require: { gold: 1 },
+            id: "trade", name: "Trade", subType: subTypes.trade, prereqs: { coins: 100 }, require: { coins: 100 },
             effectText: "Open the trading post"
         }),
         new Upgrade({
-            id: "currency", name: "Currency", subType: subTypes.trade, require: { gold: 10 },
+            id: "currency", name: "Currency", subType: subTypes.trade, prereqs: { trade: true }, require: { coins: 1000 },
             effectText: "Traders arrive more frequently, stay longer"
         }),
         new Upgrade({
-            id: "commerce", name: "Commerce", subType: subTypes.trade, prereqs: { currency: true }, require: { gold: 50 },
+            id: "commerce", name: "Commerce", subType: subTypes.trade, prereqs: { currency: true }, require: { coins: 5000 },
             effectText: "Traders arrive even more frequently, stay even longer"
         }),
         new Upgrade({
-            id: "cornexchange", name: "Corn Exchange", subType: subTypes.trade, prereqs: { commerce: true }, require: { gold: 100 },
+            id: "cornexchange", name: "Corn Exchange", subType: subTypes.trade, prereqs: { commerce: true }, require: { coins: 10000 },
             effectText: "Traders may change the trade amount of resources"
         }),
         // Prayers
