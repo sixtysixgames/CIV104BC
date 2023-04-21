@@ -144,13 +144,13 @@ function getAchievementData() {
         //trading
         new Achievement({
             id: "merchantAch", name: "Merch&shy;ant",
-            test: function () { return civData.gold.owned > 0; },
+            test: function () { return civData.coins.owned > 0; },
             effectText: "Sell to a trader"
         }),
         new Achievement({
             id: "rushedAch", name: "Rushed",
             test: function () { return curCiv.curWonder.rushed; },
-            effectText: "Spend gold to speed the building of a Wonder"
+            effectText: "Spend coins to speed the building of a Wonder"
         }),
         //other
         new Achievement({
