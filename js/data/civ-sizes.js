@@ -13,7 +13,7 @@ const civSizes = [
     { min_pop: 8000, name: "Small City", id: "smallCity", efficiency: 0.046 }, // +9
     { min_pop: 15000, name: "City", id: "city", efficiency: 0.056 }, // +10
     { min_pop: 30000, name: "Large City", id: "largeCity", efficiency: 0.067 }, // +11
-    { min_pop: 60000, name: "City State", id: "metropolis", efficiency: 0.079 }, // +12
+    { min_pop: 60000, name: "City State", id: "cityState", efficiency: 0.079 }, // +12
     { min_pop: 125000, name: "Small Nation", id: "smallNation", efficiency: 0.092 }, // +13
     { min_pop: 250000, name: "Nation", id: "nation", efficiency: 0.106 }, // +14
     { min_pop: 500000, name: "Large Nation", id: "largeNation", efficiency: 0.121 }, // +15
