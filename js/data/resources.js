@@ -6,7 +6,7 @@ function getResourceData() {
         new Resource({
             id: resourceType.food, name: "food", increment: 1, specialChance: 0.1, subType: subTypes.basic,
             specialMaterial: resourceType.skins, verb: "harvest", activity: "harvesting",
-            initTradeAmount: 5000, // how much to offer on Trade for 1 gold
+            initTradeAmount: 5000, // how much to offer on Trade for 100 coins
             baseTradeAmount: 1000, // the least on offer
             get limit() {
                 let barnBonus = (civData.granaries.owned ? 2 : 1) * 200;
@@ -177,6 +177,28 @@ function getResourceData() {
             set limit(value) { return this.limit; }
         }),
         new Resource({
+            id: resourceType.mercury, name: "mercury", subType: subTypes.special,
+            require: { ore: 150, charcoal: 75 },
+            initTradeAmount: 10,
+            baseTradeAmount: 2,
+            get limit() {
+                let bonus = getStoreroomBonus();
+                return 50 + (civData.mercWorks.owned * bonus);
+            },
+            set limit(value) { return this.limit; }
+        }),
+        new Resource({
+            id: resourceType.gold, name: "gold", subType: subTypes.special,
+            require: { ore: 5000, mercury: 50 },
+            initTradeAmount: 5,
+            baseTradeAmount: 1,
+            get limit() {
+                let bonus = getStoreroomBonus();
+                return 50 + (civData.goldWorks.owned * bonus);
+            },
+            set limit(value) { return this.limit; }
+        }),
+        new Resource({
             id: resourceType.piety, name: "piety",
             vulnerable: false, // Can't be stolen
             get limit() {
@@ -185,7 +207,7 @@ function getResourceData() {
             },
             set limit(value) { return this.limit; }
         }),
-        new Resource({ id: resourceType.gold, name: "gold", vulnerable: false }),
+        new Resource({ id: resourceType.coins, name: "coins", vulnerable: false }),
         new Resource({ id: resourceType.corpses, singular: "corpse", plural: "corpses", vulnerable: false }),
         new Resource({ id: resourceType.devotion, name: "devotion", vulnerable: false })
     ];
