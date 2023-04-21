@@ -24,7 +24,7 @@ const resourceType = {
     potions: "potions",
     metal: "metal",
     piety: "piety",
-    gold: "gold",
+    coins: "coins",
     corpses: "corpses",
     devotion: "devotion",
     charcoal: "charcoal",
@@ -33,6 +33,8 @@ const resourceType = {
     lead: "lead",
     tin: "tin",
     silver: "silver",
+    mercury: "mercury",
+    gold: "gold",
     lime: "lime"
 };
 const buildingType = {
@@ -41,6 +43,7 @@ const buildingType = {
     hut: "hut",
     cottage: "cottage",
     house: "house",
+    tenement: "tenement",
     mansion: "mansion",
     palace: "palace",
     barn: "barn",
@@ -55,6 +58,8 @@ const buildingType = {
     leadWorks: "leadWorks",
     tinWorks: "tinWorks",
     silvWorks: "silvWorks",
+    mercWorks: "mercWorks",
+    goldWorks: "goldWorks",
     apothecary: "apothecary",
     temple: "temple",
     barracks: "barracks",
@@ -81,6 +86,8 @@ const unitType = {
     leadsmith: "leadsmith",
     tinsmith: "tinsmith",
     silvsmith: "silvsmith",
+    mercsmith: "mercsmith",
+    goldsmith: "goldsmith",
     healer: "healer",
     cleric: "cleric",
     labourer: "labourer",
