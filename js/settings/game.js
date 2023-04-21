@@ -3,7 +3,7 @@ import {
     doMiners, doBlacksmiths, doApothecaries, doTanners, doClerics, doStarve, doHomeless, checkResourceLimits, doMobs, doPestControl,
     tickGlory, doShades, doEsiege, doRaid, placeType, alignmentType, doRaidCheck, doGraveyards, doHealers, doPlague, doCorpses, doThrone,
     tickGrace, tickWalk, doLabourers, tickTraders, updateResourceTotals, testAchievements, updateAll,
-    doIronsmiths, doCharcoalBurners, doCoppersmiths, doLeadsmiths, doTinsmiths, doSilversmiths, doLimeBurners } from "../index.js";
+    doIronsmiths, doCharcoalBurners, doCoppersmiths, doLeadsmiths, doTinsmiths, doSilversmiths, doMercurysmiths, doGoldsmiths, doLimeBurners } from "../index.js";
 
 // Create a cat
 function spawnCat() {
@@ -25,6 +25,7 @@ function gameLoop() {
 
     dismissWorkers(); // sometime we end up with more workers than buildings
 
+    // 66g import single function from job that does all these doJobs()
     // Production workers do their thing.
     doFarmers();
     doWoodcutters();
@@ -40,6 +41,8 @@ function gameLoop() {
     doLeadsmiths();
     doTinsmiths();
     doSilversmiths();
+    doMercurysmiths();
+    doGoldsmiths();
 
     doClerics();
 
