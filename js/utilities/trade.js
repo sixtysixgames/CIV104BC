@@ -47,12 +47,12 @@ function trade() {
         return;
     }
 
-    //subtract resources, add gold
+    //subtract resources, add coins
     let material = civData[curCiv.trader.materialId];
 
     material.owned -= curCiv.trader.requested;
     curCiv.trader.userTraded = true;
-    ++civData.gold.owned;
+    civData.coins.owned += 100;
     updateResourceTotals();
 
     tradeLog("Traded " + prettify(curCiv.trader.requested) + " " + material.getQtyName(curCiv.trader.requested));
@@ -71,13 +71,13 @@ function checkTradeAmounts(materialId) {
 
 function buy(materialId) {
     if (!checkTradeAmounts(materialId)) { return; }
-    if (civData.gold.owned < 1) { return; }
+    if (civData.coins.owned < 100) { return; }
 
     let material = civData[materialId];
     let currentAmount = curCiv[materialId].tradeAmount;
 
     material.owned += currentAmount;
-    --civData.gold.owned;
+    civData.coins.owned -= 100;
 
     updateResourceTotals();
     tradeLog("Bought " + prettify(currentAmount) + " " + material.getQtyName(currentAmount));
