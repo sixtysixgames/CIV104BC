@@ -4,7 +4,7 @@
     getCurDeityDomain, getCustomNumber, getWonderBonus, updateAchievements, updateBuildingButtons, updateDevotion, updateJobButtons, updateMorale, updatePartyButtons, updatePopulation,
     updateRequirements, updateResourceRows, updateResourceTotals, updateTargets, updateUpgrades,
     gameLog, achLog, isValid, makeDeitiesTables, prettify, spawnCat, sysLog, valOf,
-    abs, calcArithSum, logSearchFn, sgn, ui, traceLog
+    abs, calcArithSum, logSearchFn, sgn, ui, traceLog, sentenceCase
 } from "../index.js";
 
 function getCivType() {
@@ -25,18 +25,50 @@ function getReqText(costObj, qty) {
     costObj = valOf(costObj, qty); // valOf evals it if it's a function
     if (!isValid(costObj)) { return ""; }
 
-    //console.log("getReqText.costObj=" + costObj);
     let num;
     let text = "";
     for (let i in costObj) {
-        // If the cost is a function, eval it with qty as a param.  Otherwise
-        // just multiply by qty.
+        // If the cost is a function, eval it with qty as a param.  Otherwise just multiply by qty.
         num = (typeof costObj[i] == "function") ? (costObj[i](qty)) : (costObj[i] * qty);
         if (!num) { continue; }
         if (text) { text += ", "; }
         text += prettify(Math.round(num)) + " " + civData[i].getQtyName(num);
     }
 
+    return text;
+}
+
+function getPrereqText(prereqObj) {
+    let name, num;
+    let text = "";
+    for (let i in prereqObj) {
+        //console.log("getReqText.costObj=" + i);
+        console.log("getReqText.costObj=" + i + " val=" + prereqObj[i]);
+        console.log("valid civData: " + isValid(civData[i]));
+        console.log("valid civsize: " + isValid(civSizes[prereqObj[i]]));
+        if (text) { text += ", "; }
+
+        if (i === "deity") { // Deity
+            name = "Deity " + prereqObj[i];
+            //if (getCurDeityDomain() != prereqObj[i]) { return false; }
+        } else if (i === "wonderStage") { 
+            name = "Wonder " + prereqObj[i];
+            //if (curCiv.curWonder.stage !== prereqObj[i]) { return false; }
+        } else if (i === "civSize") {
+            name = civSizes[prereqObj[i]].name; 
+        } else if (isValid(civData[i]) && isValid(civData[i].owned)) { // Resource/Building/Upgrade
+            //if (civData[i].owned < prereqObj[i]) { return false; }
+            num = (typeof prereqObj[i] == "number") ? (prereqObj[i]) : null;
+            if (num) {
+                name = prettify(num) + " " + civData[i].getQtyName(num);
+            }
+            else {
+                name = civData[i].getQtyName(1);
+            }
+        }
+        text += sentenceCase(name);
+        name = null;
+    }
     return text;
 }
 
@@ -58,7 +90,6 @@ function meetsPrereqs(prereqObj) {
             if (civData[i].owned < prereqObj[i]) { return false; }
         }
     }
-
     return true;
 }
 
@@ -85,7 +116,6 @@ function canAfford(costObj, qty) {
         qty = Math.min(qty, Math.floor(civData[i].owned / valOf(costObj[i])));
         if (qty === 0) { return qty; }
     }
-
     return qty;
 }
 
@@ -344,8 +374,11 @@ function getRandomTradeableResource() {
 function adjustMorale(delta) {
     //Changes and updates morale given a delta value
     if (delta > 1000) {
-        //console.warn("Cannot adjust morale by so much", delta);
+        console.warn("Cannot adjust morale by so much", delta);
         return;
+    }
+    if (delta === 1 || delta === -1) {
+        delta = delta * 0.0025;
     }
     if (population.current > 0) {
         //calculates zombie proportion (zombies do not become happy or sad)
@@ -473,6 +506,7 @@ function calculatePopulation() {
         + (civData.hut.total)
         + (civData.cottage.total)
         + (civData.house.total)
+        + (civData.tenement.total)
         + (civData.mansion.total)
         + (civData.palace.total)
     );
@@ -739,7 +773,7 @@ function getWarehouseBonus() {
 //}
 
 export {
-    getCivType, getReqText, meetsPrereqs, canAfford, payFor, canPurchase, doPurchase, getLandTotals, getResourceTotal, testAchievements, calcWorkerCost, calcZombieCost,
+    getCivType, getReqText, getPrereqText, meetsPrereqs, canAfford, payFor, canPurchase, doPurchase, getLandTotals, getResourceTotal, testAchievements, calcWorkerCost, calcZombieCost,
     getRandomHealthyWorker, getRandomWorker, getRandomBuilding, getRandomLootableResource, getRandomTradeableResource, adjustMorale, healByJob, getTotalByJob,
     spreadPlague, getNextPatient, getRandomPatient, clearSpecialResourceNets, checkResourceLimits, calculatePopulation, pickStarveTarget,
     getPietyLimitBonus, getPietyEarnedBonus, spawn, starve, doStarve, doHomeless, killUnit, digGraves, increment,
