@@ -33,14 +33,6 @@ body {
         background-size: 100%;
     }
 
-        body.hasBackground.classic {
-            background-image: url('../images/constable_original.jpg');
-        }
-
-        body.hasBackground.wivenhoe {
-            background-image: url('../images/constable_wivenhoe_park_essex_faded.jpg');
-        }
-
 a {
     color: #3366ff;
     text-decoration: none;
@@ -101,12 +93,15 @@ a {
 .netWidth {
     width: 7%;
 }
+
 .totalMaxWidth {
     width: 11%;
 }
+
 .width20 {
     width: 20%;
 }
+
 .width25 {
     width: 25%;
 }
@@ -138,6 +133,7 @@ a {
 .width75 {
     width: 75%;
 }
+
 .width80 {
     width: 80%;
 }
@@ -524,9 +520,11 @@ button {
 .cost {
     color: #333;
 }
+
 .rescost {
     font-size: 0.8em;
 }
+
 .number {
     text-align: right;
     padding-right: 0.3em;
@@ -716,6 +714,7 @@ button {
     display: block;
     width: 20px;
 }
+
 .stats {
     display: block;
     clear: both;
@@ -969,6 +968,14 @@ button {
     background-color: #666666;
 }
 
+.mercsmith {
+    background-color: #333333;
+}
+
+.goldsmith {
+    background-color: #666666;
+}
+
 .healer {
     background-color: #003B00;
 }
@@ -1152,6 +1159,22 @@ ol.happinessRanks {
     border: solid 1px rgba(0,0,0,0.25);
 }
 
+table.dataTable {
+    border: 1px solid #999;
+    border-collapse: collapse;
+}
+
+    table.dataTable th, table.dataTable td {
+        border: 1px solid #999;
+        border-collapse: collapse;
+        padding-left: 5px;
+        padding-right: 1em;
+    }
+
+    table.dataTable thead tr th:nth-child(1) {
+        width: 210px;
+    }
+
 footer {
     padding: 1em 0;
     text-align: center;
@@ -1214,16 +1237,9 @@ footer {
         }
 }
 
-/*.raid {
-    display: inline !important;
-}
-
-.raid-mult {
-    display: inline !important;
-    min-width: unset !important;
-}*/
-/*1050*/
 
 /*span {
     background-color:aqua;
 }*/
+
+/*1050*/
