@@ -35,7 +35,7 @@ function getBuildingData() {
         }),
         new Building({
             id: buildingType.tenement, singular: "tenement", plural: "tenements",
-            prereqs: { construction: true }, require: { wood: 200, stone: 200, leather: 50, metal: 50, lime: 50 },
+            prereqs: { construction: true }, require: { wood: 200, stone: 500, leather: 50, metal: 50, lime: 50 },
             get effectText() {
                 let maxPop = this.limit;
                 return "+" + maxPop + " citizens";
@@ -46,12 +46,12 @@ function getBuildingData() {
         }),
         new Building({
             id: buildingType.mansion, singular: "mansion", plural: "mansions",
-            prereqs: { engineering: true }, require: { wood: 500, stone: 500, lime: 200, iron: 25, copper: 10, lead: 5 },
+            prereqs: { engineering: true }, require: { wood: 500, stone: 2000, lime: 500, iron: 25, copper: 10, lead: 5 },
             effectText: "+50 citizens", limit: 50
         }),
         new Building({
             id: buildingType.palace, singular: "palace", plural: "palaces",
-            prereqs: { architecture: true }, require: { wood: 1000, stone: 1000, lime: 500, iron: 50, copper: 25, lead: 10 },
+            prereqs: { architecture: true }, require: { wood: 2000, stone: 5000, lime: 1500, iron: 100, copper: 50, lead: 25 },
             effectText: "+150 citizens", limit: 150
         }),
         new Building({
@@ -109,6 +109,14 @@ function getBuildingData() {
             },
             set effectText(value) { return this.effectText; },
             update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
+            id: buildingType.barracks, name: "barracks", prereqs: { buildings: true, civSize: "smallVillage" }, require: { food: 20, wood: 60, stone: 120, metal: 10 },
+            effectText: "allows 10 soldiers"
+        }),
+        new Building({
+            id: buildingType.stable, singular: "stable", plural: "stables", prereqs: { buildings: true, horseback: true, civSize: "smallVillage" }, require: { food: 60, wood: 60, stone: 120, leather: 10 },
+            effectText: "allows 10 cavalry"
         }),
         new Building({
             id: buildingType.tannery, singular: "tannery", plural: "tanneries", prereqs: { buildings: true, civSize: "smallVillage" }, require: { wood: 30, stone: 70, skins: 5 },
@@ -210,14 +218,6 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.barracks, name: "barracks", prereqs: { buildings: true, civSize: "smallVillage" }, require: { food: 20, wood: 60, stone: 120, metal: 10 },
-            effectText: "allows 10 soldiers"
-        }),
-        new Building({
-            id: buildingType.stable, singular: "stable", plural: "stables", prereqs: { buildings: true, horseback: true, civSize: "smallVillage" }, require: { food: 60, wood: 60, stone: 120, leather: 10 },
-            effectText: "allows 10 cavalry"
-        }),
-        new Building({
             id: buildingType.graveyard, singular: "graveyard", plural: "graveyards", prereqs: { buildings: true }, require: { wood: 100, stone: 250 },
             vulnerable: false, // Graveyards can't be sacked, but they can be desecrated
             effectText: "contains 100 graves",
@@ -252,6 +252,7 @@ function getBuildingData() {
         new Building({
             id: buildingType.battleAltar, name: "Build Altar", singular: "battle altar", plural: "battle altars",
             subType: subTypes.altar, devotion: 1, prereqs: { deity: deityDomains.battle },
+            vulnerable: false, // Altars can't be sacked, but they can be desecrated
             get require() { return { stone: 200, piety: 200 + (this.owned * this.owned), metal: 50 + (50 * this.owned) }; },
             set require(value) { return this.require; }, // Only here for JSLint.
             effectText: "+1 Devotion"
@@ -259,6 +260,7 @@ function getBuildingData() {
         new Building({
             id: buildingType.fieldsAltar, name: "Build Altar", singular: "fields altar", plural: "fields altars",
             subType: subTypes.altar, devotion: 1, prereqs: { deity: deityDomains.fields },
+            vulnerable: false, // Altars can't be sacked, but they can be desecrated
             get require() { return { stone: 200, piety: 200 + (this.owned * this.owned), food: 500 + (250 * this.owned), wood: 500 + (250 * this.owned) }; },
             set require(value) { return this.require; }, // Only here for JSLint.
             effectText: "+1 Devotion"
@@ -266,6 +268,7 @@ function getBuildingData() {
         new Building({
             id: buildingType.underworldAltar, name: "Build Altar", singular: "underworld altar", plural: "underworld altars",
             subType: subTypes.altar, devotion: 1, prereqs: { deity: deityDomains.underworld },
+            vulnerable: false, // Altars can't be sacked, but they can be desecrated
             get require() { return { stone: 200, piety: 200 + (this.owned * this.owned), corpses: 1 + this.owned }; },
             set require(value) { return this.require; }, // Only here for JSLint.
             effectText: "+1 Devotion"
@@ -273,6 +276,7 @@ function getBuildingData() {
         new Building({
             id: buildingType.catAltar, name: "Build Altar", singular: "cat altar", plural: "cat altars",
             subType: subTypes.altar, devotion: 1, prereqs: { deity: deityDomains.cats },
+            vulnerable: false, // Altars can't be sacked, but they can be desecrated
             get require() { return { stone: 200, piety: 200 + (this.owned * this.owned), herbs: 100 + (50 * this.owned) }; },
             set require(value) { return this.require; }, // Only here for JSLint.
             effectText: "+1 Devotion"
