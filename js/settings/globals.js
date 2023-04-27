@@ -18,6 +18,7 @@ const powerData = []; // All 'powers' //xxx This needs refinement.
 const unitData = []; // All units
 const achData = []; // All achievements
 const sackable = []; // All buildings that can be destroyed
+const invadeable = []; // All buildings that can possessed during a conquer
 const lootable = []; // All resources that can be stolen
 const killable = []; // All units that can be destroyed
 const homeBuildings = []; // All buildings to be displayed in the home area
@@ -28,5 +29,5 @@ const normalUpgrades = []; // All upgrades to be listed in the normal upgrades a
 
 export {
     population, resourceData, buildingData, upgradeData, powerData, unitData, achData, sackable, lootable,
-    killable, homeBuildings, homeUnits, armyUnits, basicResources, normalUpgrades
+    killable, homeBuildings, homeUnits, armyUnits, basicResources, normalUpgrades, invadeable
 };
