@@ -60,8 +60,8 @@ function getWonderCostMultiplier() { // Based on the most wonders in any single 
 }
 
 function speedWonder() {
-    if (civData.coins.owned < 10000) { return; }
-    civData.coins.owned -= 10000;
+    if (civData.gold.owned < 100) { return; }
+    civData.gold.owned -= 100;
     curCiv.curWonder.progress += 1 / getWonderCostMultiplier();
     curCiv.curWonder.rushed = true;
     updateWonder();
