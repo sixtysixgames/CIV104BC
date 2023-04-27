@@ -1,7 +1,7 @@
 
 import {
     Achievement, CivObj, civObjType, civSizes, prettify, indexArrayByAttr, placeType, subTypes, setInitTradePrice,
-    population, resourceData, lootable, basicResources, buildingData, sackable, homeBuildings, powerData, upgradeData, normalUpgrades,
+    population, resourceData, lootable, basicResources, buildingData, sackable, invadeable, homeBuildings, powerData, upgradeData, normalUpgrades,
     unitData, killable, homeUnits, armyUnits, achData
 } from "../index.js";
 import { getAchievementData } from "./achievements.js";
@@ -89,12 +89,12 @@ function setIndexArrays(civData) {
             if (elem.subType == subTypes.basic) {
                 basicResources.push(elem);
             }
-            //setInitTradePrice(elem);
         }
         if (elem.type == civObjType.building) {
             buildingData.push(elem);
             if (elem.vulnerable === true) {
-                // add to start so that dwellings get sacked last.  see getRandomBuilding
+                invadeable.push(elem); // to gain when invading nations
+                // add to start so that dwellings get sacked last.  see getRandomSackableBuilding
                 sackable.unshift(elem);
             }
             if (elem.subType == subTypes.normal || elem.subType == subTypes.land) { homeBuildings.push(elem); }
