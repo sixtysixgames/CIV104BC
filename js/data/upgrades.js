@@ -205,7 +205,7 @@ function getUpgradeData() {
         }),
 
         new Upgrade({
-            id: "architecture", name: "Architecture", subType: subTypes.upgrade, prereqs: { engineering: true, civSize: "city" }, require: { wood: 10000, stone: 10000 },
+            id: "architecture", name: "Architecture", subType: subTypes.upgrade, prereqs: { engineering: true, civSize: "smallCity" }, require: { wood: 10000, stone: 10000 },
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
@@ -328,7 +328,7 @@ function getUpgradeData() {
         new Upgrade({
             id: "goldOre", name: "Gold Ore", subType: subTypes.upgrade, prereqs: { goldAlloy: true, engineering: true },
             require: { ore: 15000, charcoal: 10000, gold: 5 },
-            effectText: "Low grade ore. Increase ore and mercury production"
+            effectText: "Low grade ore. Increase ore and gold production"
         }),
         new Upgrade({
             id: "goldOre2", name: "Electrum", subType: subTypes.upgrade, prereqs: { goldOre: true, engineering: true },
