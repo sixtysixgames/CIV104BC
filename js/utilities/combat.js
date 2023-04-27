@@ -1,9 +1,9 @@
 ﻿"use strict";
 import {
-    civData, civSizes, curCiv, lootable, population, unitData, neighbours,
+    civData, civSizes, curCiv, lootable, invadeable, population, unitData, neighbours,
     alignmentType, buildingType, combatTypes, mobTypeIds, placeType, speciesType,
     adjustMorale, dataset, calculatePopulation, gameLog, raidLog,
-    getAltarsOwned, getCurrentAltarId, getLandTotals, getPietyEarnedBonus, getRandomBuilding, getRandomLootableResource, getRandomWorker, getReqText, getResourceTotal,
+    getAltarsOwned, getCurrentAltarId, getLandTotals, getPietyEarnedBonus, getRandomSackableBuilding, getRandomLootableResource, getRandomWorker, getReqText, getResourceTotal,
     isValid, killUnit, prettify, rndRound, ui,
     updateAltars, updateRaidBar, updateMobBar, updatePartyButtons, updateRequirements, updateResourceTotals, updateTargets
 } from "../index.js";
@@ -87,7 +87,7 @@ function invade(ecivtype) {
 
     // Research show 1-5% of population could be soldiers, so we'll be generous with between 2 and 12
     civData.esoldier.owned += Math.ceil((curCiv.raid.epop / 50) + Math.floor(Math.random() * (curCiv.raid.epop / 10)));
-    civData.efort.owned += Math.floor(Math.random() * (curCiv.raid.epop / 5000));
+    civData.efort.owned += Math.floor(Math.random() * (curCiv.raid.epop / 1000));
     // increase enemy efficiency depending on invasion target
     civData.esoldier.efficiency = civData.esoldier.efficiency_base + civSizes[ecivtype].efficiency;
 
@@ -97,19 +97,34 @@ function invade(ecivtype) {
     baseLoot = baseLoot * (1 + (civData.glory.timer <= 0 ? 0 : 1));
 
     // Set rewards of land and other random plunder
-    // land between 10 and 25% because it can be doubled with administration and we don't want to gain too much so we force raids
+    // land between 10 and 25% because it can be doubled with administration and we don't want to gain too much so we force player to conquest
     let baseLand = baseLoot * (1 + (civData.administration.owned));
     curCiv.raid.plunderLoot = {
         freeLand: Math.floor((baseLand * 0.1) + Math.round(Math.random() * (baseLand * 0.15)))
     };
 
-    //baseLoot -= Math.round(curCiv.raid.plunderLoot.freeLand * Math.random());
-    
+    // let's gain some buildings
     let counter = 0;
+    let invaded = 0;
+    if (civSizes[ecivtype].min_pop >= civSizes.smallNation.min_pop) {
+        //baseLand = curCiv.raid.plunderLoot.freeLand;
+        baseLand = Math.floor(curCiv.raid.plunderLoot.freeLand / 2);
+        invadeable.forEach(function (elem) {
+            counter++;
+            if (baseLand > 0 && elem.id != buildingType.mill && elem.id != buildingType.fortification) {
+                invaded = Math.floor((baseLand * Math.random()) / (invadeable.length * counter)); 
+                curCiv.raid.plunderLoot[elem.id] = Math.min(baseLand, invaded); // can't have more than available land
+                baseLand -= curCiv.raid.plunderLoot[elem.id] * counter;
+            }
+            if (baseLand < 0) { baseLand = 0; }
+        });
+        curCiv.raid.plunderLoot.freeLand -= baseLand;
+    }
+
+    counter = 0;
     lootable.forEach(function (elem) {
         counter++;
         if (baseLoot > 0) {
-            //curCiv.raid.plunderLoot[elem.id] = Math.round(baseLoot * Math.random());
             curCiv.raid.plunderLoot[elem.id] = Math.floor(baseLoot * Math.random());
             //66g we don't want rare resources plundered from low population, so decrease baseLoot quicker
             baseLoot -= curCiv.raid.plunderLoot[elem.id];
@@ -458,7 +473,7 @@ function doLoot(attacker) {
 // burn
 function doSack(attacker) {
     //Destroy building
-    let targetID = getRandomBuilding();
+    let targetID = getRandomSackableBuilding();
     let target = civData[targetID];
 
     if (isValid(target) && target.owned > 0) {
@@ -496,7 +511,7 @@ function doSackMulti(attacker) {
     let sacks = 0;
     let lastTarget = "building";
     for (let s = 1; s <= targets; s++) {
-        let targetID = getRandomBuilding();
+        let targetID = getRandomSackableBuilding();
         let target = civData[targetID];
         if (isValid(target) && target.owned > 0) {
             --target.owned;
@@ -708,7 +723,7 @@ function doRaid(place, attackAlignment, defendAlignment) {
         unitData.filter(function (elem) { return ((elem.alignment == attackAlignment) && (elem.place == place)); })
             .forEach(function (elem) { elem.owned = 0; });
 
-        gameLog("Raid defeated by " + defenders.length + " defenders");  // Notify player
+        gameLog("Raid defeated!");  // Notify player
         // exact opposite of victory
         //adjustMorale(-(civSizes[curCiv.raid.last].idx + 1) / 100);
         adjustMorale(-1);
@@ -778,14 +793,14 @@ function doMobs() {
     if (civData.freeLand.owned < 0) {
         curCiv.attackCounter += Math.abs(civData.freeLand.owned);
     }
-    let minMinutes = (population.current > 0) ? 5 : 2; // 5 mins if any population
-    let limit = (60 * minMinutes) + Math.floor(60 * minMinutes * Math.random()); //Minimum 5 minutes, max 10
+    let minMinutes = (population.current > 0) ? 10 : 2; // 10 mins if any population
+    let limit = (60 * minMinutes) + Math.floor(60 * minMinutes * Math.random()); //Minimum 10 minutes, max 20
 
     if (curCiv.attackCounter > limit) {
         // attempt at forcing attacks more frequently the larger the civ
-        // 10 because that is min pop of a thorp
+        // because thorp is smallest civSize
         let rnum = totalStuff * Math.random();
-        let rnum2 = (totalStuff * Math.random()) / 10;
+        let rnum2 = (totalStuff * Math.random()) / civSizes.thorp.min_pop;
 
         if (rnum < rnum2) {
             curCiv.attackCounter = 0;
