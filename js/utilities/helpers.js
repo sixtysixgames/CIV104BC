@@ -325,7 +325,7 @@ function getRandomWorker() {
     return "";
 }
 //Selects a random sackable building based on its proportions in the current distribution.
-function getRandomBuilding() {
+function getRandomSackableBuilding() {
     let landTotals = getLandTotals();
     let num = Math.random() * landTotals.sackableTotal;
     let chance = 0;
@@ -337,6 +337,7 @@ function getRandomBuilding() {
     }
     return "";
 }
+
 //Selects a random lootable resource based on its proportions in the current distribution.
 function getRandomLootableResource() {
     let total = 0;
@@ -774,7 +775,7 @@ function getWarehouseBonus() {
 
 export {
     getCivType, getReqText, getPrereqText, meetsPrereqs, canAfford, payFor, canPurchase, doPurchase, getLandTotals, getResourceTotal, testAchievements, calcWorkerCost, calcZombieCost,
-    getRandomHealthyWorker, getRandomWorker, getRandomBuilding, getRandomLootableResource, getRandomTradeableResource, adjustMorale, healByJob, getTotalByJob,
+    getRandomHealthyWorker, getRandomWorker, getRandomSackableBuilding, getRandomLootableResource, getRandomTradeableResource, adjustMorale, healByJob, getTotalByJob,
     spreadPlague, getNextPatient, getRandomPatient, clearSpecialResourceNets, checkResourceLimits, calculatePopulation, pickStarveTarget,
     getPietyLimitBonus, getPietyEarnedBonus, spawn, starve, doStarve, doHomeless, killUnit, digGraves, increment,
     getStoreroomBonus, getStorehouseBonus, getWarehouseBonus
