@@ -802,7 +802,7 @@ function updateWonder() {
     ui.show("#labourerRow", (curCiv.curWonder.stage === 1));
     ui.show("#wonderInProgress", (curCiv.curWonder.stage === 1));
     ui.show("#speedWonderGroup", (curCiv.curWonder.stage === 1));
-    ui.find("#speedWonder").disabled = (curCiv.curWonder.stage !== 1 || !canAfford({ coins: 10000 }));
+    ui.find("#speedWonder").disabled = (curCiv.curWonder.stage !== 1 || !canAfford({ gold: 100 }));
     if (curCiv.curWonder.stage === 1) {
         if (typeof curCiv.curWonder.progress != "number") {
             console.warn("updates.updateWonder() curCiv.curWonder.progress not a number");
