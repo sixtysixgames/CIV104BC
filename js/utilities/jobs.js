@@ -326,7 +326,37 @@ function doMercurysmiths() {
     doMetalsmiths(unitType.mercsmith, resourceType.mercury, "mercOre", "mercOre2");
 }
 function doGoldsmiths() {
-    doMetalsmiths(unitType.goldsmith, resourceType.gold, "goldOre", "goldOre2");
+    doResourceWithTwoReqs(unitType.goldsmith, resourceType.gold, resourceType.ore, resourceType.mercury, "goldOre", "goldOre2");
+}
+function doResourceWithTwoReqs(jobId, resourceId, require1Id, require2Id, upgrade1Id, upgrade2Id) {
+    
+    if (civData[jobId].owned <= 0) { return; }
+    // we don't want to use up resources if we aren't producing
+    if (civData[resourceId].owned < civData[resourceId].limit) {
+        let efficiency = civData[jobId].efficiency + (0.1 * civData[jobId].efficiency * (civData[upgrade1Id].owned + civData[upgrade2Id].owned));
+        efficiency = efficiency * curCiv.morale.efficiency;
+        let req1Used = Math.min(civData[require1Id].owned, civData[jobId].owned * efficiency * civData[resourceId].require[require1Id]);
+        let req2Used = Math.min(civData[require2Id].owned, civData[jobId].owned * efficiency * civData[resourceId].require[require2Id]);
+
+        if (req1Used == 0 || req2Used == 0) { return; }
+
+        req1Used = Math.min(req1Used, (civData[resourceId].limit - civData[resourceId].owned) * civData[resourceId].require[require1Id] ); // don't use more than we can store
+        civData[require1Id].net -= req1Used;
+        civData[require1Id].owned -= req1Used;
+
+        req2Used = Math.min(req2Used, (civData[resourceId].limit - civData[resourceId].owned) * civData[resourceId].require[require2Id]); // don't use more than we can store
+        civData[require2Id].net -= req2Used;
+        civData[require2Id].owned -= req2Used;
+
+        req1Used = req1Used / civData[resourceId].require[require1Id];
+        req2Used = req2Used / civData[resourceId].require[require2Id];
+
+        // we produce 1 per resources used
+        let earned = ((req1Used + req2Used) / 2) * getWonderBonus(civData[resourceId]);
+        earned = Math.min(earned, civData[resourceId].limit - civData[resourceId].owned); // can't make more than we can store
+        civData[resourceId].net += earned;
+        civData[resourceId].owned += earned;
+    }
 }
 //https://www.bbc.co.uk/bitesize/guides/z7r7hyc/revision/3
 /*
@@ -337,7 +367,7 @@ function doPlague() {
     if (population.totalSick <= 0) { return false; }
 
     // there are 4 possibilities: die, survive, spread, nothing 
-    let chance = 0.015;
+    let chance = 0.01;
 
     if (Math.random() < chance) {
         let victims = Math.ceil(population.totalSick / 2 * Math.random());
