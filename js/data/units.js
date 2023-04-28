@@ -180,6 +180,8 @@ function getUnitData() {
             //xxx This (alternate data location) could probably be cleaner.
             get owned() { return population[this.id]; },
             set owned(value) { population[this.id] = value; },
+            get ill() { this.owned; }, // sick people are already ill
+            set ill(value) { this.owned = value; },
             init: function () { this.owned = this.initOwned; }, //xxx Verify this override is needed.
             effectText: "Use healers and herbs to cure them"
         }),
