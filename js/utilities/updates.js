@@ -34,6 +34,7 @@ function updateWonderList() {
             wonderhtml += "<tr><td>" + curCiv.wonders[i].name + "</td><td>" + curCiv.wonders[i].resourceId + "</td></tr>";
         } catch (err) {
             console.warn("updateWonderList() Could not build wonder row " + i);
+            console.trace();
             sysLog("Could not build wonder row " + i);
         }
     }
@@ -126,7 +127,7 @@ function updatePurchaseRow(purchaseObj) {
     if (!purchaseObj) { return; }
 
     let elem = ui.find("#" + purchaseObj.id + "Row");
-    if (!elem) { console.warn("updates.updatePurchaseRow() Missing UI element for " + purchaseObj.id); return; }
+    if (!elem) { console.warn("updates.updatePurchaseRow() Missing UI element for " + purchaseObj.id); console.trace(); return; }
 
     // If the item's cost is variable, update its requirements.
     if (purchaseObj.hasVariableCost()) {
@@ -197,14 +198,15 @@ function updateResourceTotals() {
     for (i = 0; i < displayElems.length; ++i) {
         elem = displayElems[i];
         //xxx Have to use curCiv here because of zombies and other non-civData displays.
-        val = curCiv[dataset(elem, "target")].owned;
+        val = curCiv[dataset(elem, "target")].has;
 
         if (!isValid(val) || typeof val != "number") {
             // hack to fix NaN stored
             console.warn("updates.updateResourceTotals() id = " + dataset(elem, "target"));
             console.warn("updates.updateResourceTotals() owned not number. = " + val);
-            curCiv[dataset(elem, "target")].owned = 0;
-            val = curCiv[dataset(elem, "target")].owned;
+            console.trace();
+            curCiv[dataset(elem, "target")].has = 0;
+            val = curCiv[dataset(elem, "target")].has;
         }
         //elem.title = prettify(Math.floor(val));
         elem.title = val;
@@ -229,6 +231,7 @@ function updateResourceTotals() {
             // hack to fix NaN stored
             console.warn("updates.updateResourceTotals() id = " + dataset(elem, "target"));
             console.warn("updates.updateResourceTotals() net not number. = " + val);
+            console.trace();
             civData[dataset(elem, "target")].net = 0;
             val = civData[dataset(elem, "target")].net;
         }
@@ -806,6 +809,7 @@ function updateWonder() {
     if (curCiv.curWonder.stage === 1) {
         if (typeof curCiv.curWonder.progress != "number") {
             console.warn("updates.updateWonder() curCiv.curWonder.progress not a number");
+            console.trace();
             curCiv.curWonder.progress = 0; // hack to fix NaN saved
         }
         ui.find("#progressBar").style.width = curCiv.curWonder.progress.toFixed(4) + "%";
