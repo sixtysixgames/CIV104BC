@@ -103,10 +103,15 @@ function invade(ecivtype) {
         freeLand: Math.floor((baseLand * 0.1) + Math.round(Math.random() * (baseLand * 0.15)))
     };
 
+    console.log("baseLoot b=" + baseLoot);
+    baseLoot -= curCiv.raid.plunderLoot.freeLand;
+    console.log("baseLoot a=" + baseLoot);
+
+
     // let's gain some buildings
     let counter = 0;
     let invaded = 0;
-    if (civSizes[ecivtype].min_pop >= civSizes.smallNation.min_pop) {
+    if (civSizes[ecivtype].min_pop >= civSizes.smNation.min_pop) {
         //baseLand = curCiv.raid.plunderLoot.freeLand;
         baseLand = Math.floor(curCiv.raid.plunderLoot.freeLand / 2);
         invadeable.forEach(function (elem) {
@@ -286,7 +291,7 @@ function doWolves(attacker) {
         attacker.owned -= gone; // wolves leave after eating
         // just in case
         if (civData.corpses.owned < 0) { civData.corpses.owned = 0; }
-        gameLog(civData.corpses.getQtyName(gone) + " consumed by wolves");
+        gameLog("Unburied " + civData.corpses.getQtyName(gone) + " eaten by wolves");
 
     } else {
         doSlaughter(attacker);
@@ -793,21 +798,36 @@ function doMobs() {
     if (civData.freeLand.owned < 0) {
         curCiv.attackCounter += Math.abs(civData.freeLand.owned);
     }
-    let minMinutes = (population.current > 0) ? 10 : 2; // 10 mins if any population
-    let limit = (60 * minMinutes) + Math.floor(60 * minMinutes * Math.random()); //Minimum 10 minutes, max 20
+    // no population will speed up attack frequency
+    if (population.current <= 0) {
+        curCiv.attackCounter += 10;
+    }
+    // possible attack every 5-10 minutes
+    let minMinutes = (population.current > 0) ? 5 : 2; // 10 mins if any population
+    let limit = (60 * minMinutes) + Math.floor(60 * minMinutes * Math.random()); //Minimum 5 minutes, max 10
 
     if (curCiv.attackCounter > limit) {
         // attempt at forcing attacks more frequently the larger the civ
         // because thorp is smallest civSize
+        // is this the wrong way around?
         let rnum = totalStuff * Math.random();
         let rnum2 = (totalStuff * Math.random()) / civSizes.thorp.min_pop;
+        console.log("rnum=" + rnum + " rnum2=" + rnum2);
 
+        rnum = Math.random();
+        rnum2 = Math.random() * population.limit;
+        console.log("rnum=" + rnum + " rnum2=" + rnum2);
+
+        // check if attack takes place
         if (rnum < rnum2) {
             curCiv.attackCounter = 0;
 
             mobType = getMobType(civLimit);
 
             let mobNum = Math.ceil(civLimit / 50 * Math.random());
+            // don't attack with more than cuurent population
+            mobNum = Math.min(mobNum, population.current);
+
             let oneDay = 24 * 60 * 60;
             if (population.current === 0 && curCiv.loopCounter > oneDay && civData.freeLand.owned > 100) {
                 // no population, let's invade!
@@ -879,7 +899,7 @@ function getMobType(civLimit) {
             mobType = mobTypeIds.bandit;
         }
     }
-    else if (civLimit >= civSizes.town.min_pop && civLimit < civSizes.smallCity.min_pop) {
+    else if (civLimit >= civSizes.town.min_pop && civLimit < civSizes.smCity.min_pop) {
         // mostly bandits
         if (Math.random() < 0.75) {
             mobType = mobTypeIds.bandit;
@@ -888,7 +908,7 @@ function getMobType(civLimit) {
             mobType = mobTypeIds.barbarian;
         }
     }
-    else if (civLimit >= civSizes.smallCity.min_pop && civLimit < civSizes.largeCity.min_pop) {
+    else if (civLimit >= civSizes.smCity.min_pop && civLimit < civSizes.lgCity.min_pop) {
         // bandits or barbarians
         if (Math.random() < 0.5) {
             mobType = mobTypeIds.bandit;
@@ -897,7 +917,7 @@ function getMobType(civLimit) {
             mobType = mobTypeIds.barbarian;
         }
     }
-    else if (civLimit >= civSizes.largeCity.min_pop && civLimit < civSizes.smallNation.min_pop) {
+    else if (civLimit >= civSizes.lgCity.min_pop && civLimit < civSizes.smNation.min_pop) {
         // mostly barbarians
         if (Math.random() < 0.75) {
             mobType = mobTypeIds.barbarian;
@@ -906,7 +926,7 @@ function getMobType(civLimit) {
             mobType = mobTypeIds.invader;
         }
     }
-    else if (civLimit >= civSizes.smallNation.min_pop && civLimit < civSizes.largeNation.min_pop) {
+    else if (civLimit >= civSizes.smNation.min_pop && civLimit < civSizes.lgNation.min_pop) {
         // barbarians or invaders
         if (Math.random() < 0.5) {
             mobType = mobTypeIds.barbarian;
@@ -915,7 +935,7 @@ function getMobType(civLimit) {
             mobType = mobTypeIds.invader;
         }
     }
-    else if (civLimit >= civSizes.largeNation.min_pop) {
+    else if (civLimit >= civSizes.lgNation.min_pop) {
         // mainly invaders 
         if (Math.random() < 0.25) {
             mobType = mobTypeIds.barbarian;
