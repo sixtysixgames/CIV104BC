@@ -44,17 +44,35 @@ Unit.prototype = new CivObj({
         CivObj.prototype.init.call(this, fullInit);
         // Right now, only vulnerable human units can get sick.
         if (this.vulnerable && (this.species == speciesType.human)) {
-            this.illObj = { owned: 0 };
+            //this.illObj = { owned: 0 };
+            this.data.ill = 0;
         }
         return true;
     },
     //xxx Right now, ill numbers are being stored as a separate structure inside curCiv.
     // It would probably be better to make it an actual 'ill' property of the Unit.
     // That will require migration code.
-    get illObj() { return curCiv[this.id + "Ill"]; },
-    set illObj(value) { curCiv[this.id + "Ill"] = value; },
-    get ill() { return isValid(this.illObj) ? this.illObj.owned : undefined; },
-    set ill(value) { if (isValid(this.illObj)) { this.illObj.owned = value; } },
+    //get illObj() { return curCiv[this.id + "Ill"]; },
+    //set illObj(value) { curCiv[this.id + "Ill"] = value; },
+    //get ill() { return isValid(this.illObj) ? this.illObj.owned : undefined; },
+    //set ill(value) { if (isValid(this.illObj)) { this.illObj.owned = value; } },
+    get ill() {
+        if (isValid(this.data.ill) && typeof this.data.ill != "number") {
+            console.warn("unit.ill get not a number");
+            console.trace();
+            this.data.ill = 0; // hack to fix NaN stored
+        }
+        return isValid(this.data.ill) ? this.data.ill : undefined;
+    },
+    set ill(value) {
+        if (typeof value != "number") {
+            console.warn("CivObj.ill set not a number");
+            console.trace();
+        }
+        else {
+            if (isValid(this.data.ill)) { this.data.ill = value; }
+        }
+    },
     get partyObj() { return civData[this.id + "Party"]; },
     set partyObj(value) { return this.partyObj; }, // Only here for JSLint.
     get party() { return isValid(this.partyObj) ? this.partyObj.owned : undefined; },
