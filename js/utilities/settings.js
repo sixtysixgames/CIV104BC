@@ -67,6 +67,7 @@ function load(loadType) {
 
             if (!string1) {
                 console.warn("load() Unable to find variables in localStorage. Attempting to load cookie.");
+                console.trace();
                 sysLog("Unable to find variables in localStorage. Attempting to load cookie.");
                 //return load("cookie");
                 return false;
@@ -89,6 +90,7 @@ function load(loadType) {
 
         if (!loadVar) {
             console.warn("load() Unable to parse variables in localStorage. Attempting to load cookie.");
+            console.trace();
             sysLog("Unable to parse variables in localStorage. Attempting to load cookie.");
             return load("cookie");
         }
@@ -106,6 +108,7 @@ function load(loadType) {
         // Refuse to load saved games from future versions.
         let alertStr = "Cannot load; saved game version " + saveVersion + " is newer than game version " + appSettings.versionData;
         console.warn("load() " + alertStr);
+        console.trace();
         sysLog(alertStr);
         alert(alertStr);
         return false;
@@ -412,15 +415,16 @@ function resetTradeAmounts() {
     traceLog("settings.resetTradeAmounts");
 
     lootable.forEach(function (elem) {
-        curCiv[elem.id].tradeAmount = civData[elem.id].initTradeAmount;
+        //curCiv[elem.id].trdAmt = civData[elem.id].initTradeAmount;
+        civData[elem.id].tradeAmount = civData[elem.id].initTradeAmount;
     });
 }
 
 function setInitTradeAmount() {
     traceLog("settings.setInitTradeAmount");
     lootable.forEach(function (elem) {
-        if (!isValid(curCiv[elem.id].tradeAmount)) {
-            curCiv[elem.id].tradeAmount = civData[elem.id].initTradeAmount;
+        if (!isValid(civData[elem.id].tradeAmount)) {
+            civData[elem.id].tradeAmount = civData[elem.id].initTradeAmount;
         }
     });
 }
