@@ -35,6 +35,7 @@ Resource.prototype = new CivObj({
     get net() {
         if (typeof this.nett != "number") {
             console.warn("resource.js " + this.id + ".nett get not a number: " + this.nett);
+            console.trace();
             this.nett = 0; // hack to fix NaN stored in .net
         }
         return this.nett;
@@ -42,6 +43,7 @@ Resource.prototype = new CivObj({
     set net(value) {
         if (typeof value != "number") {
             console.warn("resource.js " + this.id + ".net set value not a number: " + value);
+            console.trace();
         }
         else {
             this.nett = value;
@@ -52,8 +54,8 @@ Resource.prototype = new CivObj({
     specialMaterial: "",
     activity: "gathering",
     // for variable trading costs
-    get tradeAmount() { return this.data.tradeAmount; },
-    set tradeAmount(value) { this.data.tradeAmount = value; }
+    get tradeAmount() { return this.data.trdAmt; },
+    set tradeAmount(value) { this.data.trdAmt = value; }
 }, true);
 
 export { Resource};
