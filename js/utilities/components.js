@@ -211,6 +211,7 @@ function addUpgradeRows() {
             let stubElem = document.getElementById(elem.id + "Row");
             if (!stubElem) {
                 console.warn("Missing UI element for " + elem.id);
+                console.trace();
                 sysLog("Missing UI element for " + elem.id);
                 return;
             }
