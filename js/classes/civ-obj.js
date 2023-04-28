@@ -23,21 +23,22 @@ CivObj.prototype = {
     get data() { return curCiv[this.id]; },
     set data(value) { curCiv[this.id] = value; },
     get owned() {
-        if (typeof initOwned == "number" && typeof this.data.owned != "number") {
+        if (typeof initOwned == "number" && typeof this.data.has != "number") {
             console.warn("CivObj.owned get not a number");
-            //return 0;
-            this.data.owned = 0; // hack to fix NaN stored
+            console.trace();
+            this.data.has = 0; // hack to fix NaN stored
         }
-        return this.data.owned;
+        return this.data.has;
     },
     set owned(value) {
         if (typeof initOwned == "number" && typeof value != "number") {
             console.warn("CivObj.owned set not a number");
+            console.trace();
             // hack to fix NaN stored
             //this.data.owned = 0;
         }
         else {
-            this.data.owned = value;
+            this.data.has = value;
         }
     },
     prereqs: {},
