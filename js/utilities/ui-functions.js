@@ -15,6 +15,7 @@ function paneSelect(e) {
     let selectors = ui.find("#selectors");
     if (!selectors) {
         console.warn("paneSelect() No selectors found");
+        console.trace();
         sysLog("No selectors found");
         return null;
     }
@@ -219,6 +220,7 @@ function getCostNote(civObj) {
 function setReqText(civObj) {
     if (!civObj || !civObj.require) {
         console.warn("ui-functions.setReqText() civObj or require not found");
+        console.trace();
         return;
     }
     //console.log("setReqText()" + civObj.id);
