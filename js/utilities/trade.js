@@ -64,7 +64,7 @@ function isTraderHere() {
 
 function checkTradeAmounts(materialId) {
     let ret = true;
-    if (!isValid(curCiv[materialId].tradeAmount)) { sysLog("Missing curCiv tradeAmount for " + materialId); ret = false; }
+    if (!isValid(civData[materialId].tradeAmount)) { sysLog("Missing curCiv tradeAmount for " + materialId); ret = false; }
     if (!isValid(civData[materialId].baseTradeAmount)) { sysLog("Missing civData baseTradeAmount for " + materialId); ret = false; }
     return ret;
 }
@@ -74,7 +74,7 @@ function buy(materialId) {
     if (civData.coins.owned < 100) { return; }
 
     let material = civData[materialId];
-    let currentAmount = curCiv[materialId].tradeAmount;
+    let currentAmount = civData[materialId].tradeAmount;
 
     material.owned += currentAmount;
     civData.coins.owned -= 100;
@@ -87,7 +87,11 @@ function updateTradeButton(materialId, cost) {
     traceLog("trade.updateTradeButton: " + materialId);
     let materialCostID = "#" + materialId + "Cost";
     let elem = ui.find(materialCostID);
-    if (!elem) { console.warn("trade.updateTradeButton() Missing UI element for " + materialCostID); return; }
+    if (!elem) {
+        console.warn("trade.updateTradeButton() Missing UI element for " + materialCostID);
+        console.trace();
+        return;
+    }
 
     elem.innerHTML = prettify(cost);
 }
@@ -96,7 +100,7 @@ function updateTradeButtons() {
     traceLog("updates.updateTradeButtons");
     // 66g: iterate over salable resources
     lootable.forEach(function (elem) {
-        updateTradeButton(elem.id, curCiv[elem.id].tradeAmount);
+        updateTradeButton(elem.id, civData[elem.id].tradeAmount);
     });
 }
 
@@ -127,32 +131,39 @@ function tickTraders() {
 function updateTradeAmount() {
     traceLog("updates.updateTradeAmount");
     let materialId = curCiv.trader.materialId;
-    let origCost = curCiv[materialId].tradeAmount;
+    let origCost = civData[materialId].tradeAmount;
 
     // make it less obvious with another +/- 10% of base price
     let extra = Math.ceil((civData[materialId].baseTradeAmount / 10)) * Math.ceil((Math.random() * 5));
     let r = Math.random()
     if (r < 0.1) {
-        curCiv[materialId].tradeAmount -= extra;
+       // curCiv[materialId].tradeAmount -= extra;
+        civData[materialId].tradeAmount -= extra;
     }
     else if (r < 0.2) {
-        curCiv[materialId].tradeAmount += extra;
+       // curCiv[materialId].tradeAmount += extra;
+        civData[materialId].tradeAmount += extra;
     }
     // don't offer less than base amount
-    curCiv[materialId].tradeAmount = Math.max(civData[materialId].baseTradeAmount, curCiv[materialId].tradeAmount);
+    //curCiv[materialId].tradeAmount = Math.max(civData[materialId].baseTradeAmount, curCiv[materialId].tradeAmount);
+    civData[materialId].tradeAmount = Math.max(civData[materialId].baseTradeAmount, civData[materialId].tradeAmount);
 
-    updateTradeButton(materialId, curCiv[materialId].tradeAmount);
+    //updateTradeButton(materialId, curCiv[materialId].tradeAmount);
+    updateTradeButton(materialId, civData[materialId].tradeAmount);
     //
-    if (origCost != curCiv[materialId].tradeAmount) {
+    //if (origCost != curCiv[materialId].tradeAmount) {
+    if (origCost != civData[materialId].tradeAmount) {
         let material = civData[materialId];
         let verb = "remains at";
-        if (origCost > curCiv[materialId].tradeAmount) {
+        //if (origCost > curCiv[materialId].tradeAmount) {
+        if (origCost > civData[materialId].tradeAmount) {
             verb = "decreased to";
         }
-        else if (origCost < curCiv[materialId].tradeAmount) {
+        //else if (origCost < curCiv[materialId].tradeAmount) {
+        else if (origCost < civData[materialId].tradeAmount) {
             verb = "increased to";
         }
-        tradeLog(material.getQtyName(1) + " trade amount " + verb + " " + prettify(curCiv[materialId].tradeAmount));
+        tradeLog(material.getQtyName(1) + " trade amount " + verb + " " + prettify(civData[materialId].tradeAmount));
     }
 }
 
