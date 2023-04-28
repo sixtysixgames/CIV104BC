@@ -13,11 +13,11 @@ function getUpgradeData() {
         }),
         new Upgrade({
             id: "farming", name: "Farming", subType: subTypes.upgrade, prereqs: { domestication: true }, require: { food: 100, wood: 100 },
-            effectText: "Increase farmer food output.  Unlock more upgrades"
+            effectText: "Increase farmer food output. Unlock more upgrades"
         }),
         new Upgrade({
             id: "agriculture", name: "Agriculture", subType: subTypes.upgrade, prereqs: { farming: true }, require: { food: 1000, skins: 100 },
-            effectText: "Increase farmer food output.  Unlock more upgrades"
+            effectText: "Increase farmer food output. Unlock more upgrades"
         }),
         new Upgrade({
             id: "croprotation", name: "Crop Rotation", subType: subTypes.upgrade, prereqs: { agriculture: true }, require: { skins: 5000, herbs: 5000 },
@@ -29,7 +29,7 @@ function getUpgradeData() {
         }),
         new Upgrade({
             id: "fertilisers", name: "Fertilisers", subType: subTypes.upgrade, prereqs: { agriculture: true }, require: { skins: 5000, ore: 5000 },
-            effectText: "Increase farmer food output"
+            effectText: "Increase farmer food output. Unlock more upgrades"
         }),
         new Upgrade({
             id: "toolmaking", name: "Tool Making", subType: subTypes.upgrade, require: { wood: 20, stone: 20 },
@@ -84,13 +84,13 @@ function getUpgradeData() {
             effectText: "Improve soldiers"
         }),
         new Upgrade({
-            id: "smelting", name: "Smelting", subType: subTypes.upgrade, prereqs: { metalwork: true, civSize: "smallVillage" }, require: { wood: 1000, stone: 500, ore: 100 },
+            id: "smelting", name: "Smelting", subType: subTypes.upgrade, prereqs: { metalwork: true, civSize: "smVillage" }, require: { wood: 1000, stone: 500, ore: 100 },
             effectText: "Unlock more buildings and upgrades"
         }),
 
         new Upgrade({
             id: "masonry", name: "Masonry", subType: subTypes.upgrade, prereqs: { quarrying: true }, require: { wood: 200, stone: 200 },
-            effectText: "Unlock more buildings and upgrades"
+            effectText: "Unlock more upgrades"
         }),
         new Upgrade({
             id: "buildings", name: "Buildings", subType: subTypes.upgrade,
@@ -123,19 +123,19 @@ function getUpgradeData() {
         }),
         // construction
         new Upgrade({
-            id: "construction", name: "Construction", subType: subTypes.upgrade, prereqs: { buildings: true, civSize: "smallVillage" }, require: { wood: 1000, stone: 1000 },
+            id: "construction", name: "Construction", subType: subTypes.upgrade, prereqs: { buildings: true, civSize: "smVillage" }, require: { wood: 1000, stone: 1000 },
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
-            id: "flensing", name: "Flensing", subType: subTypes.upgrade, prereqs: { butchering: true, construction: true, civSize: "smallVillage" }, require: { food: 1200, leather: 300 },
+            id: "flensing", name: "Flensing", subType: subTypes.upgrade, prereqs: { butchering: true, construction: true, civSize: "smVillage" }, require: { food: 1200, leather: 300 },
             effectText: "Collect skins more frequently"
         }),
         new Upgrade({
-            id: "reaping", name: "Reaping", subType: subTypes.upgrade, prereqs: { gardening: true, construction: true, civSize: "smallVillage" }, require: { wood: 1200, potions: 300 },
+            id: "reaping", name: "Reaping", subType: subTypes.upgrade, prereqs: { gardening: true, construction: true, civSize: "smVillage" }, require: { wood: 1200, potions: 300 },
             effectText: "Collect herbs more frequently"
         }),
         new Upgrade({
-            id: "macerating", name: "Macerating", subType: subTypes.upgrade, prereqs: { extraction: true, construction: true, civSize: "smallVillage" }, require: {  stone: 1200, metal: 300 },
+            id: "macerating", name: "Macerating", subType: subTypes.upgrade, prereqs: { extraction: true, construction: true, civSize: "smVillage" }, require: {  stone: 1200, metal: 300 },
             effectText: "Collect ore more frequently"
         }),
         //new Upgrade({
@@ -175,7 +175,7 @@ function getUpgradeData() {
         
         // engineering
         new Upgrade({
-            id: "engineering", name: "Engineering", subType: subTypes.upgrade, prereqs: { construction: true, civSize: "smallTown" }, require: { wood: 5000, stone: 5000 },
+            id: "engineering", name: "Engineering", subType: subTypes.upgrade, prereqs: { construction: true, civSize: "smTown" }, require: { wood: 5000, stone: 5000 },
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
@@ -205,7 +205,7 @@ function getUpgradeData() {
         }),
 
         new Upgrade({
-            id: "architecture", name: "Architecture", subType: subTypes.upgrade, prereqs: { engineering: true, civSize: "smallCity" }, require: { wood: 10000, stone: 10000 },
+            id: "architecture", name: "Architecture", subType: subTypes.upgrade, prereqs: { engineering: true, civSize: "smCity" }, require: { wood: 10000, stone: 10000 },
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
@@ -341,20 +341,20 @@ function getUpgradeData() {
             effectText: "Increase cleric piety generation. Increase piety limit"
         }),
         new Upgrade({
-            id: "polytheism", name: "Polytheism", subType: subTypes.upgrade, prereqs: { theism: true, civSize: "smallTown" }, require: { piety: 800 },
+            id: "polytheism", name: "Polytheism", subType: subTypes.upgrade, prereqs: { theism: true, civSize: "smTown" }, require: { piety: 800 },
             effectText: "Increase cleric piety generation. Increase piety limit"
         }),
         new Upgrade({
-            id: "monotheism", name: "Monotheism", subType: subTypes.upgrade, prereqs: { polytheism: true, civSize: "smallCity" }, require: { piety: 2000 },
+            id: "monotheism", name: "Monotheism", subType: subTypes.upgrade, prereqs: { polytheism: true, civSize: "smCity" }, require: { piety: 2000 },
             effectText: "Increase cleric piety generation. Increase piety limit"
         }),
         new Upgrade({
             id: "feudalism", name: "Feudalism", subType: subTypes.upgrade, prereqs: { polytheism: true }, require: { piety: 5000 },
-            effectText: "Further increase basic resources from clicking.  Increase labourer efficiency"
+            effectText: "Further increase basic resources from clicking. Increase labourer efficiency"
         }),
         new Upgrade({
             id: "serfs", name: "Serfs", subType: subTypes.upgrade, prereqs: { polytheism: true }, require: { piety: 5000 },
-            effectText: "Idle workers increase resources from clicking.  Increase labourer efficiency"
+            effectText: "Idle workers increase resources from clicking. Increase labourer efficiency"
         }),
         new Upgrade({
             id: "writing", name: "Writing", subType: subTypes.upgrade, prereqs: { polytheism: true }, require: { skins: 1000, piety: 2000 },
@@ -386,16 +386,16 @@ function getUpgradeData() {
         }),
         new Upgrade({
             id: "civilservice", name: "Civil Service", subType: subTypes.upgrade, prereqs: { codeoflaws: true }, require: { piety: 4000 },
-            effectText: "Increase basic resources from clicking.  Increase labourer efficiency. Unlock upgrades"
+            effectText: "Increase basic resources from clicking. Increase labourer efficiency. Unlock upgrades"
         }),
         new Upgrade({
             id: "guilds", name: "Guilds", subType: subTypes.upgrade, prereqs: { astronomy: true, mathematics: true, medicine: true }, require: { piety: 8000 },
-            effectText: "Increase special resources from clicking.  Increase labourer efficiency. Unlock upgrades"
+            effectText: "Increase special resources from clicking. Increase labourer efficiency. Unlock upgrades"
         }),
         
         new Upgrade({
-            id: "nationalism", name: "Nationalism", subType: subTypes.upgrade, prereqs: { civilservice: true, civSize: "smallNation" }, require: { piety: 30000 },
-            effectText: "Soldiers increase basic resources from clicking.  Increase labourer efficiency"
+            id: "nationalism", name: "Nationalism", subType: subTypes.upgrade, prereqs: { civilservice: true, civSize: "smNation" }, require: { piety: 30000 },
+            effectText: "Soldiers increase basic resources from clicking. Increase labourer efficiency"
         }),
         // deity
         new Upgrade({
