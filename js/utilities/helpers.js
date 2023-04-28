@@ -190,6 +190,7 @@ function doPurchase(objId, num) {
     let purchaseObj = civData[objId];
     if (!purchaseObj) {
         console.warn("Unknown purchase: " + objId);
+        console.trace();
         sysLog("Unknown purchase: " + objId);
         return 0;
     }
@@ -376,6 +377,7 @@ function adjustMorale(delta) {
     //Changes and updates morale given a delta value
     if (delta > 1000) {
         console.warn("Cannot adjust morale by so much", delta);
+        console.trace();
         return;
     }
     if (delta === 1 || delta === -1) {
@@ -471,7 +473,12 @@ function checkResourceLimits() {
         if (resource.owned > resource.limit) {
             let excess = resource.owned - resource.limit;
             excess = Math.ceil(Math.random() * 0.25 * excess);
-            resource.owned -= excess;
+            if (resource.owned - excess < resource.limit) {
+                resource.owned = resource.limit;
+            }
+            else {
+                resource.owned -= excess;
+            }
             resource.net -= excess;
         }
         if (resource.owned < 0) {
@@ -550,6 +557,7 @@ function calculatePopulation() {
             population.current = 0;
         } else {
             console.warn("helpers.calculatePopulation() Warning: Negative current population detected.");
+            console.trace();
             sysLog("Warning: Negative current population detected in calculatePopulation().");
         }
     }
@@ -651,9 +659,9 @@ function doStarve() {
         //Only 1.0% deaths no matter how big the shortage? a larger number will reduce the population quicker
         numberStarve = starve(Math.ceil(Math.random() * population.living / 100));
         if (numberStarve == 1) {
-            gameLog("citizen starved to death");
+            gameLog("A citizen starved to death");
         } else if (numberStarve > 1) {
-            gameLog("citizens starved to death");
+            gameLog("Many citizens starved to death");
         }
         civData.food.owned = 0;
     }
@@ -668,9 +676,10 @@ function doHomeless() {
         let numDie = starve(Math.ceil(Math.random() * numHomeless / 5));
         if (numDie > 0) {
             let who = numDie == 1 ? "homeless citizen" : "homeless citizens";
-            let where = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
-            let what = Math.random() < 0.99 ? " died of exposure" : " migrated " + where[Math.floor(Math.random() * where.length)];
-            gameLog(who + what);
+            // 66g we'll do this when migration implemented
+            //let where = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"];
+            //let what = Math.random() < 0.99 ? " died of exposure" : " migrated " + where[Math.floor(Math.random() * where.length)];
+            gameLog(who + " died of exposure");
         }
     }
 }
