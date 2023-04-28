@@ -111,15 +111,15 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.barracks, name: "barracks", prereqs: { buildings: true, civSize: "smallVillage" }, require: { food: 20, wood: 60, stone: 120, metal: 10 },
+            id: buildingType.barracks, name: "barracks", prereqs: { buildings: true, civSize: "smVillage" }, require: { food: 20, wood: 60, stone: 120, metal: 10 },
             effectText: "allows 10 soldiers"
         }),
         new Building({
-            id: buildingType.stable, singular: "stable", plural: "stables", prereqs: { buildings: true, horseback: true, civSize: "smallVillage" }, require: { food: 60, wood: 60, stone: 120, leather: 10 },
+            id: buildingType.stable, singular: "stable", plural: "stables", prereqs: { buildings: true, horseback: true, civSize: "smVillage" }, require: { food: 60, wood: 60, stone: 120, leather: 10 },
             effectText: "allows 10 cavalry"
         }),
         new Building({
-            id: buildingType.tannery, singular: "tannery", plural: "tanneries", prereqs: { buildings: true, civSize: "smallVillage" }, require: { wood: 30, stone: 70, skins: 5 },
+            id: buildingType.tannery, singular: "tannery", plural: "tanneries", prereqs: { buildings: true, civSize: "smVillage" }, require: { wood: 30, stone: 70, skins: 5 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 tanner; +" + bonus + " leather storage";
@@ -128,7 +128,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.smithy, singular: "smithy", plural: "smithies", prereqs: { buildings: true, civSize: "smallVillage"  }, require: { wood: 30, stone: 70, ore: 5 },
+            id: buildingType.smithy, singular: "smithy", plural: "smithies", prereqs: { buildings: true, civSize: "smVillage"  }, require: { wood: 30, stone: 70, ore: 5 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 blacksmith; +" + bonus + " metal storage";
@@ -137,7 +137,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.limeKiln, singular: "lime kiln", plural: "lime kilns", prereqs: { buildings: true, civSize: "smallVillage"  }, require: { wood: 100, stone: 100 },
+            id: buildingType.limeKiln, singular: "lime kiln", plural: "lime kilns", prereqs: { buildings: true, civSize: "smVillage"  }, require: { wood: 100, stone: 100 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 lime burner; +" + bonus + " lime storage";
@@ -146,7 +146,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.charKiln, singular: "charcoal kiln", plural: "charcoal kilns", prereqs: { buildings: true, civSize: "smallVillage"  }, require: { wood: 50, stone: 100 },
+            id: buildingType.charKiln, singular: "charcoal kiln", plural: "charcoal kilns", prereqs: { buildings: true, civSize: "smVillage"  }, require: { wood: 50, stone: 100 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 charcoal burner; +" + bonus + " charcoal storage";
@@ -155,7 +155,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.ironWorks, singular: "iron works", plural: "iron works", prereqs: { ironAlloy: true }, require: { wood: 80, stone: 140, ore: 5 },
+            id: buildingType.ironWorks, singular: "iron works", plural: "iron works", prereqs: { ironAlloy: true, civSize: "smVillage" }, require: { wood: 80, stone: 140, ore: 5 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 ironsmith; +" + bonus + " iron storage";
@@ -164,7 +164,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.coppWorks, singular: "copper works", plural: "copper works", prereqs: { coppAlloy: true }, require: { wood: 120, stone: 180, ore: 10 },
+            id: buildingType.coppWorks, singular: "copper works", plural: "copper works", prereqs: { coppAlloy: true, civSize: "smVillage" }, require: { wood: 120, stone: 180, ore: 10 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 coppersmith; +" + bonus + " copper storage";
@@ -173,7 +173,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.leadWorks, singular: "lead works", plural: "lead works", prereqs: { leadAlloy: true }, require: { wood: 150, stone: 200, ore: 15 },
+            id: buildingType.leadWorks, singular: "lead works", plural: "lead works", prereqs: { leadAlloy: true, civSize: "smVillage" }, require: { wood: 150, stone: 200, ore: 15 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 leadsmith; +" + bonus + " lead storage";
@@ -182,7 +182,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.tinWorks, singular: "tin works", plural: "tin works", prereqs: { tinAlloy: true }, require: { wood: 200, stone: 300, ore: 20 },
+            id: buildingType.tinWorks, singular: "tin works", plural: "tin works", prereqs: { tinAlloy: true, civSize: "smVillage" }, require: { wood: 200, stone: 300, ore: 20 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 tinsmith; +" + bonus + " tin storage";
@@ -191,7 +191,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.silvWorks, singular: "silver works", plural: "silver works", prereqs: { silvAlloy: true }, require: { wood: 500, stone: 800, ore: 50 },
+            id: buildingType.silvWorks, singular: "silver works", plural: "silver works", prereqs: { silvAlloy: true, civSize: "smVillage" }, require: { wood: 500, stone: 800, ore: 50 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 silversmith; +" + bonus + " silver storage";
@@ -200,7 +200,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.mercWorks, singular: "mercury works", plural: "mercury works", prereqs: { mercAlloy: true }, require: { wood: 1000, stone: 1500, ore: 100 },
+            id: buildingType.mercWorks, singular: "mercury works", plural: "mercury works", prereqs: { mercAlloy: true, civSize: "smVillage" }, require: { wood: 1000, stone: 1500, ore: 100 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 mercurysmith; +" + bonus + " mercury storage";
@@ -209,7 +209,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.goldWorks, singular: "gold works", plural: "gold works", prereqs: { goldAlloy: true }, require: { wood: 2000, stone: 3000, ore: 500 },
+            id: buildingType.goldWorks, singular: "gold works", plural: "gold works", prereqs: { goldAlloy: true, civSize: "smVillage" }, require: { wood: 2000, stone: 3000, ore: 500 },
             get effectText() {
                 let bonus = getStoreroomBonus();
                 return "allows 1 goldsmith; +" + bonus + " gold storage";
