@@ -74,20 +74,20 @@ function getUnitData() {
             effectText: "Convert ore to metal"
         }),
         new Unit({
-            id: unitType.limeBurner, singular: "lime burner", plural: "lime burners", source: unitType.unemployed,
-            efficiency: 0.5, defence: 0.04, 
-            prereqs: { limeKiln: 1 }, require: { wood: 2, stone: 2 },
-            get limit() { return civData.limeKiln.owned; },
-            set limit(value) { return this.limit; }, 
-            effectText: "Use wood and stone to make lime"
-        }),
-        new Unit({
             id: unitType.charBurner, singular: "charcoal burner", plural: "charcoal burners", source: unitType.unemployed,
             efficiency: 0.5, defence: 0.04, 
             prereqs: { charKiln: 1 }, require: { wood: 2 },
             get limit() { return civData.charKiln.owned; },
             set limit(value) { return this.limit; }, 
             effectText: "Use wood to make charcoal"
+        }),
+        new Unit({
+            id: unitType.limeBurner, singular: "lime burner", plural: "lime burners", source: unitType.unemployed,
+            efficiency: 0.5, defence: 0.04, 
+            prereqs: { limeKiln: 1 }, require: { wood: 2, stone: 2 },
+            get limit() { return civData.limeKiln.owned; },
+            set limit(value) { return this.limit; }, 
+            effectText: "Use wood and stone to make lime"
         }),
         new Unit({
             id: unitType.ironsmith, singular: "ironsmith", plural: "ironsmiths", source: unitType.unemployed,
