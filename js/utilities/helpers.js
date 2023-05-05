@@ -754,14 +754,37 @@ function increment(objId) {
 }
 
 function getStoreroomBonus() {
-    return (civData.storerooms.owned ? 2 : 1) * 50;
+    let b = (civData.storerooms.owned ? 2 : 1) * 50;
+    let b2 = (civData.storerooms2.owned ? 1 : 0) * 75;
+    let b3 = (civData.storerooms3.owned ? 1 : 0) * 100;
+    return b + b2 + b3;
 }
 function getStorehouseBonus() {
-    return (civData.storehouses.owned ? 2 : 1) * 100;
+    let b = (civData.storehouses.owned ? 2 : 1) * 100;
+    let b2 = (civData.storehouses2.owned ? 1 : 0) * 150;
+    let b3 = (civData.storehouses3.owned ? 1 : 0) * 200;
+    return b + b2 + b3;
 }
 function getWarehouseBonus() {
-    return (civData.warehouses.owned ? 2 : 1) * 200;
+    let b = (civData.warehouses.owned ? 2 : 1) * 200;
+    let b2 = (civData.warehouses2.owned ? 1 : 0) * 300;
+    let b3 = (civData.warehouses3.owned ? 1 : 0) * 400;
+    return b + b2 + b3;
 }
+function getGranaryBonus() {
+    let b = (civData.granaries.owned ? 2 : 1) * 200;
+    let b2 = (civData.granaries2.owned ? 1 : 0) * 300;
+    let b3 = (civData.granaries3.owned ? 1 : 0) * 400;
+    return b + b2 + b3;
+}
+/*
+function getPietyLimitBonus() {
+    let bonus1 = (civData.theism.owned ? 1 : 0) * 25;
+    let bonus2 = (civData.polytheism.owned ? 1 : 0) * 50;
+    let bonus3 = (civData.monotheism.owned ? 1 : 0) * 100;
+    return bonus1 + bonus2 + bonus3;
+}
+*/
 // 66g todo variable bonus depending on resource
 //function getStoreroomBonus(base) {
 //    if (!isValid(base) || base <= 0) {
@@ -787,5 +810,5 @@ export {
     getRandomHealthyWorker, getRandomWorker, getRandomSackableBuilding, getRandomLootableResource, getRandomTradeableResource, adjustMorale, healByJob, getTotalByJob,
     spreadPlague, getNextPatient, getRandomPatient, clearSpecialResourceNets, checkResourceLimits, calculatePopulation, pickStarveTarget,
     getPietyLimitBonus, getPietyEarnedBonus, spawn, starve, doStarve, doHomeless, killUnit, digGraves, increment,
-    getStoreroomBonus, getStorehouseBonus, getWarehouseBonus
+    getStoreroomBonus, getStorehouseBonus, getWarehouseBonus, getGranaryBonus
 };
