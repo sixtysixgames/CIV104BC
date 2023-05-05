@@ -1,4 +1,4 @@
-
+"use strict";
 import {
     Achievement, CivObj, civObjType, civSizes, prettify, indexArrayByAttr, placeType, subTypes, setInitTradePrice,
     population, resourceData, lootable, basicResources, buildingData, sackable, invadeable, homeBuildings, powerData, upgradeData, normalUpgrades,
@@ -97,13 +97,16 @@ function setIndexArrays(civData) {
                 // add to start so that dwellings get sacked last.  see getRandomSackableBuilding
                 sackable.unshift(elem);
             }
-            if (elem.subType == subTypes.normal || elem.subType == subTypes.land) { homeBuildings.push(elem); }
+            //if (elem.subType == subTypes.normal || elem.subType == subTypes.land) { homeBuildings.push(elem);}
+            if (elem.subType !== subTypes.altar) {
+                homeBuildings.push(elem);
+            }
         }
         if (elem.subType == subTypes.prayer) {
             powerData.push(elem);
         } else if (elem.type == civObjType.upgrade) {
             upgradeData.push(elem);
-            if (elem.subType == subTypes.upgrade) {
+            if (elem.subType == subTypes.normal) {
                 //console.log("normalUpgrades.push: " + elem.id);
                 normalUpgrades.push(elem);
             }
