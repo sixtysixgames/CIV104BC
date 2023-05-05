@@ -92,7 +92,8 @@ function invade(ecivtype) {
     civData.esoldier.efficiency = civData.esoldier.efficiency_base + civSizes[ecivtype].efficiency;
 
     // 66g todo: should we should take into account size of raiding party, also number of lootable buildings = approx 0.1 of population
-    let baseLoot = Math.min(civData.soldierParty.owned + civData.cavalryParty.owned, curCiv.raid.epop / 10);
+    //let baseLoot = Math.min(civData.soldierParty.owned + civData.cavalryParty.owned, curCiv.raid.epop / 10);
+    let baseLoot = Math.min(civData.soldierParty.owned + civData.cavalryParty.owned, curCiv.raid.epop - minpop);
     // Glory redoubles rewards
     baseLoot = baseLoot * (1 + (civData.glory.timer <= 0 ? 0 : 1));
 
@@ -300,8 +301,8 @@ function doWolves(attacker) {
 function doBandits(attacker) {
     // bandits mainly loot
     let r = Math.random();
-    if (r < 0.05) { doSlaughter(attacker); }
-    else if (r < 0.15) { doSack(attacker); }
+    if (r < 0.01) { doSlaughter(attacker); }
+    else if (r < 0.02) { doSack(attacker); }
     else { doLoot(attacker); }
 }
 function doBarbarians(attacker) {
@@ -812,11 +813,11 @@ function doMobs() {
         // is this the wrong way around?
         let rnum = totalStuff * Math.random();
         let rnum2 = (totalStuff * Math.random()) / civSizes.thorp.min_pop;
-        console.log("rnum=" + rnum + " rnum2=" + rnum2);
+        //console.log("rnum=" + rnum + " rnum2=" + rnum2);
 
         rnum = Math.random();
         rnum2 = Math.random() * population.limit;
-        console.log("rnum=" + rnum + " rnum2=" + rnum2);
+        //console.log("rnum=" + rnum + " rnum2=" + rnum2);
 
         // check if attack takes place
         if (rnum < rnum2) {
