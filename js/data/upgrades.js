@@ -220,7 +220,7 @@ function getUpgradeData() {
             onGain: function () { updatePopulation(); }
         }),
         new Upgrade({
-            id: "palisade", name: "Palisades", prereqs: { engineering: true, rampart: true }, require: { wood: 2500, stone: 1000 },
+            id: "palisade", name: "Palisades", prereqs: { engineering: true, rampart: true }, require: { wood: 10000, stone: 10000 },
             efficiency: 0.01, // see rampart
             effectText: "Enemies do less damage"
         }),
@@ -242,23 +242,23 @@ function getUpgradeData() {
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
-            id: "battlement", name: "Battlements", prereqs: { architecture: true, palisade: true }, require: { wood: 2500, stone: 5000 },
+            id: "battlement", name: "Battlements", prereqs: { architecture: true, palisade: true }, require: { wood: 25000, stone: 50000 },
             efficiency: 0.02, // see rampart
             effectText: "Enemies do less damage"
         }),
         new Upgrade({
             id: "advweaponry", name: "Advanced Weaponry", prereqs: { stdweaponry: true, architecture: true },
-            require: { metal: 5000, iron: 2500, copper: 250, tin: 25 },
+            require: { metal: 10000, iron: 5000, copper: 500, tin: 50 },
             effectText: "Improve soldiers"
         }),
         new Upgrade({
             id: "advshields", name: "Advanced Shields", prereqs: { stdshields: true, architecture: true },
-            require: { wood: 10000, iron: 1000, copper: 250, tin: 25 },
+            require: { wood: 20000, iron: 2000, copper: 500, tin: 50 },
             effectText: "Improve soldiers"
         }),
         new Upgrade({
             id: "advarmour", name: "Advanced Armour", prereqs: { stdarmour: true, architecture: true },
-            require: { leather: 5000, iron: 2500, copper: 500, tin: 50 },
+            require: { leather: 10000, iron: 5000, copper: 1000, tin: 100 },
             effectText: "Improve soldiers"
         }),
 
