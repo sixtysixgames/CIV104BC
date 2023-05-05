@@ -1,6 +1,6 @@
 ﻿
 import {
-    Building, buildingType, subTypes, civData, updateNote, getWarehouseBonus, getStorehouseBonus, getStoreroomBonus, getPietyLimitBonus, adjustMorale,
+    Building, buildingType, subTypes, civData, updateNote, getGranaryBonus, getWarehouseBonus, getStorehouseBonus, getStoreroomBonus, getPietyLimitBonus, adjustMorale,
     population, digGraves, deityDomains
 } from "../index.js";
 // lines 293 => 200 .  size 12509 => 11313
@@ -17,7 +17,8 @@ function getBuildingData() {
         }),
         new Building({
             id: buildingType.tent, singular: "tent", plural: "tents", require: { wood: 2, skins: 2 },
-            effectText: "+1 citizen", limit: 1
+            limit: 1,
+            effectText: "+1 citizen"
         }),
         new Building({
             id: buildingType.hut, singular: "wooden hut", plural: "wooden huts",
@@ -27,40 +28,41 @@ function getBuildingData() {
         new Building({
             id: buildingType.cottage, singular: "cottage", plural: "cottages",
             prereqs: { buildings: true }, require: { wood: 10, stone: 30 },
-            effectText: "+6 citizens", limit: 6
+            effectText: "+7 citizens", limit: 7
         }),
         new Building({
             id: buildingType.house, singular: "house", plural: "houses", prereqs: { construction: true }, require: { wood: 30, stone: 50, lime: 10 },
-            effectText: "+10 citizens", limit: 10 
+            effectText: "+15 citizens", limit: 15 
         }),
         new Building({
             id: buildingType.tenement, singular: "tenement", plural: "tenements",
-            prereqs: { construction: true }, require: { wood: 200, stone: 500, leather: 50, metal: 50, lime: 50 },
+            prereqs: { construction: true, civSize: "lgVillage" }, require: { wood: 200, stone: 500, leather: 50, metal: 50, lime: 50 },
             get effectText() {
                 let maxPop = this.limit;
                 return "+" + maxPop + " citizens";
             },
             set effectText(value) { return this.require; }, // Only here for JSLint.
-            get limit() { return 20 + (4 * civData.slums.owned); },
+            get limit() { return 30 + (4 * civData.slums.owned); },
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
             id: buildingType.mansion, singular: "mansion", plural: "mansions",
             prereqs: { engineering: true }, require: { wood: 500, stone: 2000, lime: 500, iron: 25, copper: 10, lead: 5 },
-            effectText: "+50 citizens", limit: 50
+            effectText: "+75 citizens", limit: 75
         }),
         new Building({
             id: buildingType.palace, singular: "palace", plural: "palaces",
             prereqs: { architecture: true }, require: { wood: 2000, stone: 5000, lime: 1500, iron: 100, copper: 50, lead: 25 },
-            effectText: "+150 citizens", limit: 150
+            effectText: "+200 citizens", limit: 200
         }),
         new Building({
-            id: buildingType.barn, singular: "barn", plural: "barns",
-            prereqs: { domestication: true }, require: { wood: 100, stone: 10 },
+            id: buildingType.barn, singular: "barn", plural: "barns", prereqs: { domestication: true }, require: { wood: 100, stone: 10 },
             get effectText() {
-                let fbonus = ((civData.granaries.owned ? 2 : 1) * 200);
-                let sbonus = ((civData.storehouses.owned ? 2 : 1) * 100);
-                return "+" + fbonus + " food storage; +" + sbonus + " skin storage";
+                //let fbonus = ((civData.granaries.owned ? 2 : 1) * 200);
+                let fbonus = getGranaryBonus();
+                //let sbonus = ((civData.storehouses.owned ? 2 : 1) * 100);
+                //return "+" + fbonus + " food storage; +" + sbonus + " skin storage";
+                return "+" + fbonus + " food storage";
             },
             set effectText(value) { return this.effectText; },
             update: function () { updateNote(this.id, this.effectText); }
@@ -69,8 +71,9 @@ function getBuildingData() {
             id: buildingType.woodstock, singular: "wood stockpile", plural: "wood stockpiles", prereqs: { felling: true }, require: { wood: 100, stone: 10 },
             get effectText() {
                 let wbonus = getWarehouseBonus();
-                let hbonus = getStorehouseBonus();
-                return "+" + wbonus + " wood storage; +" + hbonus + " herb storage";
+                //let hbonus = getStorehouseBonus();
+                //return "+" + wbonus + " wood storage; +" + hbonus + " herb storage";
+                return "+" + wbonus + " wood storage";
             },
             set effectText(value) { return this.effectText; },
             update: function () { updateNote(this.id, this.effectText); }
@@ -79,8 +82,35 @@ function getBuildingData() {
             id: buildingType.stonestock, singular: "stone stockpile", plural: "stone stockpiles", prereqs: { quarrying: true }, require: { wood: 100, stone: 10 },
             get effectText() {
                 let sbonus = getWarehouseBonus();
+                //let obonus = getStorehouseBonus();
+                return "+" + sbonus + " stone storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
+            id: buildingType.skinShed, singular: "skins shed", plural: "skins sheds", prereqs: { domestication: true }, require: { wood: 50, stone: 5 },
+            get effectText() {
+                let sbonus = getStorehouseBonus();
+                return "+" + sbonus + " skin storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
+            id: buildingType.herbShed, singular: "herbs shed", plural: "herbs sheds", prereqs: { felling: true }, require: { wood: 50, stone: 5 },
+            get effectText() {
+                let hbonus = getStorehouseBonus();
+                return "+" + hbonus + " herb storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
+            id: buildingType.oreShed, singular: "ore shed", plural: "ore sheds", prereqs: { quarrying: true }, require: { wood: 50, stone: 5 },
+            get effectText() {
                 let obonus = getStorehouseBonus();
-                return "+" + sbonus + " stone storage; +" + obonus + " ore storage";
+                return "+" + obonus + " ore storage";
             },
             set effectText(value) { return this.effectText; },
             update: function () { updateNote(this.id, this.effectText); }
@@ -137,19 +167,19 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.limeKiln, singular: "lime kiln", plural: "lime kilns", prereqs: { buildings: true, civSize: "smVillage"  }, require: { wood: 100, stone: 100 },
+            id: buildingType.charKiln, singular: "charcoal kiln", plural: "charcoal kilns", prereqs: { buildings: true, civSize: "smVillage"  }, require: { wood: 50, stone: 100 },
             get effectText() {
                 let bonus = getStoreroomBonus();
-                return "allows 1 lime burner; +" + bonus + " lime storage";
+                return "allows 1 charcoal burner; +" + bonus + " charcoal storage";
             },
             set effectText(value) { return this.effectText; },
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.charKiln, singular: "charcoal kiln", plural: "charcoal kilns", prereqs: { buildings: true, civSize: "smVillage"  }, require: { wood: 50, stone: 100 },
+            id: buildingType.limeKiln, singular: "lime kiln", plural: "lime kilns", prereqs: { buildings: true, civSize: "smVillage"  }, require: { wood: 100, stone: 100 },
             get effectText() {
                 let bonus = getStoreroomBonus();
-                return "allows 1 charcoal burner; +" + bonus + " charcoal storage";
+                return "allows 1 lime burner; +" + bonus + " lime storage";
             },
             set effectText(value) { return this.effectText; },
             update: function () { updateNote(this.id, this.effectText); }
