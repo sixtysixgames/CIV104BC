@@ -112,7 +112,11 @@ function getPurchaseRowText(purchaseObj) {
     let flag = "";
     if (purchaseObj.alignment == alignmentType.enemy) {flag = " enemy";}
     else if (purchaseObj.id == unitType.totalSick ) {flag = " sick";}
-    s += "<td class='itemname" + flag + "'>" + purchaseObj.getQtyName(0) + ": </td>";
+    s += "<td class='itemname" + flag + "'>";
+    if (objId == "graveyard" || objId == "barracks" || objId == "barn" || objId == "apothecary" || objId == "temple") {
+        s += "<img src=\"images/"+objId+".png\" class=\"icon icon-sm\" alt=\""+purchaseObj.getQtyName(0)+"\">&nbsp;";
+    }
+    s += purchaseObj.getQtyName(0) + ": </td>";
 
     let action = (isValid(population[objId])) ? "display_pop" : "display"; //xxx Hack
     s += "<td class='number'><span data-action='" + action + "'>0</span></td>";
@@ -201,7 +205,7 @@ function setPantheonUpgradeRowText(upgradeObj) {
 function addUpgradeRows() {
     // Fill in any pre-existing stubs.
     upgradeData.forEach(function (elem) {
-        if (elem.subType == subTypes.upgrade) { return; } // Did these in getUpgradeRowText.
+        if (elem.subType == subTypes.normal) { return; } // Did these in getUpgradeRowText.
         if (elem.subType == subTypes.pantheon) {
             setPantheonUpgradeRowText(elem);
             let stubElem = document.getElementById(elem.id);
@@ -264,7 +268,7 @@ function getPrayerFunction(id) {
         case "walk":
             elem = document.getElementById("ceaseWalk");
             elem.onmousedown = function (e) { walk(false); };
-            return function (e) { walk(1); }
+            return function (e) { walk(1); };
         case "smite":
             return function (e) { smite(); };
         case "glory":
@@ -289,9 +293,9 @@ function getBuyButton(elem) {
     traceLog("Getting buy button: " + elem.id);
     let s = "";
     let name = sentenceCase(elem.id);
-    let buttId = "buy" + name ;
+    let buttId = "buy" + name;
     let spanId = elem.id + "Cost";
-    s = `<button id="${buttId}" class="tradeResource">Buy <span id="${spanId}">${elem.tradeAmount}</span> ${name}</button><br />`
+    s = `<button id="${buttId}" class="tradeResource">Buy <span id="${spanId}">${elem.tradeAmount}</span> ${name}</button><br />`;
     return s;
 }
 
