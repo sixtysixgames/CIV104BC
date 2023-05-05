@@ -95,10 +95,10 @@ function getPurchaseRowText(purchaseObj) {
     if (!purchaseObj) { return "<tr class='purchaseRow'><td colspan='17'/>&nbsp;</tr>"; }
     let showSellButtons = true;
 
-    if (purchaseObj.type === civObjType.building) {
-        // we don't sell buildings, yet
-        showSellButtons = false;
-    }
+    //if (purchaseObj.type === civObjType.building) {
+    // we don't sell buildings, yet
+    //showSellButtons = false;
+    //}
     let objId = purchaseObj.id;
     let s = "<tr id='" + objId + "Row' class='purchaseRow' data-target='" + purchaseObj.id + "'>";
 
@@ -110,11 +110,11 @@ function getPurchaseRowText(purchaseObj) {
     }
 
     let flag = "";
-    if (purchaseObj.alignment == alignmentType.enemy) {flag = " enemy";}
-    else if (purchaseObj.id == unitType.totalSick ) {flag = " sick";}
+    if (purchaseObj.alignment == alignmentType.enemy) { flag = " enemy"; }
+    else if (purchaseObj.id == unitType.totalSick) { flag = " sick"; }
     s += "<td class='itemname" + flag + "'>";
     if (objId == "graveyard" || objId == "barracks" || objId == "barn" || objId == "apothecary" || objId == "temple") {
-        s += "<img src=\"images/"+objId+".png\" class=\"icon icon-sm\" alt=\""+purchaseObj.getQtyName(0)+"\">&nbsp;";
+        s += "<img src=\"images/" + objId + ".png\" class=\"icon icon-sm\" alt=\"" + purchaseObj.getQtyName(0) + "\">&nbsp;";
     }
     s += purchaseObj.getQtyName(0) + ": </td>";
 
@@ -122,7 +122,8 @@ function getPurchaseRowText(purchaseObj) {
     s += "<td class='number'><span data-action='" + action + "'>0</span></td>";
 
     // Don't allow Infinite (max) purchase on things we can't sell back. 
-    [1, 10, 100, 1000, 10000, 100000, "custom", (purchaseObj.salable) ? Infinity : 0]
+    //[1, 10, 100, 1000, 10000, 100000, "custom", (purchaseObj.salable) ? Infinity : 0]
+    [1, 10, 100, 1000, 10000, 100000, "custom", Infinity]
         .forEach(function (elem) { s += getPurchaseCellText(purchaseObj, elem); });
 
     s += "<td>" + getCostNote(purchaseObj) + "</td>";
@@ -134,8 +135,6 @@ function getPurchaseRowText(purchaseObj) {
 function addUITable(civObjs, groupElemName) {
     let s = "";
     civObjs.forEach(function (elem) {
-        //console.log("addUITable=" + elem.id);
-
         s += elem.type == civObjType.resource ? getResourceRowText(elem)
             : elem.type == civObjType.upgrade ? getUpgradeRowText(elem)
                 : getPurchaseRowText(elem);
@@ -181,7 +180,7 @@ function getPantheonUpgradeRowText(upgradeObj) {
     //xxx The 'fooRow' id is added to make altars work, but should be redesigned.
     s += "<td class='" + upgradeObj.type + "true'><button id='" + upgradeObj.id + "' class='xtrue'";
     s += " data-action='purchase' data-quantity='true' data-target=" + upgradeObj.id;
-    s += " disabled='disabled' "; 
+    s += " disabled='disabled' ";
     // The event handler can take three forms, depending on whether this is an altar, a prayer, or a pantheon upgrade.
     s += ">" + upgradeObj.getQtyName() + "</button>";
     s += (isValid(upgradeObj.extraText) ? upgradeObj.extraText : "") + "</td>";
@@ -301,4 +300,5 @@ function getBuyButton(elem) {
 
 export {
     createUIComponents, UIComponents, getResourceRowText, getPurchaseCellText, getPurchaseRowText, addUITable, getUpgradeRowText, getPantheonUpgradeRowText,
-setPantheonUpgradeRowText, addUpgradeRows, getBuyButton };
+    setPantheonUpgradeRowText, addUpgradeRows, getBuyButton
+};
