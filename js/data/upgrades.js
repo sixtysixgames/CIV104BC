@@ -21,11 +21,11 @@ function getUpgradeData() {
         }),
         new Upgrade({
             id: "croprotation", name: "Crop Rotation", subType: subTypes.upgrade, prereqs: { agriculture: true }, require: { skins: 5000, herbs: 5000 },
-            effectText: "Increase farmer food output"
+            effectText: "Increase farmer food output and herb production"
         }),
         new Upgrade({
             id: "selectivebreeding", name: "Selective Breeding", subType: subTypes.upgrade, prereqs: { agriculture: true }, require: { herbs: 5000, ore: 5000 },
-            effectText: "Increase farmer food output"
+            effectText: "Increase farmer food output and skin production"
         }),
         new Upgrade({
             id: "fertilisers", name: "Fertilisers", subType: subTypes.upgrade, prereqs: { agriculture: true }, require: { skins: 5000, ore: 5000 },
@@ -68,7 +68,7 @@ function getUpgradeData() {
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
-            id: "ploughshares", name: "Ploughshares", subType: subTypes.upgrade, prereqs: { farming: true, metalwork: true }, require: { wood: 400, metal: 200 },
+            id: "ploughshares", name: "Ploughshares", subType: subTypes.upgrade, prereqs: { farming: true, metalwork: true, civSize: "smVillage" }, require: { wood: 400, metal: 200 },
             effectText: "Increase farmer food output"
         }),
         new Upgrade({
@@ -98,19 +98,19 @@ function getUpgradeData() {
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
-            id: "coppicing", name: "Coppicing", subType: subTypes.upgrade, prereqs: { felling: true, buildings: true }, require: { wood: 1000, charcoal: 500 },
+            id: "coppicing", name: "Coppicing", subType: subTypes.upgrade, prereqs: { felling: true, buildings: true, civSize: "smVillage" }, require: { wood: 1000, charcoal: 500 },
             effectText: "Increase wood and charcoal production"
         }),
         new Upgrade({
-            id: "butchering", name: "Butchering", subType: subTypes.upgrade, prereqs: { skinning: true, buildings: true }, require: { leather: 40 },
+            id: "butchering", name: "Butchering", subType: subTypes.upgrade, prereqs: { skinning: true, buildings: true, civSize: "smVillage" }, require: { leather: 40 },
             effectText: "Farmers collect more skins"
         }),
         new Upgrade({
-            id: "gardening", name: "Gardening", subType: subTypes.upgrade, prereqs: { harvesting: true, buildings: true }, require: { potions: 40 },
+            id: "gardening", name: "Gardening", subType: subTypes.upgrade, prereqs: { harvesting: true, buildings: true, civSize: "smVillage" }, require: { potions: 40 },
             effectText: "Woodcutters collect more herbs"
         }),
         new Upgrade({
-            id: "extraction", name: "Extraction", subType: subTypes.upgrade, prereqs: { prospecting: true, buildings: true }, require: { metal: 40 },
+            id: "extraction", name: "Extraction", subType: subTypes.upgrade, prereqs: { prospecting: true, buildings: true, civSize: "smVillage" }, require: { metal: 40 },
             effectText: "Miners collect more ore"
         }),
         new Upgrade({
@@ -152,9 +152,20 @@ function getUpgradeData() {
             id: "limestone", name: "Limestone", subType: subTypes.upgrade, prereqs: { construction: true }, require: { wood: 1000, stone: 1000 },
             effectText: "Increase lime production"
         }),
+        // storage
         new Upgrade({
             id: "granaries", name: "Granaries", subType: subTypes.upgrade, prereqs: { construction: true }, require: { wood: 1200, stone: 1200 },
             effectText: "Barns store double the amount of food",
+            onGain: function () { updateResourceTotals(); }
+        }),
+        new Upgrade({
+            id: "granaries2", name: "Huge Granaries", subType: subTypes.upgrade, prereqs: { granaries: true, engineering: true }, require: { wood: 12000, stone: 12000 },
+            effectText: "Increase barns storage of food",
+            onGain: function () { updateResourceTotals(); }
+        }),
+        new Upgrade({
+            id: "granaries3", name: "Vast Granaries", subType: subTypes.upgrade, prereqs: { granaries2: true, architecture: true }, require: { wood: 120000, stone: 120000 },
+            effectText: "Increase barns storage of food",
             onGain: function () { updateResourceTotals(); }
         }),
         new Upgrade({
@@ -163,16 +174,45 @@ function getUpgradeData() {
             onGain: function () { updateResourceTotals(); }
         }),
         new Upgrade({
-            id: "storehouses", name: "Storehouses", subType: subTypes.upgrade, prereqs: { construction: true }, require: { skins: 600, herbs: 600, ore: 600 },
+            id: "warehouses2", name: "Huge Warehouses", subType: subTypes.upgrade, prereqs: { warehouses: true, engineering: true }, require: { wood: 12000, stone: 12000 },
+            effectText: "Increase stockpiles storage amount",
+            onGain: function () { updateResourceTotals(); }
+        }),
+        new Upgrade({
+            id: "warehouses3", name: "Vast Warehouses", subType: subTypes.upgrade, prereqs: { warehouses2: true, architecture: true }, require: { wood: 120000, stone: 120000 },
+            effectText: "Increase stockpiles storage amount",
+            onGain: function () { updateResourceTotals(); }
+        }),
+        new Upgrade({
+            id: "storehouses", name: "Storehouses", subType: subTypes.upgrade, prereqs: { construction: true }, require: { wood: 1000, stone: 1000 },
             effectText: "Store double the amount of found resources (skins, herbs, ore etc)",
             onGain: function () { updateResourceTotals(); }
         }),
         new Upgrade({
-            id: "storerooms", name: "Storerooms", subType: subTypes.upgrade, prereqs: { construction: true }, require: { leather: 300, potions: 300, metal: 300 },
+            id: "storehouses2", name: "Huge Storehouses", subType: subTypes.upgrade, prereqs: { storehouses: true, engineering: true }, require: { wood: 10000, stone: 10000 },
+            effectText: "Increase storage amount of found resources (skins, herbs, ore etc)",
+            onGain: function () { updateResourceTotals(); }
+        }),
+        new Upgrade({
+            id: "storehouses3", name: "Vast Storehouses", subType: subTypes.upgrade, prereqs: { storehouses2: true, architecture: true }, require: { wood: 100000, stone: 100000 },
+            effectText: "Increase storage amount of found resources (skins, herbs, ore etc)",
+            onGain: function () { updateResourceTotals(); }
+        }),
+        new Upgrade({
+            id: "storerooms", name: "Storerooms", subType: subTypes.upgrade, prereqs: { construction: true }, require: { wood: 1000, stone: 1000 },
             effectText: "Store double the amount of made resources (leather, potions, metal etc)",
             onGain: function () { updateResourceTotals(); }
         }),
-        
+        new Upgrade({
+            id: "storerooms2", name: "Huge Storerooms", subType: subTypes.upgrade, prereqs: { storerooms: true, engineering: true }, require: { wood: 10000, stone: 10000 },
+            effectText: "Increase storage amount of made resources (leather, potions, metal etc)",
+            onGain: function () { updateResourceTotals(); }
+        }),
+        new Upgrade({
+            id: "storerooms3", name: "Vast Storerooms", subType: subTypes.upgrade, prereqs: { storerooms2: true, architecture: true }, require: { wood: 100000, stone: 100000 },
+            effectText: "Increase storage amount of made resources (leather, potions, metal etc)",
+            onGain: function () { updateResourceTotals(); }
+        }),
         // engineering
         new Upgrade({
             id: "engineering", name: "Engineering", subType: subTypes.upgrade, prereqs: { construction: true, civSize: "smTown" }, require: { wood: 5000, stone: 5000 },
@@ -205,7 +245,7 @@ function getUpgradeData() {
         }),
 
         new Upgrade({
-            id: "architecture", name: "Architecture", subType: subTypes.upgrade, prereqs: { engineering: true, civSize: "smCity" }, require: { wood: 10000, stone: 10000 },
+            id: "architecture", name: "Architecture", subType: subTypes.upgrade, prereqs: { engineering: true, civSize: "smCity" }, require: { wood: 50000, stone: 50000 },
             effectText: "Unlock more buildings and upgrades"
         }),
         new Upgrade({
