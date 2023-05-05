@@ -1,4 +1,4 @@
-
+"use strict";
 import {
     civData, civSizes, resourceData, buildingData, upgradeData, unitData, setIndexArrays, indexArrayByAttr, getReqText, getPrereqText,
     sentenceCase
@@ -100,22 +100,13 @@ data.display = function () {
 
     dataTable = document.getElementById("colourDataTable");
     console.log("colourDataTable");
-    // 123456789abcdef
+    // 0123456789abcdef
     // 0369cf
     let colArr = ["0", "F"];
     let rgb;
     row = dataTable.insertRow(-1);
-    for (let r = 0; r < colArr.length; r++) {
-        for (let g = 0; g < colArr.length; g++) {
-            for (let b = 0; b < colArr.length; b++) {
-                rgb = "#" + colArr[r] + colArr[g] + colArr[b];
-                cell = row.insertCell(-1);
-                cell.style.backgroundColor = rgb;
-                cell.innerHTML = rgb;
-            }
-        }
-    }
-    colArr = ["0", "8", "F"];
+    cell = row.insertCell(-1);
+    cell.innerHTML = colArr.join();
     row = dataTable.insertRow(-1);
     for (let r = 0; r < colArr.length; r++) {
         for (let g = 0; g < colArr.length; g++) {
@@ -126,8 +117,28 @@ data.display = function () {
                 cell.innerHTML = rgb;
             }
         }
+        row = dataTable.insertRow(-1);
+    }
+    colArr = ["0", "8", "F"];
+    row = dataTable.insertRow(-1);
+    cell = row.insertCell(-1);
+    cell.innerHTML = colArr.join();
+    row = dataTable.insertRow(-1);
+    for (let r = 0; r < colArr.length; r++) {
+        for (let g = 0; g < colArr.length; g++) {
+            for (let b = 0; b < colArr.length; b++) {
+                rgb = "#" + colArr[r] + colArr[g] + colArr[b];
+                cell = row.insertCell(-1);
+                cell.style.backgroundColor = rgb;
+                cell.innerHTML = rgb;
+            }
+        }
+        row = dataTable.insertRow(-1);
     }
     colArr = ["0", "5", "A", "F"];
+    row = dataTable.insertRow(-1);
+    cell = row.insertCell(-1);
+    cell.innerHTML = colArr.join();
     row = dataTable.insertRow(-1);
     for (let r = 0; r < colArr.length; r++) {
         for (let g = 0; g < colArr.length; g++) {
@@ -142,18 +153,8 @@ data.display = function () {
     }
     colArr = ["0", "3", "7", "B", "F"];
     row = dataTable.insertRow(-1);
-    for (let r = 0; r < colArr.length; r++) {
-        for (let g = 0; g < colArr.length; g++) {
-            for (let b = 0; b < colArr.length; b++) {
-                rgb = "#" + colArr[r] + colArr[g] + colArr[b];
-                cell = row.insertCell(-1);
-                cell.style.backgroundColor = rgb;
-                cell.innerHTML = rgb;
-            }
-        }
-        row = dataTable.insertRow(-1);
-    }
-    colArr = ["0", "3", "6", "9", "C", "F"];
+    cell = row.insertCell(-1);
+    cell.innerHTML = colArr.join();
     row = dataTable.insertRow(-1);
     for (let r = 0; r < colArr.length; r++) {
         for (let g = 0; g < colArr.length; g++) {
@@ -166,32 +167,33 @@ data.display = function () {
         }
         row = dataTable.insertRow(-1);
     }
+    //colArr = ["0", "3", "6", "9", "C", "F"];
+    colArr = ["3", "C"];
+    drawColourRows(dataTable, colArr)
+    colArr = ["3", "8", "C"];
+    drawColourRows(dataTable, colArr)
+    colArr = ["3", "6", "9", "C"];
+    drawColourRows(dataTable, colArr)
 
-
-
-
-
-    // 360 023 045 068
-    //row = dataTable.insertRow(-1);
-    //let num;
-    //for (let i = 0; i <= 8; i++) {
-    //    num = Math.ceil((i + 1) * 45);
-    //    if (num < 100) {
-    //        num = num + "" + num + "" + num;
-    //    }
-    //    else if (num < 1000) {
-    //        num = num + "" + num;
-    //    }
-    //    else {
-    //        num = Math.ceil(num / 10);
-    //        num = num + "" + num;
-    //    }
-    //    rgb = "#" + num;
-    //    cell = row.insertCell(-1);
-    //    cell.style.backgroundColor = rgb;
-    //    cell.innerHTML = rgb;
-    //}
 };
+function drawColourRows(dataTable, colArr) {
+    let rgb;
+    let row = dataTable.insertRow(-1);
+    let cell = row.insertCell(-1);
+    cell.innerHTML = colArr.join();
+    row = dataTable.insertRow(-1);
+    for (let r = 0; r < colArr.length; r++) {
+        for (let g = 0; g < colArr.length; g++) {
+            for (let b = 0; b < colArr.length; b++) {
+                rgb = "#" + colArr[r] + colArr[g] + colArr[b];
+                cell = row.insertCell(-1);
+                cell.style.backgroundColor = rgb;
+                cell.innerHTML = rgb;
+            }
+        }
+        row = dataTable.insertRow(-1);
+    }
+}
 
 data.setup = function () {
     setIndexArrays(civData);
