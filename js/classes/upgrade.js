@@ -1,4 +1,4 @@
-
+"use strict";
 import { CivObj, civObjType, subTypes, copyProps } from "../index.js";
 
 function Upgrade(props) // props is an object containing the desired properties.
@@ -15,6 +15,7 @@ function Upgrade(props) // props is an object containing the desired properties.
 Upgrade.prototype = new CivObj({
     constructor: Upgrade,
     type: civObjType.upgrade,
+    subType: subTypes.normal,
     initOwned: false,
     vulnerable: false,
     get limit() { return 1; }, // Can't re-buy these.
