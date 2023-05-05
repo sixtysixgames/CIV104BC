@@ -540,8 +540,9 @@ function doCorpses() {
     }
     else {
         // it's not good for morale to have unburied corpses around
-        if (population.living > 1 && civData.corpses.owned > 0) {
+        if (population.living > 1 && civData.corpses.owned > (population.living / 7)) {
             //adjustMorale((-civData.corpses.owned / 100) / population.living);
+            gameLog("Citizens are unhappy with unburied corpses");
             adjustMorale(-1);
         }
     }
@@ -549,9 +550,9 @@ function doCorpses() {
 
 function canSpreadPlague() {
     // more corpses should mean more chance of disease
-    let sickChance = civData.corpses.owned / (1 + civData.feast.owned) * Math.random();
+    let sickChance = (civData.corpses.owned / (1 + civData.feast.owned)) * Math.random();
     // increase percentage to reduce frequency
-    let test = population.healthy * (1 + civData.feast.owned) * Math.random();
+    let test = (population.healthy * (1 + civData.feast.owned)) * Math.random();
 
     return sickChance > test;
 }
