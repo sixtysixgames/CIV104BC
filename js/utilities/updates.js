@@ -198,19 +198,29 @@ function updateResourceTotals() {
     for (i = 0; i < displayElems.length; ++i) {
         elem = displayElems[i];
         //xxx Have to use curCiv here because of zombies and other non-civData displays.
-        val = curCiv[dataset(elem, "target")].has;
+        //val = curCiv[dataset(elem, "target")].owned;
+        obj = civData[dataset(elem, "target")];
+        if (!isValid(obj)) {
+            obj = curCiv[dataset(elem, "target")];
+        }
+        if (!isValid(obj)) {
+            console.warn("updateResourceTotals() Invalid object id=" + dataset(elem, "target"));
+            continue;
+        }
+
+        val = obj.owned;
 
         if (!isValid(val) || typeof val != "number") {
             // hack to fix NaN stored
             console.warn("updates.updateResourceTotals() id = " + dataset(elem, "target"));
             console.warn("updates.updateResourceTotals() owned not number. = " + val);
             console.trace();
-            curCiv[dataset(elem, "target")].has = 0;
-            val = curCiv[dataset(elem, "target")].has;
+            curCiv[dataset(elem, "target")].owned = 0;
+            val = curCiv[dataset(elem, "target")].owned;
         }
         //elem.title = prettify(Math.floor(val));
         elem.title = val;
-        obj = civData[dataset(elem, "target")];
+        
         if (isValid(obj) && obj.type === civObjType.resource && obj.id !== resourceType.corpses && obj.id !== resourceType.coins) {
             // we don't pretify population related resources on the top row
             elem.innerHTML = prettifyLargeNumber(Math.floor(val));
