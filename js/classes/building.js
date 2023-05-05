@@ -13,6 +13,7 @@ function Building(props) // props is an object containing the desired properties
 Building.prototype = new CivObj({
     constructor: Building,
     type: civObjType.building,
+    salable: true,
     alignment: alignmentType.player,
     place: placeType.home,
     get vulnerable() { return this.subType != subTypes.altar; }, // Altars can't be sacked.
