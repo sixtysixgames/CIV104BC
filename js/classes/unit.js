@@ -1,4 +1,4 @@
-
+"use strict";
 import { CivObj, civObjType, speciesType, placeType, alignmentType, subTypes, copyProps, isValid, curCiv, civData } from "../index.js";
 
 function Unit(props) // props is an object containing the desired properties.
