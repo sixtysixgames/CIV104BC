@@ -1,3 +1,4 @@
+"use strict";
 import { dataset, onInvade, increment, doPurchase } from "../index.js";
 
 // For efficiency, we set up a single bulk listener for all of the buttons, rather
