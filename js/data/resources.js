@@ -1,4 +1,4 @@
-﻿import { Resource, civData, getPietyLimitBonus, getStorehouseBonus, getStoreroomBonus, getWarehouseBonus, resourceType, subTypes } from "../index.js";
+﻿import { Resource, civData, getPietyLimitBonus, getGranaryBonus, getStorehouseBonus, getStoreroomBonus, getWarehouseBonus, resourceType, subTypes } from "../index.js";
 
 function getResourceData() {
     let resData = [
@@ -9,7 +9,8 @@ function getResourceData() {
             initTradeAmount: 5000, // how much to offer on Trade for 100 coins
             baseTradeAmount: 1000, // the least on offer
             get limit() {
-                let barnBonus = (civData.granaries.owned ? 2 : 1) * 200;
+                //let barnBonus = (civData.granaries.owned ? 2 : 1) * 200;
+                let barnBonus = getGranaryBonus();
                 return 200 + (civData.barn.owned * barnBonus);
             },
             set limit(value) { return this.limit; } // Only here for JSLint.
@@ -42,7 +43,7 @@ function getResourceData() {
             baseTradeAmount: 100,
             get limit() {
                 let bonus = getStorehouseBonus();
-                return 100 + (civData.barn.owned * bonus);
+                return 100 + (civData.skinShed.owned * bonus);
             },
             set limit(value) { return this.limit; } 
         }),
@@ -52,7 +53,7 @@ function getResourceData() {
             baseTradeAmount: 100,
             get limit() {
                 let bonus = getStorehouseBonus();
-                return 100 + (civData.woodstock.owned * bonus);
+                return 100 + (civData.herbShed.owned * bonus);
             },
             set limit(value) { return this.limit; } 
         }),
@@ -62,7 +63,7 @@ function getResourceData() {
             baseTradeAmount: 100,
             get limit() {
                 let bonus = getStorehouseBonus();
-                return 100 + (civData.stonestock.owned * bonus);
+                return 100 + (civData.oreShed.owned * bonus);
             },
             set limit(value) { return this.limit; }
         }),
