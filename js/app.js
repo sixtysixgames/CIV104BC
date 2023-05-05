@@ -1,4 +1,4 @@
-
+"use strict";
 import {
     addBuyButtons, civData, civSizes, indexArrayByAttr, setIndexArrays, setupUI, ui, sysLog, addUITable, basicResources, homeBuildings, homeUnits,
     armyUnits, addUpgradeRows, normalUpgrades, addAchievementRows, addRaidRows, addWonderSelectText, makeDeitiesTables, load, renameCiv, renameRuler,
