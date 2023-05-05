@@ -102,12 +102,12 @@ data.display = function () {
     console.log("colourDataTable");
     // 123456789abcdef
     // 0369cf
-    let colArr = ["0", "6", "c"];
+    let colArr = ["0", "F"];
     let rgb;
     row = dataTable.insertRow(-1);
-    for (let r = 0; r < 3; r++) {
-        for (let g = 0; g < 3; g++) {
-            for (let b = 0; b < 3; b++) {
+    for (let r = 0; r < colArr.length; r++) {
+        for (let g = 0; g < colArr.length; g++) {
+            for (let b = 0; b < colArr.length; b++) {
                 rgb = "#" + colArr[r] + colArr[g] + colArr[b];
                 cell = row.insertCell(-1);
                 cell.style.backgroundColor = rgb;
@@ -115,31 +115,7 @@ data.display = function () {
             }
         }
     }
-    colArr = ["3", "9", "f"];
-    row = dataTable.insertRow(-1);
-    for (let r = 0; r < 3; r++) {
-        for (let g = 0; g < 3; g++) {
-            for (let b = 0; b < 3; b++) {
-                rgb = "#" + colArr[r] + colArr[g] + colArr[b];
-                cell = row.insertCell(-1);
-                cell.style.backgroundColor = rgb;
-                cell.innerHTML = rgb;
-            }
-        }
-    }
-    colArr = ["3", "8", "c"];
-    row = dataTable.insertRow(-1);
-    for (let r = 0; r < 3; r++) {
-        for (let g = 0; g < 3; g++) {
-            for (let b = 0; b < 3; b++) {
-                rgb = "#" + colArr[r] + colArr[g] + colArr[b];
-                cell = row.insertCell(-1);
-                cell.style.backgroundColor = rgb;
-                cell.innerHTML = rgb;
-            }
-        }
-    }
-    colArr = ["6", "a", "e"];
+    colArr = ["0", "8", "F"];
     row = dataTable.insertRow(-1);
     for (let r = 0; r < colArr.length; r++) {
         for (let g = 0; g < colArr.length; g++) {
@@ -151,7 +127,7 @@ data.display = function () {
             }
         }
     }
-    colArr = ["7", "b", "f"];
+    colArr = ["0", "5", "A", "F"];
     row = dataTable.insertRow(-1);
     for (let r = 0; r < colArr.length; r++) {
         for (let g = 0; g < colArr.length; g++) {
@@ -162,6 +138,33 @@ data.display = function () {
                 cell.innerHTML = rgb;
             }
         }
+        row = dataTable.insertRow(-1);
+    }
+    colArr = ["0", "3", "7", "B", "F"];
+    row = dataTable.insertRow(-1);
+    for (let r = 0; r < colArr.length; r++) {
+        for (let g = 0; g < colArr.length; g++) {
+            for (let b = 0; b < colArr.length; b++) {
+                rgb = "#" + colArr[r] + colArr[g] + colArr[b];
+                cell = row.insertCell(-1);
+                cell.style.backgroundColor = rgb;
+                cell.innerHTML = rgb;
+            }
+        }
+        row = dataTable.insertRow(-1);
+    }
+    colArr = ["0", "3", "6", "9", "C", "F"];
+    row = dataTable.insertRow(-1);
+    for (let r = 0; r < colArr.length; r++) {
+        for (let g = 0; g < colArr.length; g++) {
+            for (let b = 0; b < colArr.length; b++) {
+                rgb = "#" + colArr[r] + colArr[g] + colArr[b];
+                cell = row.insertCell(-1);
+                cell.style.backgroundColor = rgb;
+                cell.innerHTML = rgb;
+            }
+        }
+        row = dataTable.insertRow(-1);
     }
 
 
