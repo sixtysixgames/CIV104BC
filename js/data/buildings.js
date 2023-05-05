@@ -9,8 +9,9 @@ function getBuildingData() {
     let buildData = [
         new Building({
             id: buildingType.freeLand, name: "free land", plural: "free land", subType: subTypes.land,
-            prereqs: undefined,  // Cannot be purchased.
-            require: undefined,  // Cannot be purchased.
+            salable: false, // Cannot be sold
+            prereqs: undefined,  // Cannot be purchased
+            require: undefined,  // Cannot be purchased
             vulnerable: false, // Cannot be stolen by looting
             initOwned: 100, // used to be 1000, let's make it more difficult
             effectText: "Conquer more from your neighbors"
@@ -94,7 +95,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.skinShed, singular: "skins shed", plural: "skins sheds", subType: subTypes.storage,
+            id: buildingType.skinShed, singular: "skin shed", plural: "skin sheds", subType: subTypes.storage,
             prereqs: { domestication: true }, require: { wood: 50, stone: 5 },
             get effectText() {
                 let sbonus = getStorehouseBonus();
@@ -104,7 +105,7 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.herbShed, singular: "herbs shed", plural: "herbs sheds", subType: subTypes.storage,
+            id: buildingType.herbShed, singular: "herb shed", plural: "herb sheds", subType: subTypes.storage,
             prereqs: { felling: true }, require: { wood: 50, stone: 5 },
             get effectText() {
                 let hbonus = getStorehouseBonus();
@@ -256,13 +257,17 @@ function getBuildingData() {
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
-            id: buildingType.graveyard, singular: "graveyard", plural: "graveyards", prereqs: { buildings: true }, require: { wood: 100, stone: 250 },
+            id: buildingType.graveyard, singular: "graveyard", plural: "graveyards",
+            salable: false, // Cannot be sold
+            prereqs: { buildings: true }, require: { wood: 100, stone: 250 },
             vulnerable: false, // Graveyards can't be sacked, but they can be desecrated
             effectText: "contains 100 graves",
             onGain: function (num) { if (num === undefined) { num = 1; } digGraves(num); }
         }),
         new Building({
-            id: buildingType.mill, singular: "mill", plural: "mills", prereqs: { wheel: true },
+            id: buildingType.mill, singular: "mill", plural: "mills",
+            salable: false, // Cannot be sold
+            prereqs: { wheel: true },
             get require() {
                 return {
                     wood: 100 * (this.owned + 1) * Math.pow(1.05, this.owned),
@@ -273,7 +278,9 @@ function getBuildingData() {
             effectText: "improves farmers"
         }),
         new Building({
-            id: buildingType.fortification, singular: "fortification", plural: "fortifications", efficiency: 0.01, prereqs: { engineering: true },
+            id: buildingType.fortification, singular: "fortification", plural: "fortifications",
+            salable: false, // Cannot be sold
+            efficiency: 0.01, prereqs: { engineering: true },
             //xxx This is testing a new technique that allows a function for the cost items.
             // Eventually, this will take a qty parameter
             get require() {
