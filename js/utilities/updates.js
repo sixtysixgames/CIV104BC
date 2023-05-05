@@ -1,4 +1,4 @@
-
+"use strict";
 import {
     abs, achData, alignmentType, armyUnits, basicResources, buildingData, buildingType, calculatePopulation, calcWorkerCost, calcZombieCost, canAfford, canPurchase,
     civData, civObjType, civSizes, curCiv, dataset, deityDomains, wonderSelect, lootable, getBuyButton, setInitTradePrice,
@@ -524,7 +524,7 @@ function updateUpgrades() {
     ui.show("#tradeSelect .info", false);
     for (let s = 0; s < upgradeData.length; s++) {
         if (canPurchase(upgradeData[s]) && !upgradeData[s].owned) {
-            if (upgradeData[s].subType === subTypes.upgrade) {
+            if (upgradeData[s].subType === subTypes.normal) {
                 ui.show("#upgradesSelect .info", true);
             }
             if (upgradeData[s].subType === subTypes.deity || upgradeData[s].subType === subTypes.pantheon) {
