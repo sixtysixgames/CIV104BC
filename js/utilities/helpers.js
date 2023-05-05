@@ -1,4 +1,5 @@
-﻿import {
+﻿"use strict";
+import {
     achData, civData, civObjType, civSizes, curCiv, population, PATIENT_LIST,
     alignmentType, buildingData, killable, lootable, matchType, placeType, resourceData, sackable, speciesType, subTypes, unitData, unitType,
     getCurDeityDomain, getCustomNumber, getWonderBonus, updateAchievements, updateBuildingButtons, updateDevotion, updateJobButtons, updateMorale, updatePartyButtons, updatePopulation,
@@ -134,10 +135,13 @@ function payFor(costObj, qty) {
 
     let num;
     for (let i in costObj) {
-        // If the cost is a function, eval it with qty as a param.  Otherwise
-        // just multiply by qty.
+        // If the cost is a function, eval it with qty as a param.  Otherwise just multiply by qty.
         num = (typeof costObj[i] == "function") ? (costObj[i](qty)) : (costObj[i] * qty);
         if (!num) { continue; }
+        if (num < 0) {
+            // we are selling, so only get half back
+            num /= 2; 
+        }
         civData[i].owned -= num;
     }
     return qty;
@@ -187,6 +191,7 @@ function canPurchase(purchaseObj, qty) {
 // Pass "custom" or "-custom" to use the custom increment.
 // Returns the actual number bought or sold (negative if fired).
 function doPurchase(objId, num) {
+    //console.log("doPurchase() " + objId);
     let purchaseObj = civData[objId];
     if (!purchaseObj) {
         console.warn("Unknown purchase: " + objId);
@@ -194,8 +199,7 @@ function doPurchase(objId, num) {
         sysLog("Unknown purchase: " + objId);
         return 0;
     }
-    //console.log("doPurchase() " + objId);
-
+    
     if (num === undefined) { num = 1; }
     if (abs(num) == "custom") { num = sgn(num) * getCustomNumber(purchaseObj); }
 
