@@ -2,7 +2,7 @@
 import {
     civData, curCiv, population, buildingType, unitType, resourceType,
     calculatePopulation, getNextPatient, getPietyEarnedBonus, getRandomPatient, getTotalByJob, getWonderBonus, healByJob, spreadPlague,
-    updatePopulation, adjustMorale,
+    updatePopulation, adjustMorale, ui,
     gameLog, isValid, killUnit, rndRound
 } from "../index.js";
 
@@ -441,7 +441,6 @@ function doPlague() {
             gameLog(survived + " sick citizens recovered");
         }
         if (population.living > 1 && survived > 0) {
-            //adjustMorale((survived / 100) / population.living);
             adjustMorale(1);
         }
         calculatePopulation();
@@ -449,6 +448,7 @@ function doPlague() {
     } else if (Math.random() < chance && canSpreadPlague()) {
         // plague spreads
         // needs to be same odds as catching plague in doCorpses civData.corpses.owned
+        // todo: refactor into single funstion
         let infected = Math.floor(population.healthy / 100 * Math.random());
         if (infected <= 0) { return false; }
         let num = spreadPlague(infected);
@@ -458,8 +458,8 @@ function doPlague() {
         else {
             gameLog("The plague infects another " + num + " citizens");
         }
-        if (population.living > 1 && num > 0) {
-            //adjustMorale((-num / 100) / population.living);
+        if (population.living > 1 && num > 0 && Math.random(num) > Math.random(population.living)) {
+            gameLog("Citizens unhappy with the plague spreading");
             adjustMorale(-1);
         }
         return true;
@@ -514,8 +514,8 @@ function doCorpses() {
             } else {
                 gameLog(infected + " citizens caught the plague");
             }
-            if (population.living > 1 && infected > 0) {
-                //adjustMorale((-infected / 100) / population.living);
+            if (population.living > 1 && infected > 0 && Math.random(infected) > Math.random(population.living)) {
+                gameLog("Citizens unhappy with unburied corpses spreading the plague");
                 adjustMorale(-1);
             }
         }
@@ -539,10 +539,9 @@ function doCorpses() {
         civData.corpses.owned = 0;
     }
     else {
-        // it's not good for morale to have unburied corpses around
-        if (population.living > 1 && civData.corpses.owned > (population.living / 7)) {
-            //adjustMorale((-civData.corpses.owned / 100) / population.living);
-            gameLog("Citizens are unhappy with unburied corpses");
+        // it's not good for morale to have unburied corpses around, some people might get upset
+        if (population.living > 1 && Math.random(civData.corpses.owned) > Math.random(population.living)) {
+            gameLog("Citizens unhappy with unburied corpses");
             adjustMorale(-1);
         }
     }
