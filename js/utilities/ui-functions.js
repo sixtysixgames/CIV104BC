@@ -1,7 +1,7 @@
 ﻿"use strict";
 import {
     appSettings, dataset, gameLoop, getLandTotals, getPlayingTimeShort, getReqText, isValid, population, settings, ui,
-    updateResourceTotals, abs
+    updateResourceTotals, abs, civObjType
 } from "../index.js";
 
 // Called when user switches between the various panes on the left hand side of the interface
@@ -212,7 +212,9 @@ function getCostNote(civObj) {
     let reqText = getReqText(civObj.require);
     let effectText = (isValid(civObj.effectText)) ? civObj.effectText : "";
     let separator = (reqText && effectText) ? ": " : "";
-
+    if (civObj.type === civObjType.building && civObj.land > 1) {
+        reqText = civObj.land + " land: " + reqText;
+    }
     return "<span id='" + civObj.id + "Cost' class='cost'>" + reqText + "</span>"
         + "<span id='" + civObj.id + "Note' class='note'>" + separator + civObj.effectText + "</span>";
 }
@@ -231,6 +233,9 @@ function setReqText(civObj) {
         return;
     }
     let reqText = getReqText(civObj.require);
+    if (civObj.type === civObjType.building && civObj.land > 1) {
+        reqText = civObj.land + " land: " + reqText;
+    }
     elem.innerHTML = reqText;
 }
 
@@ -274,7 +279,7 @@ function logMessage(tableID, time, message, repeatCount) {
     cell.innerHTML = time;
     // message
     cell = row.cells[1];
-    cell.innerHTML = message
+    cell.innerHTML = message;
     // repeats
     cell = row.cells[2];
     if (repeatCount > 1) {
