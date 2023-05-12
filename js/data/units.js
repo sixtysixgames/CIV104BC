@@ -14,15 +14,17 @@ function getUnitData() {
         }),
         new Unit({
             id: unitType.farmer, singular: "farmer", plural: "farmers", source: unitType.unemployed,
-            efficiency_base: 0.2, defence: 0.06, // default is 0.05 
-            get efficiency() { return farmerMods(this.efficiency_base); },
-            set efficiency(value) { this.efficiency_base = value; },
+            //efficiency_base: 0.2,
+            efficiency: 0.2,
+            defence: 0.06, // default is 0.05 
+            //get efficiency() { return farmerMods(this.efficiency_base); },
+            //set efficiency(value) { this.efficiency_base = value; },
             effectText: "Automatically harvest food"
         }),
         new Unit({
             id: unitType.woodcutter, singular: "woodcutter", plural: "woodcutters", source: unitType.unemployed,
             //efficiency_base: 0.49,
-            efficiency: 0.5,
+            efficiency: 0.4,
             defence: 0.055, 
             //get efficiency() { return woodcutterMods(this.efficiency_base); },
             //set efficiency(value) { this.efficiency_base = value; },
@@ -31,12 +33,56 @@ function getUnitData() {
         new Unit({
             id: unitType.miner, singular: "miner", plural: "miners", source: unitType.unemployed,
             //efficiency_base: 0.19,
-            efficiency: 0.25,
+            efficiency: 0.2,
             defence: 0.055, 
             //get efficiency() { return minerMods(this.efficiency_base); },
             //set efficiency(value) { this.efficiency_base = value; },
             effectText: "Automatically mine stone"
         }),
+        
+        new Unit({
+            id: unitType.cropFarmer, singular: "crop farmer", plural: "crop farmers", source: unitType.unemployed,
+            efficiency_base: 0.5, defence: 0.06, // default is 0.05 
+            prereqs: { cropFarm: 1 }, require: { skins: 2 },
+            get limit() { return civData.cropFarm.owned; },
+            set limit(value) { return this.limit; },
+            get efficiency() { return farmerMods(this.efficiency_base); },
+            set efficiency(value) { this.efficiency_base = value; },
+            effectText: "Grow crops"
+        }),
+        new Unit({
+            id: unitType.forester, singular: "forester", plural: "foresters", source: unitType.unemployed,
+            efficiency: 0.8, defence: 0.055, 
+            prereqs: { treeFarm: 1 }, require: { wood: 2 },
+            get limit() { return civData.treeFarm.owned; },
+            set limit(value) { return this.limit; },
+            effectText: "Manage forests"
+        }),
+        new Unit({
+            id: unitType.herbGardener, singular: "herb gardener", plural: "herb gardeners", source: unitType.unemployed,
+            efficiency: 0.8, defence: 0.055, 
+            prereqs: { herbGarden: 1 }, require: { herbs: 2 },
+            get limit() { return civData.herbGarden.owned; },
+            set limit(value) { return this.limit; },
+            effectText: "Cultivate herbs"
+        }),
+        new Unit({
+            id: unitType.quarWorker, singular: "quarry worker", plural: "quarry workers", source: unitType.unemployed,
+            efficiency: 0.8, defence: 0.055, 
+            prereqs: { quarry: 1 }, require: { stone: 2 },
+            get limit() { return civData.quarry.owned; },
+            set limit(value) { return this.limit; },
+            effectText: "Quarry stone"
+        }),
+        new Unit({
+            id: unitType.oreMiner, singular: "ore miner", plural: "ore miners", source: unitType.unemployed,
+            efficiency: 0.8, defence: 0.055, 
+            prereqs: { oreMine: 1 }, require: { ore: 2 },
+            get limit() { return civData.oreMine.owned; },
+            set limit(value) { return this.limit; },
+            effectText: "Mine ore"
+        }),
+        // non-nasic resources
         new Unit({
             id: unitType.cleric, singular: "cleric", plural: "clerics", source: unitType.unemployed,
             prereqs: { temple: 1 }, require: { herbs: 4 },
