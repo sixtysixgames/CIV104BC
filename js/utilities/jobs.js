@@ -593,9 +593,42 @@ function dismissWorker(unitTypeId, buildingTypeId, limit) {
     }
 }
 
+function doJobs() {
 
+    dismissWorkers(); // sometime we end up with more workers than buildings
+
+    // Production workers do their thing.
+    doFarmers();
+    doWoodcutters();
+    doMiners();
+    // do in order of usefulness
+    doApothecaries();
+    doBlacksmiths();
+    doTanners();
+    doCharcoalBurners();
+    doLimeBurners();
+    doIronsmiths();
+    doCoppersmiths();
+    doLeadsmiths();
+    doTinsmiths();
+    doSilversmiths();
+    doMercurysmiths();
+    doGoldsmiths();
+
+    doClerics();
+}
+
+function doDieOrSurvive() {
+    //Population-related - done in specific order
+    doGraveyards();
+    doHealers();
+    doPlague();
+    doCorpses();
+}
+
+//doFarmers, doWoodcutters, doMiners, doApothecaries, doBlacksmiths, doTanners, doClerics, dismissWorkers,
+// doLimeBurners, doCharcoalBurners, doIronsmiths, doCoppersmiths, doLeadsmiths, doTinsmiths, doSilversmiths, doMercurysmiths, doGoldsmiths
+// doGraveyards, doHealers, doPlague,  doCorpses,
 export {
-    doFarmers, doWoodcutters, doMiners, doBlacksmiths, doTanners, doApothecaries, doClerics, doHealers, doPlague, doGraveyards, doCorpses, canSpreadPlague,
-    dismissWorkers, farmerMods, woodcutterMods, minerMods, doLimeBurners, doCharcoalBurners, doIronsmiths, doCoppersmiths, doLeadsmiths, doTinsmiths, doSilversmiths,
-    doMercurysmiths, doGoldsmiths
+    doJobs, doDieOrSurvive, farmerMods, woodcutterMods, minerMods
 };
