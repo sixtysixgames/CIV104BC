@@ -146,9 +146,12 @@ a {
     .landCols .col {
         margin-bottom: 0;
         padding-bottom: 0;
+        width: 33%;
     }
-
         .landCols .col:nth-child(2) {
+            text-align: center;
+        }
+        .landCols .col:nth-child(3) {
             text-align: right;
         }
 
@@ -927,11 +930,21 @@ button {
 .woodcutter {
     background-color: #016901;
 }
-
+.forester {
+    background-color: #016901;
+}
+.herbGardener {
+    background-color: #016901;
+}
 .miner {
     background-color: #887878;
 }
-
+.quarrWorker {
+    background-color: #887878;
+}
+.oreMiner {
+    background-color: #887878;
+}
 .tanner {
     background-color: #591B11;
 }
