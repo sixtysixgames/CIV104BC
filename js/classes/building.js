@@ -20,6 +20,7 @@ Building.prototype = new CivObj({
     set vulnerable(value) { return this.vulnerable; }, // Only here for JSLint.
     customQtyId: "buildingCustomQty",
     limit: 1,
+    land: 1,
     get total() { return this.limit * this.owned; },
     set total(value) { return this.total; } // Only here for JSLint.
 }, true);
