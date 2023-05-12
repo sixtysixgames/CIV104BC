@@ -1,10 +1,13 @@
 import {
-    civData, curCiv, gameLog, tickAutosave, calculatePopulation, clearSpecialResourceNets, dismissWorkers, doFarmers, doWoodcutters,
-    doMiners, doBlacksmiths, doApothecaries, doTanners, doClerics, doStarve, doHomeless, checkResourceLimits, doMobs, doPestControl,
-    tickGlory, doShades, doEsiege, doRaid, placeType, alignmentType, doRaidCheck, doGraveyards, doHealers, doPlague, doCorpses, doThrone,
-    tickGrace, tickWalk, doLabourers, tickTraders, updateResourceTotals, testAchievements, updateAll,
-    doIronsmiths, doCharcoalBurners, doCoppersmiths, doLeadsmiths, doTinsmiths, doSilversmiths, doMercurysmiths, doGoldsmiths, doLimeBurners } from "../index.js";
+    civData, curCiv, gameLog, tickAutosave, calculatePopulation, clearSpecialResourceNets, doJobs, doDieOrSurvive, doStarve, doHomeless,
+    checkResourceLimits, doMobs, doPestControl,
+    tickGlory, doShades, doEsiege, doRaid, placeType, alignmentType, doRaidCheck,  doThrone,
+    tickGrace, tickWalk, doLabourers, tickTraders, updateResourceTotals, testAchievements, updateAll
+     } from "../index.js";
 
+// dismissWorkers, doFarmers, doWoodcutters, doMiners, doBlacksmiths, doApothecaries, doTanners,
+// doIronsmiths, doCharcoalBurners, doCoppersmiths, doLeadsmiths, doTinsmiths, doSilversmiths, doMercurysmiths, doGoldsmiths, doLimeBurners
+// doGraveyards, doHealers, doPlague, doCorpses,
 // Create a cat
 function spawnCat() {
     ++civData.cat.owned;
@@ -23,28 +26,8 @@ function gameLoop() {
     // start of each new tick.
     clearSpecialResourceNets();
 
-    dismissWorkers(); // sometime we end up with more workers than buildings
-
-    // 66g import single function from job that does all these doJobs()
-    // Production workers do their thing.
-    doFarmers();
-    doWoodcutters();
-    doMiners();
-    // do in order of usefulness
-    doApothecaries();
-    doBlacksmiths();
-    doTanners();
-    doCharcoalBurners();
-    doLimeBurners();
-    doIronsmiths();
-    doCoppersmiths();
-    doLeadsmiths();
-    doTinsmiths();
-    doSilversmiths();
-    doMercurysmiths();
-    doGoldsmiths();
-
-    doClerics();
+    // 66g import single function from jobs.js that does all jobs
+    doJobs();
 
     // Check for starvation
     doStarve();
@@ -63,14 +46,15 @@ function gameLoop() {
     doRaidCheck(placeType.party, alignmentType.player, alignmentType.enemy);
 
     //Population-related
-    doGraveyards();
-    doHealers();
-    doPlague();
-    doCorpses();
+    doDieOrSurvive();
+
+    // deity/wonder related
     doThrone();
     tickGrace();
     tickWalk();
     doLabourers();
+
+    // trade related
     tickTraders();
 
     updateResourceTotals(); //This is the point where the page is updated with new resource totals
