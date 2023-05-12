@@ -104,9 +104,9 @@ function invade(ecivtype) {
         freeLand: Math.floor((baseLand * 0.1) + Math.round(Math.random() * (baseLand * 0.15)))
     };
 
-    console.log("baseLoot b=" + baseLoot);
+    //console.log("baseLoot b=" + baseLoot);
     baseLoot -= curCiv.raid.plunderLoot.freeLand;
-    console.log("baseLoot a=" + baseLoot);
+    //console.log("baseLoot a=" + baseLoot);
 
 
     // let's gain some buildings
@@ -119,7 +119,8 @@ function invade(ecivtype) {
             counter++;
             if (baseLand > 0 && elem.id != buildingType.mill && elem.id != buildingType.fortification) {
                 invaded = Math.floor((baseLand * Math.random()) / (invadeable.length * counter)); 
-                curCiv.raid.plunderLoot[elem.id] = Math.min(baseLand, invaded); // can't have more than available land
+                //curCiv.raid.plunderLoot[elem.id] = Math.min(baseLand, invaded); // can't have more than available land
+                curCiv.raid.plunderLoot[elem.id] = Math.min(baseLand, invaded * elem.land); // can't have more than available land
                 baseLand -= curCiv.raid.plunderLoot[elem.id] * counter;
             }
             if (baseLand < 0) { baseLand = 0; }
@@ -332,7 +333,8 @@ function doInvaders(attacker) {
         // this is an attempt to speed up the decline process
         let landTotals = getLandTotals();
         let altars = getAltarsOwned();
-        if (civData.graveyard.owned + altars === landTotals.buildings) {
+        //if (civData.graveyard.owned + altars === landTotals.buildings) {
+        if (civData.graveyard.owned + altars === landTotals.used) {
             doDesecrate(attacker);
         }
     }
@@ -488,11 +490,11 @@ function doSack(attacker) {
         if (target == civData.fortification) { destroyVerb = "damaged"; }
 
         --target.owned;
-        ++civData.freeLand.owned;
+        //++civData.freeLand.owned;
+        civData.freeLand.owned += target.land;
 
         // 66g lose morale
         if (population.living > 1) {
-            //adjustMorale(-1 / population.living);
             adjustMorale(-1);
         }
         if (Math.random() < attacker.sackStop) { --attacker.owned; } // Attackers might leave after sacking something.
@@ -521,7 +523,8 @@ function doSackMulti(attacker) {
         let target = civData[targetID];
         if (isValid(target) && target.owned > 0) {
             --target.owned;
-            ++civData.freeLand.owned;
+            // ++civData.freeLand.owned;
+            civData.freeLand.owned += target.land;
             sacks++;
             lastTarget = target.singular;
 
@@ -565,7 +568,6 @@ function doConquer(attacker) {
             civData.freeLand.owned -= land;
             // 66g lose morale for bad things
             if (population.living > 1) {
-                //adjustMorale(-land / population.living);
                 adjustMorale(-1);
             }
             // 66g: barbarians 'lay waste' to land
@@ -612,7 +614,8 @@ function doDesecrate(attacker) {
             else {
                 updateAltars();
             }
-            civData.freeLand.owned += sacked;
+            //civData.freeLand.owned += sacked;
+            civData.freeLand.owned += sacked * obj.land;
             gameLog(target + " desecrated by " + attacker.getQtyName(2)); // always plural
             // 66g lose morale
             if (population.living > 1) {
