@@ -30,12 +30,12 @@ function getBuildingData() {
         new Building({
             id: buildingType.cottage, singular: "cottage", plural: "cottages",subType: subTypes.dwelling,
             prereqs: { buildings: true }, require: { wood: 10, stone: 30 },
-            effectText: "+7 citizens", limit: 7
+            effectText: "+7 citizens", limit: 7, land: 2
         }),
         new Building({
             id: buildingType.house, singular: "house", plural: "houses", subType: subTypes.dwelling,
             prereqs: { construction: true }, require: { wood: 30, stone: 50, lime: 10 },
-            effectText: "+15 citizens", limit: 15 
+            effectText: "+15 citizens", limit: 15, land: 3 
         }),
         new Building({
             id: buildingType.tenement, singular: "tenement", plural: "tenements", subType: subTypes.dwelling,
@@ -46,17 +46,18 @@ function getBuildingData() {
             },
             set effectText(value) { return this.require; }, // Only here for JSLint.
             get limit() { return 30 + (4 * civData.slums.owned); },
+            land: 4,
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
             id: buildingType.mansion, singular: "mansion", plural: "mansions", subType: subTypes.dwelling,
             prereqs: { engineering: true }, require: { wood: 500, stone: 2000, lime: 500, iron: 25, copper: 10, lead: 5 },
-            effectText: "+75 citizens", limit: 75
+            effectText: "+75 citizens", limit: 75, land: 6
         }),
         new Building({
             id: buildingType.palace, singular: "palace", plural: "palaces", subType: subTypes.dwelling,
             prereqs: { architecture: true }, require: { wood: 2000, stone: 5000, lime: 1500, iron: 100, copper: 50, lead: 25 },
-            effectText: "+200 citizens", limit: 200
+            effectText: "+200 citizens", limit: 200, land: 10
         }),
         new Building({
             id: buildingType.barn, singular: "barn", plural: "barns", subType: subTypes.storage,
