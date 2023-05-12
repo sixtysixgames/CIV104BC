@@ -232,7 +232,8 @@ function doPurchase(objId, num) {
 
     // If building, then you use up free land
     if (purchaseObj.type == civObjType.building) {
-        civData.freeLand.owned -= num;
+        //civData.freeLand.owned -= num;
+        civData.freeLand.owned -= num * purchaseObj.land;
         // check for overcrowding
         if (civData.freeLand.owned < 0) {
             gameLog("You are suffering from overcrowding");
@@ -259,14 +260,18 @@ function doPurchase(objId, num) {
 
 function getLandTotals() {
     //Update land values
-    let ret = { lands: 0, buildings: 0, free: 0, sackableTotal: 0 };
+    let ret = { lands: 0, buildings: 0, used: 0, free: 0, sackableTotal: 0 };
     buildingData.forEach(function (elem) {
         if (elem.subType == subTypes.land) { ret.free += elem.owned; }
-        else { ret.buildings += elem.owned; }
+        else {
+            ret.buildings += elem.owned;
+            ret.used += elem.owned * elem.land;
+        }
 
         if (elem.vulnerable == true) { ret.sackableTotal += elem.owned; }
     });
-    ret.lands = ret.free + ret.buildings;
+    //ret.lands = ret.free + ret.buildings;
+    ret.lands = ret.free + ret.used;
     return ret;
 }
 
@@ -759,26 +764,26 @@ function increment(objId) {
 
 function getStoreroomBonus() {
     let b = (civData.storerooms.owned ? 2 : 1) * 50;
-    let b2 = (civData.storerooms2.owned ? 1 : 0) * 75;
-    let b3 = (civData.storerooms3.owned ? 1 : 0) * 100;
+    let b2 = (civData.storerooms2.owned ? 1 : 0) * 10;
+    let b3 = (civData.storerooms3.owned ? 1 : 0) * 25;
     return b + b2 + b3;
 }
 function getStorehouseBonus() {
     let b = (civData.storehouses.owned ? 2 : 1) * 100;
-    let b2 = (civData.storehouses2.owned ? 1 : 0) * 150;
-    let b3 = (civData.storehouses3.owned ? 1 : 0) * 200;
+    let b2 = (civData.storehouses2.owned ? 1 : 0) * 20;
+    let b3 = (civData.storehouses3.owned ? 1 : 0) * 50;
     return b + b2 + b3;
 }
 function getWarehouseBonus() {
     let b = (civData.warehouses.owned ? 2 : 1) * 200;
-    let b2 = (civData.warehouses2.owned ? 1 : 0) * 300;
-    let b3 = (civData.warehouses3.owned ? 1 : 0) * 400;
+    let b2 = (civData.warehouses2.owned ? 1 : 0) * 40;
+    let b3 = (civData.warehouses3.owned ? 1 : 0) * 100;
     return b + b2 + b3;
 }
 function getGranaryBonus() {
     let b = (civData.granaries.owned ? 2 : 1) * 200;
-    let b2 = (civData.granaries2.owned ? 1 : 0) * 300;
-    let b3 = (civData.granaries3.owned ? 1 : 0) * 400;
+    let b2 = (civData.granaries2.owned ? 1 : 0) * 40;
+    let b3 = (civData.granaries3.owned ? 1 : 0) * 100;
     return b + b2 + b3;
 }
 /*
