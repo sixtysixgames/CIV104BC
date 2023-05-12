@@ -115,7 +115,7 @@ function getUpgradeData() {
             effectText: "Miners collect more ore"
         }),
         new Upgrade({
-            id: "irrigation", name: "Irrigation", prereqs: { farming: true, masonry: true }, require: { wood: 500, stone: 250 },
+            id: "irrigation", name: "Irrigation", prereqs: { farming: true, buildings: true }, require: { wood: 500, stone: 250 },
             effectText: "Increase farmer food output"
         }),
         new Upgrade({
@@ -385,11 +385,11 @@ function getUpgradeData() {
             effectText: "Increase potion production"
         }),
         new Upgrade({
-            id: "administration", name: "Administration", prereqs: { writing: true, civSize: "cityState" }, require: { stone: 2500, herbs: 2500 },
+            id: "administration", name: "Administration", prereqs: { writing: true, civSize: "cityState" }, require: { stone: 25000, herbs: 25000 },
             effectText: "Increase land gained from raiding"
         }),
         new Upgrade({
-            id: "codeoflaws", name: "Code of Laws", prereqs: { administration: true }, require: { wood: 2500, ore: 2500 },
+            id: "codeoflaws", name: "Code of Laws", prereqs: { administration: true }, require: { wood: 25000, ore: 25000 },
             effectText: "Reduce unhappiness caused by overcrowding. Unlock upgrades"
         }),
         new Upgrade({
@@ -397,16 +397,15 @@ function getUpgradeData() {
             effectText: "Building temples increases morale"
         }),
         new Upgrade({
-            id: "civilservice", name: "Civil Service", prereqs: { codeoflaws: true }, require: { piety: 4000 },
+            id: "civilservice", name: "Civil Service", prereqs: { codeoflaws: true }, require: { piety: 40000 },
             effectText: "Increase basic resources from clicking. Increase labourer efficiency. Unlock upgrades"
         }),
         new Upgrade({
             id: "guilds", name: "Guilds", prereqs: { astronomy: true, mathematics: true, medicine: true }, require: { piety: 8000 },
-            effectText: "Increase special resources from clicking. Increase labourer efficiency. Unlock upgrades"
+            effectText: "Increase special resources from clicking. Increase labourer efficiency."
         }),
-        
         new Upgrade({
-            id: "nationalism", name: "Nationalism", prereqs: { civilservice: true, civSize: "smNation" }, require: { piety: 30000 },
+            id: "nationalism", name: "Nationalism", prereqs: { civilservice: true, civSize: "smNation" }, require: { piety: 100000 },
             effectText: "Soldiers increase basic resources from clicking. Increase labourer efficiency"
         }),
         // deity
