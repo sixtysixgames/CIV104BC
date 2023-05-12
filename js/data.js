@@ -47,6 +47,9 @@ data.display = function () {
         cell.innerHTML = getReqText(elem.require);
 
         cell = row.insertCell(-1);
+        cell.innerHTML = elem.land;
+
+        cell = row.insertCell(-1);
         cell.innerHTML = elem.effectText;
 
     });
