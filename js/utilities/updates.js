@@ -193,8 +193,8 @@ function updateResourceTotals() {
     let i, displayElems, elem, val, obj;
     let landTotals = getLandTotals();
 
-    // Scan the HTML document for elements with a "data-action" element of
-    // "display".  The "data-target" of such elements (or their ancestors) 
+    // Scan the HTML document for elements with a "data-action" element of "display".  
+    // The "data-target" of such elements(or their ancestors) 
     // is presumed to contain the global variable name to be displayed as the element's content.
     //xxx Note that this is now also updating nearly all updatable values, including population
     displayElems = document.querySelectorAll("[data-action='display']");
@@ -218,8 +218,10 @@ function updateResourceTotals() {
             console.warn("updates.updateResourceTotals() id = " + dataset(elem, "target"));
             console.warn("updates.updateResourceTotals() owned not number. = " + val);
             console.trace();
-            curCiv[dataset(elem, "target")].owned = 0;
-            val = curCiv[dataset(elem, "target")].owned;
+           // curCiv[dataset(elem, "target")].owned = 0;
+           // val = curCiv[dataset(elem, "target")].owned;
+            obj.owned = 0;
+            val = obj.owned;
         }
         //elem.title = prettify(Math.floor(val));
         elem.title = val;
@@ -268,8 +270,9 @@ function updateResourceTotals() {
     });
 
     ui.find("#maxpiety").innerHTML = prettifyLargeNumber(civData.piety.limit);
-    ui.find("#totalBuildings").innerHTML = prettify(landTotals.buildings) + ". Land Used: " + prettify(landTotals.used);
+    ui.find("#totalBuildings").innerHTML = prettify(landTotals.buildings);// + ". Land Used: " + prettify(landTotals.used);
     ui.find("#totalLand").innerHTML = prettify(landTotals.lands);
+    ui.find("#usedLand").innerHTML = prettify(landTotals.used);
 
     // Unlock advanced control tabs as they become enabled (they never disable)
     // Temples unlock Deity, barracks unlock Conquest, having coins unlocks Trade.
