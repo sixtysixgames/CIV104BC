@@ -107,8 +107,7 @@ function updateTrader() {
         ui.find("#tradeRequested").innerHTML = prettify(curCiv.trader.requested);
         ui.find("#traderTimer").innerHTML = curCiv.trader.timer + " second" + ((curCiv.trader.timer != 1) ? "s" : "");
     }
-    //else {
-    //}
+
     ui.show("#tradeContainer", isHere);
     ui.show("#noTrader", !isHere);
     ui.show("#tradeSelect .alert", isHere);
@@ -119,7 +118,11 @@ function updateTrader() {
 function updateRequirements(buildingObj) {
     let displayNode = document.getElementById(buildingObj.id + "Cost");
     if (displayNode) {
-        displayNode.innerHTML = getReqText(buildingObj.require);
+        let reqText = getReqText(buildingObj.require);
+        if (buildingObj.type === civObjType.building && buildingObj.land > 1) {
+            reqText = buildingObj.land + " land: " + reqText;
+        }
+        displayNode.innerHTML = reqText;
     }
 }
 
@@ -265,7 +268,7 @@ function updateResourceTotals() {
     });
 
     ui.find("#maxpiety").innerHTML = prettifyLargeNumber(civData.piety.limit);
-    ui.find("#totalBuildings").innerHTML = prettify(landTotals.buildings);
+    ui.find("#totalBuildings").innerHTML = prettify(landTotals.buildings) + ". Land Used: " + prettify(landTotals.used);
     ui.find("#totalLand").innerHTML = prettify(landTotals.lands);
 
     // Unlock advanced control tabs as they become enabled (they never disable)
@@ -473,11 +476,13 @@ function updatePopulationBar() {
 function updateLandBar() {
     let barElt = ui.find("#landBar");
     let landTotals = getLandTotals();
-    let p = (Math.floor(1000 * (landTotals.buildings / landTotals.lands)) / 10);
+    //let p = (Math.floor(1000 * (landTotals.buildings / landTotals.lands)) / 10);
+    let p = (Math.floor(1000 * (landTotals.used / landTotals.lands)) / 10);
 
     // show warnings if we're getting close to full
     let bg = "#aaccaa";
-    let pc = 100 - ((landTotals.buildings * 100) / landTotals.lands);
+    //let pc = 100 - ((landTotals.buildings * 100) / landTotals.lands);
+    let pc = 100 - ((landTotals.used * 100) / landTotals.lands);
     if (pc <= 5) {
         bg = "#ff3300";
     } else if (pc <= 10) {
