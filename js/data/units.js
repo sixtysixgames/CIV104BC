@@ -369,8 +369,8 @@ function getUnitData() {
         //    singular: "mercenary", 
         //    plural: "mercenaries",
         //    efficiency: 0.05, // 
-        //    prereqs: { standard: true, wheel: true },
-        //    require: { food: 20, silver: 1 },
+        //    prereqs: { standard: true },
+        //    require: { silver: 1 }, // also use up 1 coin per 1/7/30? game loop
         //    species: speciesType.human,
         //    place: placeType.party,
         //    salable: false,
