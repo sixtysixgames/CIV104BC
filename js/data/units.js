@@ -39,50 +39,56 @@ function getUnitData() {
             //set efficiency(value) { this.efficiency_base = value; },
             effectText: "Automatically mine stone"
         }),
-        
+
+        new Unit({
+            id: unitType.meatFarmer, singular: "livestock farmer", plural: "livestock farmers", source: unitType.unemployed,
+            efficiency: 0.6, defence: 0.06, 
+            prereqs: { meatFarm: 1 }, require: { skins: 2 },
+            get limit() { return 5 * civData.meatFarm.owned; },
+            set limit(value) { return this.limit; },
+            effectText: "Raise livestock for food and skins"
+        }),
         new Unit({
             id: unitType.cropFarmer, singular: "crop farmer", plural: "crop farmers", source: unitType.unemployed,
-            efficiency_base: 0.5, defence: 0.06, // default is 0.05 
-            prereqs: { cropFarm: 1 }, require: { skins: 2 },
-            get limit() { return civData.cropFarm.owned; },
+            efficiency: 0.8, defence: 0.06,
+            prereqs: { cropFarm: 1 }, require: { food: 2 },
+            get limit() { return 5 * civData.cropFarm.owned; },
             set limit(value) { return this.limit; },
-            get efficiency() { return farmerMods(this.efficiency_base); },
-            set efficiency(value) { this.efficiency_base = value; },
-            effectText: "Grow crops"
+            effectText: "Grow crops for food"
         }),
         new Unit({
             id: unitType.forester, singular: "forester", plural: "foresters", source: unitType.unemployed,
-            efficiency: 0.8, defence: 0.055, 
+            efficiency: 0.9, defence: 0.055, 
             prereqs: { treeFarm: 1 }, require: { wood: 2 },
-            get limit() { return civData.treeFarm.owned; },
+            get limit() { return 5 * civData.treeFarm.owned; },
             set limit(value) { return this.limit; },
             effectText: "Manage forests"
         }),
         new Unit({
             id: unitType.herbGardener, singular: "herb gardener", plural: "herb gardeners", source: unitType.unemployed,
-            efficiency: 0.8, defence: 0.055, 
+            efficiency: 0.9, defence: 0.055, 
             prereqs: { herbGarden: 1 }, require: { herbs: 2 },
-            get limit() { return civData.herbGarden.owned; },
+            get limit() { return 5 * civData.herbGarden.owned; },
             set limit(value) { return this.limit; },
             effectText: "Cultivate herbs"
         }),
         new Unit({
             id: unitType.quarWorker, singular: "quarry worker", plural: "quarry workers", source: unitType.unemployed,
-            efficiency: 0.8, defence: 0.055, 
+            efficiency: 0.9, defence: 0.055, 
             prereqs: { quarry: 1 }, require: { stone: 2 },
-            get limit() { return civData.quarry.owned; },
+            get limit() { return 5 * civData.quarry.owned; },
             set limit(value) { return this.limit; },
             effectText: "Quarry stone"
         }),
         new Unit({
             id: unitType.oreMiner, singular: "ore miner", plural: "ore miners", source: unitType.unemployed,
-            efficiency: 0.8, defence: 0.055, 
+            efficiency: 0.9, defence: 0.055, 
             prereqs: { oreMine: 1 }, require: { ore: 2 },
-            get limit() { return civData.oreMine.owned; },
+            get limit() { return 5 * civData.oreMine.owned; },
             set limit(value) { return this.limit; },
             effectText: "Mine ore"
         }),
-        // non-nasic resources
+        // non-basic resources
         new Unit({
             id: unitType.cleric, singular: "cleric", plural: "clerics", source: unitType.unemployed,
             prereqs: { temple: 1 }, require: { herbs: 4 },
