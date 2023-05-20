@@ -926,7 +926,12 @@ button {
 .farmer {
     background-color: #CF9221;
 }
-
+.meatFarmer {
+    background-color: #CF9221;
+}
+.cropFarmer {
+    background-color: #CF9221;
+}
 .woodcutter {
     background-color: #016901;
 }
