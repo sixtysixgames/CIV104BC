@@ -5,20 +5,22 @@ import {
     setInitTradeAmount, setDefaultSettings, getPlayingTime, gameLoop, appSettings, paneSelect, lootable, sentenceCase, traceLog,
     save, onToggleAutosave, reset, deleteSave, renameDeity, textSize, onPurchase, onToggleCustomQuantities, onToggleNotes, onToggleIcons, spawn,
     speedWonder, selectDeity, iconoclasmList, plunder, trade, buy, startWonder, renameWonder, setGameSpeed, updateTradeButtons,
-    setResourcesReqText, onBulkEvent} from "./index.js";
+    setResourcesReqText, onBulkEvent
+} from "./index.js";
 
 const setup = {};
 
 //========== SETUP (Functions meant to be run once on the DOM)
 setup.all = function () {
+
     setupUI();
     ui.find("#main").style.display = "none";
+    ui.find("#errorSection").style.display = "none";
     setup.data();
     setup.civSizes();
     document.addEventListener("DOMContentLoaded", function (e) {
         setup.game();
         setup.events();
-        
         setup.loop();
         // Show the game
         ui.find("#main").style.display = "block";
@@ -76,8 +78,8 @@ setup.events = function () {
     elem = document.getElementById("toggleIcons");
     elem.onclick = function (e) { onToggleIcons(e.target); };
 
-    for (let i = 1; i <= 100000; i = i*10) {
-        elem = document.getElementById("spawn"+i+"button");
+    for (let i = 1; i <= 100000; i = i * 10) {
+        elem = document.getElementById("spawn" + i + "button");
         elem.onmousedown = function (e) { spawn(i); };
     }
     elem = document.getElementById("spawnMaxbutton");
@@ -174,7 +176,7 @@ setup.game = function () {
     addUITable(normalUpgrades, "upgrades"); // Place the stubs for most upgrades under the upgrades tab.
     addAchievementRows();
     //addRaidRows();
-    
+
     addWonderSelectText();
     makeDeitiesTables();
 
@@ -189,7 +191,7 @@ setup.game = function () {
 
     // update with current
     updateTradeButtons();
-    
+
     setDefaultSettings();
 };
 
@@ -202,4 +204,13 @@ setup.loop = function () {
 };
 
 // run the game
-setup.all();
+try {
+    setup.all();
+} catch (e) {
+    alert(e);
+    console.error(e);
+    //ui.find("#errorSection").style.display = "block";
+    document.getElementById("errorSection").style.display = "block";
+    document.getElementById("errorName").innerHTML = e.name
+    document.getElementById("errorMessage").innerHTML = e.message;
+}
