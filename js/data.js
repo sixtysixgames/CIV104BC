@@ -99,6 +99,9 @@ data.display = function () {
         cell = row.insertCell(-1);
         cell.innerHTML = elem.min_pop;
 
+        cell = row.insertCell(-1);
+        cell.innerHTML = elem.efficiency;
+
     });
 
     dataTable = document.getElementById("colourDataTable");
