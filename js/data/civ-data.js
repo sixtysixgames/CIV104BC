@@ -121,6 +121,7 @@ function setIndexArrays(civData) {
             achData.push(elem);
         }
     });
+
 }
 
 // Caches the total number of each wonder, so that we don't have to recount repeatedly.
