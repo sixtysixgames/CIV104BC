@@ -22,7 +22,7 @@ export * from "./settings/app-settings.js";
 
 // data
 export * from "./data/civ-data.js";
-export { PATIENT_LIST } from "./data/lists.js";
+export * from "./data/lists.js";
 
 // utilities
 export * from "./utilities/combat.js";
