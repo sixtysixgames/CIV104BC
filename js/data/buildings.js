@@ -123,51 +123,61 @@ function getBuildingData() {
         }),
         //
         new Building({
-            id: buildingType.cropFarm, singular: "crop farm", plural: "crop farms",
-            prereqs: { croprotation: true }, require: { wood: 1000, stone: 1000 }, land: 10,
+            id: buildingType.meatFarm, singular: "livestock farm", plural: "livestock farms",
+            prereqs: { selectivebreeding: true }, require: { wood: 1000, stone: 1000 }, land: 3,
             get effectText() {
                 let bonus = getWarehouseBonus();
-                return "allows 1 crop farmer; +" + bonus + " grain storage";
+                return "allows 5 livestock farmers; +" + bonus + " skin storage";
+            },
+            set effectText(value) { return this.effectText; },
+            update: function () { updateNote(this.id, this.effectText); }
+        }),
+        new Building({
+            id: buildingType.cropFarm, singular: "crop farm", plural: "crop farms",
+            prereqs: { croprotation: true }, require: { wood: 1000, stone: 1000 }, land: 3,
+            get effectText() {
+                let bonus = getWarehouseBonus();
+                return "allows 5 crop farmers; +" + bonus + " food storage";
             },
             set effectText(value) { return this.effectText; },
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
             id: buildingType.treeFarm, singular: "tree plantation", plural: "tree plantations",
-            prereqs: { harvesting: true }, require: { wood: 1000, stone: 1000 }, land: 10,
+            prereqs: { harvesting: true }, require: { wood: 1000, stone: 1000 }, land: 3,
             get effectText() {
                 let bonus = getWarehouseBonus();
-                return "allows 1 forester; +" + bonus + " wood storage";
+                return "allows 5 foresters; +" + bonus + " wood storage";
             },
             set effectText(value) { return this.effectText; },
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
             id: buildingType.herbGarden, singular: "herb garden", plural: "herb gardens",
-            prereqs: { harvesting: true }, require: { wood: 1000, stone: 1000 }, land: 10,
+            prereqs: { harvesting: true }, require: { wood: 1000, stone: 1000 }, land: 3,
             get effectText() {
-                let bonus = getStoreroomBonus();
-                return "allows 1 herb gardener; +" + bonus + " herb storage";
+                let bonus = getWarehouseBonus();
+                return "allows 5 herb gardeners; +" + bonus + " herb storage";
             },
             set effectText(value) { return this.effectText; },
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
             id: buildingType.quarry, singular: "quarry", plural: "quarries",
-            prereqs: { quarrying: true }, require: { wood: 1000, stone: 1000 }, land: 10,
+            prereqs: { quarrying: true }, require: { wood: 1000, stone: 1000 }, land: 3,
             get effectText() {
                 let bonus = getWarehouseBonus();
-                return "allows 1 quarry worker; +" + bonus + " stone storage";
+                return "allows 5 quarry workers; +" + bonus + " stone storage";
             },
             set effectText(value) { return this.effectText; },
             update: function () { updateNote(this.id, this.effectText); }
         }),
         new Building({
             id: buildingType.oreMine, singular: "ore mine", plural: "ore mines",
-            prereqs: { mining: true }, require: { wood: 1000, stone: 1000 }, land: 10,
+            prereqs: { mining: true }, require: { wood: 1000, stone: 1000 }, land: 3,
             get effectText() {
                 let bonus = getWarehouseBonus();
-                return "allows 1 ore miner; +" + bonus + " ore storage";
+                return "allows 5 ore miners; +" + bonus + " ore storage";
             },
             set effectText(value) { return this.effectText; },
             update: function () { updateNote(this.id, this.effectText); }
