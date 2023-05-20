@@ -8,7 +8,7 @@ function getResourceData() {
             specialMaterial: resourceType.skins, verb: "harvest", activity: "harvesting",
             initTradeAmount: 5000, // how much to offer on Trade for 100 coins
             baseTradeAmount: 1000, // the least on offer
-            get limit() { return 200 + (civData.barn.owned * getGranaryBonus()); },
+            get limit() { return 200 + (civData.barn.owned * getGranaryBonus()) + (civData.cropFarm.owned * getWarehouseBonus()) + (civData.meatFarm.owned * getWarehouseBonus()); },
             set limit(value) { return this.limit; } // Only here for JSLint.
         }),
         new Resource({
@@ -28,7 +28,7 @@ function getResourceData() {
         new Resource({
             id: resourceType.skins, singular: "skin", plural: "skins", subType: subTypes.special,
             initTradeAmount: 500, baseTradeAmount: 100,
-            get limit() { return 100 + (civData.skinShed.owned * getStorehouseBonus()); },
+            get limit() { return 100 + (civData.skinShed.owned * getStorehouseBonus()) + (civData.meatFarm.owned * getWarehouseBonus()); },
             set limit(value) { return this.limit; } 
         }),
         new Resource({
