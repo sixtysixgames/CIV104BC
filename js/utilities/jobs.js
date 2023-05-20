@@ -43,6 +43,7 @@ import {
 //    }
 //}
 function doFarmers() {
+    if (civData.farmer.owned <= 0) { return; }
     //Farmers farm food
     if (civData.food.owned < civData.food.limit) {
         let millMod = 1;
@@ -67,7 +68,7 @@ function doFarmers() {
         civData.food.owned += earned;
     }
 
-    if (civData.skinning.owned && civData.farmer.owned > 0 && civData.skins.owned < civData.skins.limit) { //and sometimes get skins
+    if (civData.skinning.owned && civData.skins.owned < civData.skins.limit) { //and sometimes get skins
         //let specialChance = civData.food.specialChance + (0.1 * civData.flensing.owned);
         //let skinsChance = specialChance * (civData.food.increment + ((civData.butchering.owned) * civData.farmer.owned / 20.0)) * getWonderBonus(civData.skins);
         let specialChance = civData.food.specialChance + (0.1 * skinMods());
@@ -80,16 +81,21 @@ function doFarmers() {
 }
 
 // call this after all food production
-function doAdjustFoodNet() {
-    //civData.food.net -= population.living; 
-    //civData.food.owned -= population.living;
+// this is equivalent to a resource being used up
+function doFeedPopulation() {
+    if (population.living <= 0) { return; }
+    let foodUsed = Math.min(civData.food.owned, population.living);
+    if (foodUsed == 0) { return; }
+
+    civData.food.net -= foodUsed;
+    civData.food.owned -= foodUsed;
 
     //let foodEarned = Math.min(civData.food.net, civData.food.limit - civData.food.owned); // can't make more than we can store
     //civData.food.net += foodEarned;
     //civData.food.owned += foodEarned;
-    if (civData.food.owned > civData.food.limit) {
-        civData.food.owned = civData.food.limit;
-    }
+    //if (civData.food.owned > civData.food.limit) {
+    //    civData.food.owned = civData.food.limit;
+    //}
 }
 //function farmerMods(efficiency_base) {
 //    return efficiency_base + (0.1 * (
@@ -136,7 +142,7 @@ function meatFarmerMods() {
 
 function doCropFarmers() {
     if (civData.cropFarmer.owned <= 0) { return; }
-    //meat farmer grow food and get skins
+    //crop farmer grow crops and get grains
     if (civData.food.owned < civData.food.limit) { 
         let efficiency = civData.cropFarmer.efficiency + (civData.cropFarmer.efficiency * cropFarmerMods());
         let earned = civData.cropFarmer.owned
@@ -187,6 +193,7 @@ function cropFarmerMods() {
 //}
 
 function doWoodcutters() {
+     if (civData.woodcutter.owned <= 0) { return; }
     //Woodcutters cut wood
     if (civData.wood.owned < civData.wood.limit) {
         //let efficiency = civData.woodcutter.efficiency + (0.1 * civData.woodcutter.efficiency * (civData.carpentry.owned + civData.coppicing.owned));
@@ -197,7 +204,7 @@ function doWoodcutters() {
         civData.wood.net = woodEarned;
         civData.wood.owned += woodEarned;
     }
-    if (civData.harvesting.owned && civData.woodcutter.owned > 0 && civData.herbs.owned < civData.herbs.limit) { //and sometimes get herbs
+    if (civData.harvesting.owned && civData.herbs.owned < civData.herbs.limit) { //and sometimes get herbs
         //let specialChance = civData.wood.specialChance + (0.1 * civData.reaping.owned);
         //let herbsChance = specialChance * (civData.wood.increment + ((civData.gardening.owned) * civData.woodcutter.owned / 5.0)) * getWonderBonus(civData.herbs);
         let specialChance = civData.wood.specialChance + (0.1 * herbMods());
@@ -246,6 +253,7 @@ function foresterMods() {
 }
 
 function doMiners() {
+    if (civData.miner.owned <= 0) { return; }
     //Miners mine stone
     if (civData.stone.owned < civData.stone.limit) {
         //let efficiency = civData.miner.efficiency + (0.1 * civData.miner.efficiency * civData.mining.owned);
@@ -256,7 +264,7 @@ function doMiners() {
         civData.stone.net = stoneEarned;
         civData.stone.owned += stoneEarned;
     }
-    if (civData.prospecting.owned && civData.miner.owned > 0 && civData.ore.owned < civData.ore.limit) { //and sometimes get ore
+    if (civData.prospecting.owned && civData.ore.owned < civData.ore.limit) { //and sometimes get ore
         //let specialChance = civData.stone.specialChance + (civData.macerating.owned ? 0.1 : 0) + getMetalOreChance();
         //let oreChance = specialChance * (civData.stone.increment + ((civData.extraction.owned) * civData.miner.owned / 5.0)) * getWonderBonus(civData.ore);
         let specialChance = civData.stone.specialChance + (0.1 * oreMods()) + getMetalOreChance();
@@ -410,6 +418,7 @@ function doHealers() {
 }
 
 function doCharcoalBurners() {
+    if (civData.charBurner.owned <= 0) { return; }
     let jobId = unitType.charBurner;
     let resourceId = resourceType.charcoal;
     let upgradeId = "coppicing";
@@ -435,6 +444,7 @@ function doCharcoalBurners() {
 }
 
 function doLimeBurners() {
+    if (civData.limeBurner.owned <= 0) { return; }
     let jobId = unitType.limeBurner;
     let resourceId = resourceType.lime;
     let upgradeId = "limestone";
@@ -467,7 +477,6 @@ function doLimeBurners() {
 }
 
 function doMetalsmiths(jobId, resourceId, upgrade1Id, upgrade2Id) {
-
     if (civData[jobId].owned <= 0) { return; }
     // we don't want to use up resources if we aren't producing
     if (civData[resourceId].owned < civData[resourceId].limit) {
@@ -518,7 +527,6 @@ function doGoldsmiths() {
     doResourceWithTwoReqs(unitType.goldsmith, resourceType.gold, resourceType.ore, resourceType.mercury, "goldOre", "goldOre2");
 }
 function doResourceWithTwoReqs(jobId, resourceId, require1Id, require2Id, upgrade1Id, upgrade2Id) {
-
     if (civData[jobId].owned <= 0) { return; }
     // we don't want to use up resources if we aren't producing
     if (civData[resourceId].owned < civData[resourceId].limit) {
@@ -635,12 +643,14 @@ function doPlague() {
 }
 
 function doGraveyards() {
+    if (civData.cleric.owned <= 0) { return; }
     if (civData.corpses.owned > 0 && curCiv.grave.owned > 0 && civData.piety.owned > 0) {
         //Clerics will bury corpses if there are graves to fill and corpses lying around
         for (let i = 0; i < civData.cleric.owned; i++) {
             if (civData.corpses.owned > 0 && curCiv.grave.owned > 0 && civData.piety.owned > 0) {
                 civData.corpses.owned -= 1;
                 curCiv.grave.owned -= 1;
+                civData.piety.owned -= 1;
             }
             else {
                 // if criteria not met, no point continuing
@@ -773,16 +783,14 @@ function doJobs() {
     // sometime we end up with more workers than buildings
     dismissWorkers(); 
 
-    //The living population eats food.
-    civData.food.net -= population.living;
-    civData.food.owned -= population.living;
-
+    //doAdjustFoodNet();
+    //civData.food.owned -= population.living;
     // Production workers do their thing.
     doFarmers();
     doMeatFarmers();
     doCropFarmers();
     // call this after all food production
-    doAdjustFoodNet();
+    doFeedPopulation();
     // 
     doWoodcutters();
     doForesters();
