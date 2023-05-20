@@ -390,7 +390,7 @@ function adjustMorale(delta) {
         return;
     }
     if (delta === 1 || delta === -1) {
-        delta = delta * 0.0025;
+        delta = delta * 0.0001;
     }
     if (population.current > 0) {
         //calculates zombie proportion (zombies do not become happy or sad)
