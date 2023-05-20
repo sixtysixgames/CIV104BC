@@ -42,6 +42,12 @@
             </h1>
         </div>
     </div>
+    <div id="errorSection" style="display: none; background-color: red; clear:both; width: 30%; margin-left:35%; padding: 1em;">
+        <h3>Oh dear! Something's gone wrong!</h3>
+        <p>Check the console for error messages</p>
+        <b>Error: </b> <span id="errorName"></span><br />
+        <b>Message: </b> <span id="errorMessage"></span>
+    </div>
     <div id="main" class="columns">
         <div id="populationContainer" class="civSection">
             <div id="populationNumbers">
@@ -852,7 +858,7 @@
         </div>
     </div>
 
-    <footer>
+    <footer style="clear: both;">
         <span class="title">CIV 104 BC</span>
         <!--<span class="version">v1.4</span>-->
         <a href="faq.html" target="_blank">FAQ &amp; Instructions</a>
