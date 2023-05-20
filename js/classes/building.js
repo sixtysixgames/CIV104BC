@@ -19,8 +19,9 @@ Building.prototype = new CivObj({
     get vulnerable() { return this.subType != subTypes.altar; }, // Altars can't be sacked.
     set vulnerable(value) { return this.vulnerable; }, // Only here for JSLint.
     customQtyId: "buildingCustomQty",
-    limit: 1,
-    land: 1,
+    limit: 1, // how much resource can this building store
+    land: 1, // how much land does this building use
+    workerLimit: 1, // how may workers can this building store
     get total() { return this.limit * this.owned; },
     set total(value) { return this.total; } // Only here for JSLint.
 }, true);
