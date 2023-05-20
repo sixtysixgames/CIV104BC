@@ -5,7 +5,8 @@ import {
     adjustMorale, dataset, calculatePopulation, gameLog, raidLog,
     getAltarsOwned, getCurrentAltarId, getLandTotals, getPietyEarnedBonus, getRandomSackableBuilding, getRandomLootableResource, getRandomWorker, getReqText, getResourceTotal,
     isValid, killUnit, prettify, rndRound, ui,
-    updateAltars, updateRaidBar, updateMobBar, updatePartyButtons, updateRequirements, updateResourceTotals, updateTargets
+    updateAltars, updateRaidBar, updateMobBar, updatePartyButtons, updateRequirements, updateResourceTotals, updateTargets,
+    BUILDING_LIST
 } from "../index.js";
 
 // there might be a better way to check this i.e. loop over all enemy types
@@ -93,7 +94,9 @@ function invade(ecivtype) {
 
     // 66g todo: should we should take into account size of raiding party, also number of lootable buildings = approx 0.1 of population
     //let baseLoot = Math.min(civData.soldierParty.owned + civData.cavalryParty.owned, curCiv.raid.epop / 10);
-    let baseLoot = Math.min(civData.soldierParty.owned + civData.cavalryParty.owned, curCiv.raid.epop - minpop);
+    //let baseLoot = Math.min(civData.soldierParty.owned + civData.cavalryParty.owned, curCiv.raid.epop - minpop);
+    let baseLoot = Math.min((civData.soldierParty.owned + civData.cavalryParty.owned) / 2, curCiv.raid.epop - civData.esoldier.owned);
+    baseLoot = Math.ceil(baseLoot);
     // Glory redoubles rewards
     baseLoot = baseLoot * (1 + (civData.glory.timer <= 0 ? 0 : 1));
 
@@ -108,24 +111,29 @@ function invade(ecivtype) {
     baseLoot -= curCiv.raid.plunderLoot.freeLand;
     //console.log("baseLoot a=" + baseLoot);
 
-
-    // let's gain some buildings
+    // let's gain some buildings if we attack nations
     let counter = 0;
     let invaded = 0;
+    let elem;
     if (civSizes[ecivtype].min_pop >= civSizes.smNation.min_pop) {
         //baseLand = curCiv.raid.plunderLoot.freeLand;
         baseLand = Math.floor(curCiv.raid.plunderLoot.freeLand / 2);
-        invadeable.forEach(function (elem) {
+        curCiv.raid.plunderLoot.freeLand -= baseLand;
+        //invadeable.forEach(function (elem) {
+        BUILDING_LIST.forEach(function (elemid) {
+            elem = civData[elemid];
             counter++;
-            if (baseLand > 0 && elem.id != buildingType.mill && elem.id != buildingType.fortification) {
-                invaded = Math.floor((baseLand * Math.random()) / (invadeable.length * counter)); 
+            //if (baseLand > 0 && elem.id != buildingType.mill && elem.id != buildingType.fortification) {
+            if (baseLand > 0) {
+                //invaded = Math.floor((baseLand * Math.random()) / (invadeable.length * counter)); 
+                invaded = Math.floor((baseLand * Math.random()) / (BUILDING_LIST.length * counter)); 
                 //curCiv.raid.plunderLoot[elem.id] = Math.min(baseLand, invaded); // can't have more than available land
                 curCiv.raid.plunderLoot[elem.id] = Math.min(baseLand, invaded * elem.land); // can't have more than available land
                 baseLand -= curCiv.raid.plunderLoot[elem.id] * counter;
             }
             if (baseLand < 0) { baseLand = 0; }
         });
-        curCiv.raid.plunderLoot.freeLand -= baseLand;
+        curCiv.raid.plunderLoot.freeLand += baseLand; // if there's any left
     }
 
     counter = 0;
