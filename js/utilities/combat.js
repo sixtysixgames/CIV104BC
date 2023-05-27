@@ -237,14 +237,14 @@ function doFight(attacker, defender) {
     if ((attacker.owned <= 0) || (defender.owned <= 0)) { return; }
 
     // Defenses vary depending on whether the player is attacking or defending.
-    let fortMod = (defender.alignment == alignmentType.player ?
-        (civData.fortification.owned * civData.fortification.efficiency)
-        : (civData.efort.owned * civData.efort.efficiency));
+    let fortMod = (defender.alignment == alignmentType.player ? (civData.fortification.owned * civData.fortification.efficiency)
+                                                              : (civData.efort.owned * civData.efort.efficiency));
 
-    // 66g HACK! if fortmod is 1 or greater, there will be no defense casualties.  This happens if over 100 fortification are owned because fort efficiency is 0.01
-    if (fortMod >= 1.0) {
-        fortMod = 0.99;
-    }
+    // 66g HACK! if fortmod is 1 or greater, there will be no defense casualties.  
+    // This happens if over 100 fortification are owned because fort efficiency is 0.01
+    //if (fortMod >= 1.0) {
+    //    fortMod = 0.99;
+    //}
 
     let defenceMod = 0;
     if (defender.alignment == alignmentType.player) {
@@ -252,11 +252,26 @@ function doFight(attacker, defender) {
         defenceMod += civData.palisade.owned ? civData.palisade.efficiency : 0;
         defenceMod += civData.battlement.owned ? civData.battlement.efficiency : 0;
     }
+    //var palisadeMod = ((defender.alignment == "player")&&(civData.palisade.owned)) * civData.palisade.efficiency;
+    // Determine casualties on each side.  
+    // Round fractional casualties probabilistically, and don't inflict more than 100% casualties.
+    //let attackerCas = Math.ceil(Math.min(attacker.owned, rndRound(getCasualtyMod(defender, attacker) * defender.owned * defender.efficiency)));
+    let attackerCas = rndRound(getCasualtyMod(defender, attacker) * defender.owned * defender.efficiency);
+    //let defenderCas = Math.ceil(Math.min(defender.owned, rndRound(getCasualtyMod(attacker, defender) * attacker.owned * (attacker.efficiency - defenceMod) * Math.max(1 - fortMod, 0))));
+    let defenderCas = rndRound(getCasualtyMod(attacker, defender) * attacker.owned * (attacker.efficiency - defenceMod));
 
-    // Determine casualties on each side.  Round fractional casualties
-    // probabilistically, and don't inflict more than 100% casualties.
-    let attackerCas = Math.ceil(Math.min(attacker.owned, rndRound(getCasualtyMod(defender, attacker) * defender.owned * defender.efficiency)));
-    let defenderCas = Math.ceil(Math.min(defender.owned, rndRound(getCasualtyMod(attacker, defender) * attacker.owned * (attacker.efficiency - defenceMod) * Math.max(1 - fortMod, 0))));
+    //console.log("1. defender: " + defenderCas + ". attacker: " + attackerCas);
+    attackerCas = Math.min(attacker.owned, attackerCas);
+    defenderCas = Math.min(defender.owned, defenderCas);
+
+    //console.log("2. defender: " + defenderCas + ". attacker: " + attackerCas);
+    defenderCas = Math.ceil(defenderCas / (1 + fortMod));
+    //console.log("3. defender: " + defenderCas + ". attacker: " + attackerCas);
+
+    attackerCas = Math.min(attacker.owned, Math.ceil(attackerCas * Math.random()));
+    defenderCas = Math.min(defender.owned, Math.ceil(defenderCas * Math.random()));
+
+    //console.log("4. defender: " + defenderCas + ". attacker: " + attackerCas);
 
     attacker.owned -= attackerCas;
     defender.owned -= defenderCas;
@@ -683,7 +698,7 @@ function doEsiege(siegeObj, targetObj) {
         if (damage > 0 && targetObj.id === buildingType.fortification) {
             civData.freeLand.owned += damage;
             updateRequirements(targetObj);
-            gameLog("Enemy siege engine damaged our fortifications");
+            gameLog("Enemy siege engine damaged " + damage + " fortifications");
         }
     }
 }
@@ -696,11 +711,17 @@ function doSiege(siegeObj, targetObj) {
     // Only half can fire every round due to reloading time.
     // We also allow no more than 2 per defending fortification.
     let firing = Math.ceil(Math.min(siegeObj.owned / 2, targetObj.owned * 2));
+    let defenceMod = 0;
+    if (targetObj.id === buildingType.fortification) {
+        defenceMod += civData.rampart.owned ? civData.rampart.efficiency : 0;
+        defenceMod += civData.palisade.owned ? civData.palisade.efficiency : 0;
+        defenceMod += civData.battlement.owned ? civData.battlement.efficiency : 0;
+    }
     //console.log("doSiege() firing=" + firing);
     for (let i = 0; i < firing; ++i) {
         hit = Math.random();
         if (hit > 0.95) { --siegeObj.owned; } // misfire; destroys itself
-        if (hit >= siegeObj.efficiency) { continue; } // miss
+        if (hit >= siegeObj.efficiency - defenceMod) { continue; } // miss // 66g this doesn't make sense - it should be seige obj compared to target obj
         ++hits; // hit
         if (--targetObj.owned <= 0) { break; }
     }
@@ -861,9 +882,9 @@ function doMobs() {
 
     //Handling mob attacks
     // do siege engines first
-    if (civData.esiege.owned > 0) {
-        doEsiege(civData.esiege, civData.fortification);
-    }
+    //if (civData.esiege.owned > 0) {
+    doEsiege(civData.esiege, civData.fortification);
+    //}
     getCombatants(placeType.home, alignmentType.enemy).forEach(function (attacker) {
         //console.log("doMobs() attacker.owned=" + attacker.owned);
         if (attacker.owned <= 0) { ui.show("#mobBar", false); return; } // In case the last one was killed in an earlier iteration.
