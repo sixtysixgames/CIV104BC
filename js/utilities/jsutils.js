@@ -135,9 +135,9 @@ function dataset(elem, attr, value) {
 }
 
 // Probabilistic rounding function
+// it might round up, it might round down
 function rndRound(num) {
     var baseVal = Math.floor(num);
-    //console.log("rndRound() num=" + num + ". base=" + baseVal);
     return baseVal + ((Math.random() < (num - baseVal)) ? 1 : 0);
 }
 
